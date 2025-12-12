@@ -4,7 +4,7 @@
   "description": "A simple web app that displays the latest jobs from Hacker News",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "ts-node ops/chat.ts"
   },
   "author": "John Doe",
   "license": "MIT",
@@ -15,6 +15,7 @@
     "@langchain/mcp-adapters": "^1.0.3",
     "@langchain/ollama": "^1.0.3",
     "cheerio": "^1.1.2",
+    "chromadb": "^3.1.7",
     "langchain": "^1.1.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
