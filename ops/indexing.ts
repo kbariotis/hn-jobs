@@ -46,6 +46,7 @@ async function main() {
           seniority: string | null;
           salary_range: string | null;
           description: string | null;
+          apply_url: string | null;
         }[]
       | null = null;
     try {

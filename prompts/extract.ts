@@ -12,7 +12,8 @@ Given the following forum comment, identify all job openings and output a JSON a
   "tech_stack": string[],
   "seniority": string|null, // junior, mid, senior, lead, etc.
   "salary_range": string|null,
-  "description": string // brief summary of the role
+  "description": string, // brief summary of the role
+  "apply_url": string // URL to apply for the role
 }
 
 - If multiple roles are described, include each as a separate object.
