@@ -4,7 +4,7 @@
   "description": "A simple web app that displays the latest jobs from Hacker News",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node ops/chat.ts"
+    "start": "ts-node"
   },
   "author": "John Doe",
   "license": "MIT",
