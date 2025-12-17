@@ -1,5 +1,13 @@
+require("dotenv").config();
+
 import readline from "readline/promises";
-import { createAgent, SystemMessage, tool, Document } from "langchain";
+import {
+  createAgent,
+  SystemMessage,
+  tool,
+  Document,
+  HumanMessage,
+} from "langchain";
 import { Chroma } from "@langchain/community/vectorstores/chroma";
 import embeddingsModel from "../models/embeddings";
 import { MemorySaver } from "@langchain/langgraph";
@@ -8,8 +16,45 @@ import chatModel from "../models/chat";
 const checkpointer = new MemorySaver();
 
 const vectorStore = new Chroma(embeddingsModel, {
-  collectionName: "a-test-collection",
+  collectionName: process.env.CHROMA_COLLECTION_NAME,
 });
+
+function groupChunksToContext(chunks: Document[]) {
+  // Group by role_id
+  const groups = new Map<string, Document[]>();
+  for (const doc of chunks) {
+    const id = String(doc.metadata.role_id ?? "unknown");
+    const arr = groups.get(id) ?? [];
+    arr.push(doc);
+    groups.set(id, arr);
+  }
+
+  // Sort doc ids to make group order deterministic
+  const sortedDocIds = Array.from(groups.keys()).sort();
+
+  const response: string[] = [];
+  for (const docId of sortedDocIds) {
+    const docs = groups.get(docId)!;
+    const sorted = docs.sort((a, b) => {
+      const aChunk = a.metadata.chunk_id;
+      const bChunk = b.metadata.chunk_id;
+      const aChunkNum = Number(aChunk);
+      const bChunkNum = Number(bChunk);
+      if (!Number.isNaN(aChunkNum) && !Number.isNaN(bChunkNum)) {
+        return aChunkNum - bChunkNum;
+      }
+      if (aChunk < bChunk) return -1;
+      if (aChunk > bChunk) return 1;
+      return 0;
+    });
+
+    const header = `DOC ID: ${docId}\nContent: `;
+    const body = sorted.map((d) => `${d.pageContent}`).join(" ");
+
+    response.push(`${header}${body}`);
+  }
+  return response;
+}
 
 const retrieve = tool(
   async ({ query }) => {
@@ -30,46 +75,7 @@ const retrieve = tool(
 
     const retrievedDocs: Document[] = await retriever.invoke(query);
 
-    // Group by role_id, then sort each group's chunks by chunk_id so the output is
-    // deterministic and grouped by document.
-    const groups = new Map<string, Document[]>();
-    for (const doc of retrievedDocs) {
-      const id = String(doc.metadata.role_id ?? "unknown");
-      const arr = groups.get(id) ?? [];
-      arr.push(doc);
-      groups.set(id, arr);
-    }
-
-    // Sort doc ids to make group order deterministic
-    const sortedDocIds = Array.from(groups.keys()).sort();
-
-    const response = [];
-    for (const docId of sortedDocIds) {
-      const docs = groups.get(docId)!;
-      const sorted = docs.sort((a, b) => {
-        const aChunk = a.metadata.chunk_id;
-        const bChunk = b.metadata.chunk_id;
-        const aChunkNum = Number(aChunk);
-        const bChunkNum = Number(bChunk);
-        if (!Number.isNaN(aChunkNum) && !Number.isNaN(bChunkNum)) {
-          return aChunkNum - bChunkNum;
-        }
-        if (aChunk < bChunk) return -1;
-        if (aChunk > bChunk) return 1;
-        return 0;
-      });
-
-      const header = `DOC ID: ${docId}\nContent: `;
-      const body = sorted.map((d) => `${d.pageContent}`).join(" ");
-
-      response.push(`${header}${body}`);
-    }
-
-    console.log("----");
-    console.log(response);
-    console.log("----");
-
-    return [response.join("\n---\n")];
+    return groupChunksToContext(retrievedDocs).join("\n---\n");
   },
   {
     name: "retrieve",
@@ -110,14 +116,20 @@ async function main() {
   rl.prompt();
 
   for await (const line of rl) {
-    let agentInputs = { messages: [{ role: "user", content: line }] };
     if (line.toLowerCase() === "exit") {
       console.log("Goodbye!");
       rl.close();
+    } else if (line.trim() === "") {
+      rl.prompt();
     } else {
-      const response = await agent.invoke(agentInputs, {
-        configurable: { thread_id: new Date().getTime() },
-      });
+      const response = await agent.invoke(
+        {
+          messages: [new HumanMessage(line)],
+        },
+        {
+          configurable: { thread_id: new Date().getTime() },
+        }
+      );
       console.log(
         response.messages[response.messages.length - 1].content as string
       );

@@ -1,4 +1,7 @@
-const prompt = `You are an expert at structured data extraction from unstructured text. Limit output strictly to JSON (no explanations).
+import { HumanMessage } from "langchain";
+
+const prompt = new HumanMessage(
+  `You are an expert at structured data extraction from unstructured text. Limit output strictly to JSON (no explanations).
 
 You are a job-info extractor.  
 Given the following forum comment, identify all job openings and output a JSON array of objects with this schema:
@@ -21,6 +24,7 @@ Given the following forum comment, identify all job openings and output a JSON a
 - Normalize tech skills to lowercase, no duplicates.
 - Extract the relevant snippet as “source_excerpt”.
 
-Comment:`;
+Comment:`
+);
 
 export default prompt;

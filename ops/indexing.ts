@@ -1,4 +1,6 @@
-import { createAgent, Document } from "langchain";
+require("dotenv").config();
+
+import { createAgent, Document, HumanMessage } from "langchain";
 import { Chroma } from "@langchain/community/vectorstores/chroma";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import embeddingsModel from "../models/embeddings";
@@ -7,8 +9,21 @@ import extractPrompt from "../prompts/extract";
 
 const json = require("../data/hn.json");
 
+type Entry = {
+  company_name: string | null;
+  role_title: string | null;
+  employment_type: string | null;
+  remote_policy: string | null;
+  locations: string[];
+  tech_stack: string[];
+  seniority: string | null;
+  salary_range: string | null;
+  description: string | null;
+  apply_url: string | null;
+};
+
 const vectorStore = new Chroma(embeddingsModel, {
-  collectionName: "a-test-collection",
+  collectionName: process.env.CHROMA_COLLECTION_NAME,
 });
 
 const splitter = new RecursiveCharacterTextSplitter({
@@ -24,31 +39,16 @@ async function main() {
   });
 
   for await (const entry of json) {
-    console.log("loading entry", entry.id);
+    console.log("Loading entry", entry.id);
 
     const response = await agent.invoke({
       messages: [
-        {
-          role: "user",
-          content: `${extractPrompt} ${entry.text.replace(/<[^>]*>?/gm, "")}`,
-        },
+        extractPrompt,
+        new HumanMessage(entry.text.replace(/<[^>]*>?/gm, "")),
       ],
     });
 
-    let responseData:
-      | {
-          company_name: string | null;
-          role_title: string | null;
-          employment_type: string | null;
-          remote_policy: string | null;
-          locations: string[];
-          tech_stack: string[];
-          seniority: string | null;
-          salary_range: string | null;
-          description: string | null;
-          apply_url: string | null;
-        }[]
-      | null = null;
+    let responseData: Entry[] | null = null;
     try {
       responseData = JSON.parse(
         response.messages[response.messages.length - 1].content as string
@@ -71,6 +71,7 @@ async function main() {
     console.log("extracted data for entry", entry.id, responseData);
 
     for await (const [roleIndex, role] of responseData.entries()) {
+      // Combine all fields into a single text block
       const text = Object.keys(role).reduce((acc, key) => {
         return acc + `${role[key] ? `\n${key}: ${role[key]}` : ""}`;
       }, "");
