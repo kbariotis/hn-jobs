@@ -1,13 +1,11 @@
 {
-  "name": "hackernews-jobs",
-  "version": "1.0.0",
-  "description": "A simple web app that displays the latest jobs from Hacker News",
-  "main": "index.js",
+  "name": "hn-jobs",
+  "private": true,
+  "description": "Chat assistant for Hacker News jobs",
   "scripts": {
     "start": "ts-node"
   },
-  "author": "John Doe",
-  "license": "MIT",
+  "author": "Kostas Bariotis <kostas@bariotis.com>",
   "dependencies": {
     "@huggingface/inference": "^4.13.4",
     "@langchain/community": "^1.0.7",

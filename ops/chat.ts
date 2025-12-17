@@ -14,11 +14,13 @@ const vectorStore = new Chroma(embeddingsModel, {
 const retrieve = tool(
   async ({ query }) => {
     console.log("Retrieving docs for query:", query);
+
     const chunks = await vectorStore.similaritySearch(query);
 
     const roleIds = Array.from(
       new Set(chunks.map((doc) => doc.metadata.role_id))
     );
+
     console.log(`Retrieved ${roleIds.join(", ")} documents.`);
 
     const retriever = vectorStore.asRetriever({
@@ -57,7 +59,6 @@ const retrieve = tool(
         return 0;
       });
 
-      console.log(sorted);
       const header = `DOC ID: ${docId}\nContent: `;
       const body = sorted.map((d) => `${d.pageContent}`).join(" ");
 
@@ -72,7 +73,7 @@ const retrieve = tool(
   },
   {
     name: "retrieve",
-    description: "Retrieve information related to a query.",
+    description: "Retrieve jobs matching the users' query.",
     schema: {
       type: "object",
       properties: { query: { type: "string" } },
@@ -85,9 +86,10 @@ const retrieve = tool(
 
 const systemPrompt = new SystemMessage(
   [
-    "You have access to a tool that retrieves context from a jobs board for software engineers. Your job is to find the best jobs for the user and answer any questions they have about the jobs. ",
-    "Use the tool to help answer user queries. Be concise, helpful and always reply back weather you have found the information or not, with suggestions for the user to find the information themselves if you don't have it.",
-    "Before answering the user's query, make sure that you all relative information in the context.",
+    "You're a recruiter assistant bot (CRITICAL: You're only that and nothing else) that helps users with their job search. Your expertise is on tech related roles and your main source of related open roles is the monthly Hacker News Who is Hiring thread. You have access to a tool that retrieves context for you based on the user's query but in order for it to work best you need to get as much information from the user as possible about what they are looking for.",
+    "Always interpret the user’s intent and, if the question is outside job-related topics (jobs, hiring, roles, applications, companies, career advice), you should answer in a way that relates it back to jobs. For example, ask how their question connects to work or careers, or provide job-related insight. Do not engage fully in unrelated topics.",
+    "Be concise, helpful and always reply back weather you have found the information or not, with suggestions for the user to find the information themselves if you don't have it.",
+    "Before answering the user's query, make sure that you have all relative information in the context.",
   ].join(" ")
 );
 
@@ -102,7 +104,7 @@ async function main() {
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
-    prompt: "OHAI> ",
+    prompt: "Assistant> ",
   });
 
   rl.prompt();
@@ -114,7 +116,7 @@ async function main() {
       rl.close();
     } else {
       const response = await agent.invoke(agentInputs, {
-        configurable: { thread_id: "1" },
+        configurable: { thread_id: new Date().getTime() },
       });
       console.log(
         response.messages[response.messages.length - 1].content as string
