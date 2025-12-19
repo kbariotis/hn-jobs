@@ -9,12 +9,11 @@ const prompt = new HumanMessage(
   {
     "company_name": string,
     "role_title": string,
-    "employment_type": string|null, // contract, full-time, part-time, internship, etc.
-    "remote_policy": string|null, // remote, hybrid, onsite, etc.
-    "locations": string[],
+    "employment_type": string|null, // contract, full-time, part-time, internship, etc. (CRITICAL: can only be one of these values or null)
+    "remote_policy": string|null, // remote, hybrid, onsite, etc. (CRITICAL: can only be one of these values or null)
+    "locations": string[], (CRITICAL: can only be an array of known place names or empty array)
     "tech_stack": string[],
-    "seniority": string|null, // junior, mid, senior, lead, etc.
-    "salary_range": string|null,
+    "seniority": string|null, // junior, mid, senior, lead, etc. (CRITICAL: can only be one of these values or null)
     "description": string, // summary of the role
     "apply_url": string // URL to apply for the role
   }
