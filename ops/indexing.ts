@@ -7,7 +7,8 @@ import embeddingsModel from "../models/embeddings";
 import chatModel from "../models/chat";
 import extractPrompt from "../prompts/extract";
 
-const json = require("../data/hn.json");
+const DATA_URL =
+  process.env.DATA_URL || "http://hn.algolia.com/api/v1/items/46108941";
 
 type Entry = {
   company_name: string | null;
@@ -38,7 +39,14 @@ async function main() {
     model: chatModel,
   });
 
-  for await (const entry of json) {
+  console.log("Fetching data from URL:", DATA_URL);
+  const response = await fetch(DATA_URL);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch data: ${response.statusText}`);
+  }
+  const json = await response.json();
+
+  for await (const entry of json.children) {
     console.log("Loading entry", entry.id);
 
     const response = await agent.invoke({
