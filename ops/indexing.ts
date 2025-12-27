@@ -32,6 +32,8 @@ const splitter = new RecursiveCharacterTextSplitter({
   chunkOverlap: 40,
 });
 
+let processedEntries = 0;
+
 async function main() {
   console.log("Loading docs");
 
@@ -47,6 +49,12 @@ async function main() {
   const json = await response.json();
 
   for await (const entry of json.children) {
+    console.clear();
+    console.log(
+      "processed entries so far:",
+      processedEntries,
+      json.children.length
+    );
     console.log("Loading entry", entry.id);
 
     const response = await agent.invoke({
@@ -76,6 +84,7 @@ async function main() {
       continue;
     }
 
+    console.clear();
     console.log("extracted data for entry", entry.id, responseData);
 
     for await (const [roleIndex, role] of responseData.entries()) {
@@ -107,6 +116,7 @@ async function main() {
         })
       );
     }
+    processedEntries += 1;
   }
 }
 

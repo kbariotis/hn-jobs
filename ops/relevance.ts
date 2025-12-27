@@ -4,7 +4,7 @@ import embeddingsModel from "../models/embeddings";
 const results = require("./gs2.json");
 
 const vectorStore = new Chroma(embeddingsModel, {
-  collectionName: "a-test-collection",
+  collectionName: process.env.CHROMA_COLLECTION_NAME,
 });
 
 async function main() {
