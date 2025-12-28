@@ -1,7 +1,9 @@
+require("dotenv").config();
+
 import { Chroma } from "@langchain/community/vectorstores/chroma";
 import embeddingsModel from "../models/embeddings";
 
-const results = require("./gs2.json");
+const results = require("../data/gold_set.json");
 
 const vectorStore = new Chroma(embeddingsModel, {
   collectionName: process.env.CHROMA_COLLECTION_NAME,
@@ -12,9 +14,9 @@ async function main() {
   console.log("Performing queries");
   for await (const item of results) {
     const retrievedDocs = await vectorStore.similaritySearch(item.query, 10);
-    const serialized = retrievedDocs
-      .map((doc) => doc.metadata.doc_id)
-      .join(", ");
+    const serialized = Array.from(
+      new Set(retrievedDocs.map((doc) => doc.metadata.doc_id))
+    ).join(", ");
 
     console.log(item.query, "\n", item.matches.join(", "), "\n", serialized);
     const metrics = metricsForQuery(
