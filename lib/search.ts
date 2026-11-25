@@ -38,7 +38,7 @@ export function filterSql(f: Filters, params: unknown[]): string[] {
 
 export async function search(
   query: string,
-  opts: { strategy: Strategy; k?: number; threadId?: number; embedModel?: string }
+  opts: { strategy: Strategy; k?: number; threadId?: number; embedModel?: string; filters?: Filters }
 ): Promise<{ hits: Hit[]; filters?: Filters }> {
   const embedModel = opts.embedModel ?? embedModelId();
   const qvec = await getEmbeddings("query", embedModel).embedQuery(query);
@@ -48,7 +48,7 @@ export async function search(
 
   let filters: Filters | undefined;
   if (opts.strategy === "filtered") {
-    filters = await parseQuery(query);
+    filters = opts.filters ?? (await parseQuery(query)); // callers may parse themselves (server: no file cache)
     where.push(...filterSql(filters, params));
   }
   const limit = `$${params.push(opts.k ?? 10)}`;

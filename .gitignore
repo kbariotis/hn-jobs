@@ -8,3 +8,6 @@ data/extracted/
 # directory contents (not the dir) so the committed baseline can be re-included
 data/evals/*
 !data/evals/baseline.*.json
+
+# Daily job lock (local runtime state)
+data/.daily.lock

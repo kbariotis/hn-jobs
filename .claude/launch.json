@@ -8,6 +8,12 @@
       "port": 4777
     },
     {
+      "name": "search",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "serve"],
+      "port": 3000
+    },
+    {
       "name": "review-heldout",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "review", "--", "--thread", "49922569", "--port", "4778", "--blind"],

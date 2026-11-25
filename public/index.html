@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HN Jobs Search</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main>
+    <header>
+      <h1>HN Jobs</h1>
+      <p class="sub">Search this month's Hacker News "Who is hiring?" thread in plain English.</p>
+    </header>
+
+    <form id="search" role="search">
+      <label for="q" class="visually-hidden">Search jobs</label>
+      <input id="q" name="q" type="search" maxlength="200" autocomplete="off" required
+             placeholder="e.g. remote Rust jobs in Europe, senior Python roles paying over $200k">
+      <button type="submit">Search</button>
+    </form>
+
+    <div id="examples" class="examples">
+      <span>Try:</span>
+      <button type="button" data-q="remote React and TypeScript jobs in Europe">remote React + TypeScript in Europe</button>
+      <button type="button" data-q="senior Go engineer in San Francisco">senior Go in San Francisco</button>
+      <button type="button" data-q="robotics companies">robotics companies</button>
+      <button type="button" data-q="companies that sponsor visas">visa sponsorship</button>
+    </div>
+
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+    <div id="filters" class="filters" hidden></div>
+    <ol id="results" class="results"></ol>
+
+    <footer>
+      Roles are extracted automatically from HN posts and may contain mistakes; always check the original post.
+    </footer>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>

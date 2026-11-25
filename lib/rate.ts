@@ -37,3 +37,38 @@ export async function withBackoff<T>(
     }
   }
 }
+
+/**
+ * Token bucket per key (client IP, or "global"). `perMinute` sustained, `burst` short-term.
+ * Idle buckets are swept so the map can't grow without bound.
+ */
+export class KeyedTokenBucket {
+  private buckets = new Map<string, { tokens: number; at: number }>();
+  private lastSweep = Date.now();
+  constructor(private readonly perMinute: number, private readonly burst: number, private readonly maxKeys = 10_000) {}
+
+  /** true if allowed (and consumes a token). */
+  take(key: string, now = Date.now()): boolean {
+    this.sweep(now);
+    const b = this.buckets.get(key) ?? { tokens: this.burst, at: now };
+    b.tokens = Math.min(this.burst, b.tokens + ((now - b.at) / 60_000) * this.perMinute);
+    b.at = now;
+    const ok = b.tokens >= 1;
+    if (ok) b.tokens -= 1;
+    if (this.buckets.size < this.maxKeys || this.buckets.has(key)) this.buckets.set(key, b);
+    return ok;
+  }
+
+  /** Seconds until the next token for `key` (for Retry-After). */
+  retryAfter(key: string): number {
+    const b = this.buckets.get(key);
+    return b ? Math.max(1, Math.ceil(((1 - b.tokens) / this.perMinute) * 60)) : 1;
+  }
+
+  private sweep(now: number) {
+    if (now - this.lastSweep < 60_000) return;
+    this.lastSweep = now;
+    const fullAfter = (this.burst / this.perMinute) * 60_000;
+    for (const [k, b] of this.buckets) if (now - b.at > fullAfter) this.buckets.delete(k);
+  }
+}

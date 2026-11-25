@@ -8,6 +8,8 @@
     "db:up": "docker compose up -d --wait db",
     "migrate": "ts-node ops/migrate.ts",
     "index": "ts-node ops/indexing.ts",
+    "daily": "ts-node ops/daily.ts",
+    "serve": "ts-node ops/serve.ts",
     "eval:retrieval": "ts-node ops/eval-retrieval.ts",
     "typecheck": "tsc --noEmit",
     "test": "node --require ts-node/register --test tests/*.test.ts",

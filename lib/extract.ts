@@ -1,5 +1,6 @@
 import { HumanMessage } from "langchain";
 import fs from "fs/promises";
+import { createHash } from "crypto";
 import { Extraction, type Role } from "./schema";
 import { toGeminiSchema } from "./gemini-schema";
 import { groundRoles, type GroundingWarning } from "./grounding";
@@ -17,6 +18,7 @@ export type ExtractionRecord = {
   model: string;
   prompt_version: string;
   latency_ms: number;
+  text_sha?: string; // hash of the input text; a changed hash (edited HN comment) means re-extract
   roles: Role[];
   warnings?: GroundingWarning[]; // values dropped by canonicalization or the grounding guard
   error?: string; // set on failure; roles = [] in that case
@@ -45,6 +47,7 @@ export async function extractPosting(
     time: posting.time,
     model: modelId,
     prompt_version: PROMPT_VERSION,
+    text_sha: textSha(posting.text),
   };
   const started = Date.now();
   try {
@@ -76,6 +79,12 @@ export async function extractPosting(
     };
   }
 }
+
+export const textSha = (text: string) => createHash("sha256").update(text).digest("hex").slice(0, 16);
+
+/** Up to date = succeeded, same prompt version, same input text (older records lack a hash: trust them). */
+export const isFresh = (r: ExtractionRecord, text: string) =>
+  !r.error && r.prompt_version === PROMPT_VERSION && (!r.text_sha || r.text_sha === textSha(text));
 
 export const slug = (modelId: string) => modelId.replace(/[^a-zA-Z0-9.-]+/g, "_");
 

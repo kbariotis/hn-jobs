@@ -1,19 +1,10 @@
 require("dotenv").config();
 
-import fs from "fs/promises";
-import { RateLimiter } from "../lib/rate";
 import { loadThread, toPostings } from "../lib/preprocess";
-import {
-  buildExtractor,
-  extractPosting,
-  extractedPath,
-  readExtractions,
-  type ExtractionRecord,
-} from "../lib/extract";
-import { extractModelId } from "../models/extract";
-import { PROMPT_VERSION } from "../prompts/extract";
+import { extractPostings } from "../lib/pipeline";
 
 // Usage: npm run extract -- [--thread 46108941] [--limit 20 | --ids 1,2,3] [--refresh] [--concurrency 4] [--rpm 60]
+//   Extracts postings that are new, failed, stale (prompt version) or edited since last run.
 //   --rpm  max requests/minute across all workers (default EXTRACT_RPM or 60); 429s back off and retry
 function arg(name: string): string | undefined {
   const i = process.argv.indexOf(`--${name}`);
@@ -23,61 +14,21 @@ function arg(name: string): string | undefined {
 async function main() {
   const threadId = arg("thread") ?? process.env.THREAD_ID ?? "46108941";
   const limit = arg("limit") ? Number(arg("limit")) : Infinity;
-  const concurrency = Number(arg("concurrency") ?? process.env.EXTRACT_CONCURRENCY ?? 1);
-  const rpm = Number(arg("rpm") ?? process.env.EXTRACT_RPM ?? 60);
-  const limiter = new RateLimiter(rpm);
-  const modelId = extractModelId();
-
   const thread = await loadThread(threadId, { refresh: process.argv.includes("--refresh") });
-  const ids = arg("ids")?.split(",").map(Number);
   const all = toPostings(thread);
+  const ids = arg("ids")?.split(",").map(Number);
   if (ids) {
     const missing = ids.filter((id) => !all.some((p) => p.id === id));
     if (missing.length) throw new Error(`Not top-level postings in thread ${threadId}: ${missing.join(", ")}`);
   }
   const postings = ids ? all.filter((p) => ids.includes(p.id)) : all.slice(0, limit);
-  const out = extractedPath(threadId, modelId);
 
-  // Resume: keep successful records from the same prompt version, redo errors.
-  const done = new Set(
-    (await readExtractions(out))
-      .filter((r) => !r.error && r.prompt_version === PROMPT_VERSION)
-      .map((r) => r.id)
-  );
-  const todo = postings.filter((p) => !done.has(p.id));
-
-  console.log(
-    `${modelId} | thread ${threadId} | ${rpm} rpm | ${postings.length} postings, ${done.size} done, ${todo.length} to go -> ${out}`
-  );
-
-  await fs.mkdir("data/extracted", { recursive: true });
-  const extractor = await buildExtractor(modelId);
-
-  let next = 0;
-  let ok = 0;
-  let failed = 0;
-  const worker = async () => {
-    while (next < todo.length) {
-      const posting = todo[next++];
-      const rec: ExtractionRecord = await extractPosting(extractor, modelId, posting, { limiter });
-      await fs.appendFile(out, JSON.stringify(rec) + "\n"); // append-as-you-go = crash-safe
-      if (rec.error) {
-        failed++;
-        console.error(`✗ ${posting.id} (${rec.latency_ms}ms): ${rec.error}`);
-      } else {
-        ok++;
-        console.log(`✓ ${posting.id} (${rec.latency_ms}ms): ${rec.roles.length} role(s)`);
-      }
-    }
-  };
-  await Promise.all(Array.from({ length: Math.max(1, concurrency) }, worker));
-
-  // Dedupe: last record per id wins (retries append newer lines).
-  const latest = new Map((await readExtractions(out)).map((r) => [r.id, r]));
-  await fs.writeFile(out, [...latest.values()].map((r) => JSON.stringify(r)).join("\n") + "\n");
-
-  console.log(`Done: ${ok} ok, ${failed} failed. Re-run to retry failures.`);
-  if (failed > 0) process.exitCode = 1;
+  const s = await extractPostings(threadId, postings, {
+    concurrency: Number(arg("concurrency") ?? process.env.EXTRACT_CONCURRENCY ?? 1),
+    rpm: Number(arg("rpm") ?? process.env.EXTRACT_RPM ?? 60),
+  });
+  console.log(`Done: ${s.ok} ok, ${s.failed} failed, ${s.skipped} up to date. Re-run to retry failures.`);
+  if (s.failed > 0) process.exitCode = 1;
 }
 
 main().catch((e) => {

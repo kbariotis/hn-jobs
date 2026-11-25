@@ -32,25 +32,40 @@ Only extract constraints the query states; leave everything else empty or null. 
 
 const cachePath = "data/evals/query-parse-cache.json";
 
-/** Parse + canonicalize with the same normalizers as extraction. Cached so eval runs are reproducible. */
+/**
+ * File-cached parse for evals: reproducible runs, no repeat LLM calls. Not for the server
+ * (it would persist every user query to disk, unbounded); use parseQueryUncached there.
+ */
 export async function parseQuery(query: string, modelId?: string): Promise<Filters> {
   const cache: Record<string, Filters> = await fs.readFile(cachePath, "utf8").then(JSON.parse).catch(() => ({}));
   const key = `${modelId ?? "default"}|v${PARSER_VERSION}|${query}`;
   if (cache[key]) return cache[key];
-
-  const model = await getExtractModel(modelId);
-  const structured = model.withStructuredOutput(toGeminiSchema(Filters), { name: "search_filters" });
-  const raw = Filters.parse(await structured.invoke([prompt, new HumanMessage(query)]));
-  const tech = (xs: string[]) => [...new Set(xs.map(canonicalTech).filter((t): t is string => !!t))];
-  const filters: Filters = {
-    ...raw,
-    regions: [...new Set(raw.regions.flatMap((r) => canonicalRegion(r).codes))],
-    tech_all: tech(raw.tech_all),
-    tech_any: tech(raw.tech_any),
-  };
-
+  const filters = await parseQueryUncached(query, modelId);
   cache[key] = filters;
   await fs.mkdir("data/evals", { recursive: true });
   await fs.writeFile(cachePath, JSON.stringify(cache, null, 2) + "\n");
   return filters;
+}
+
+const CODE = /^([A-Z]{2}|EUROPE|EMEA|LATAM|APAC|AMERICAS|GLOBAL)$/;
+const MAX_ITEMS = 10;
+
+/** Parse + canonicalize with the same normalizers as extraction. The query is untrusted: output is bounded. */
+export async function parseQueryUncached(query: string, modelId?: string): Promise<Filters> {
+  const model = await getExtractModel(modelId);
+  const structured = model.withStructuredOutput(toGeminiSchema(Filters), { name: "search_filters" });
+  const raw = Filters.parse(await structured.invoke([prompt, new HumanMessage(query)]));
+  const tech = (xs: string[]) => [...new Set(xs.map(canonicalTech).filter((t): t is string => !!t))];
+  // A prompt-injected query can only produce weird filters, never SQL (all values are
+  // parameters). Still cap sizes and drop anything that isn't a known code or a sane string.
+  const short = (xs: string[]) => xs.map((x) => x.trim()).filter((x) => x.length > 0 && x.length <= 60).slice(0, MAX_ITEMS);
+  const salary = raw.min_salary_usd_year;
+  return {
+    ...raw,
+    regions: [...new Set(raw.regions.flatMap((r) => canonicalRegion(r).codes))].filter((c) => CODE.test(c)).slice(0, MAX_ITEMS),
+    cities: short(raw.cities),
+    tech_all: tech(short(raw.tech_all)),
+    tech_any: tech(short(raw.tech_any)),
+    min_salary_usd_year: salary !== null && Number.isFinite(salary) && salary > 0 && salary < 10_000_000 ? salary : null,
+  };
 }

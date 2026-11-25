@@ -83,3 +83,17 @@ export async function loadThread(
   await fs.writeFile(path, JSON.stringify(thread));
   return thread;
 }
+
+type AlgoliaHit = { objectID: string; title: string; created_at_i: number };
+
+/** Newest "Ask HN: Who is hiring? (Month Year)" story, posted monthly by the whoishiring account. */
+export async function latestHiringThread(): Promise<{ id: number; title: string; created_at_i: number }> {
+  const url = "https://hn.algolia.com/api/v1/search_by_date?tags=story,author_whoishiring&hitsPerPage=20";
+  const res = await fetch(url, { signal: AbortSignal.timeout(15_000) });
+  if (!res.ok) throw new Error(`HN search failed: ${res.status} ${res.statusText}`);
+  const { hits } = (await res.json()) as { hits: AlgoliaHit[] };
+  // The same account also posts "Who wants to be hired?" and "Freelancer?" threads.
+  const hiring = hits.filter((h) => /^Ask HN: Who is hiring\?/i.test(h.title)).sort((a, b) => b.created_at_i - a.created_at_i);
+  if (!hiring.length) throw new Error("No 'Who is hiring?' thread found");
+  return { id: Number(hiring[0].objectID), title: hiring[0].title, created_at_i: hiring[0].created_at_i };
+}
