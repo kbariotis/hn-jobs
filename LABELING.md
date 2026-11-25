@@ -9,12 +9,16 @@ for both model output and gold. Labels don't need to get spelling right, only me
 ## General
 
 - **Label what the post says.** If a value isn't stated (or unmistakably implied), use `null` / `[]`.
-  "Most HN jobs are full-time" is not evidence.
+  "Most HN jobs are full-time" is not evidence. Deliberate exceptions, chosen for filtering usefulness over
+  precision: city-only → `onsite`, and the seniority rules for "experienced" and "Manager" titles.
 - **Not a job posting** (meta comment, question, job-seeker) → `roles: []`.
 
 ## Roles
 
 - One role per distinct title. "Various Roles (Front-end, Back-end, Full Stack)" → 3 roles.
+- Every named title is a role, including passing mentions ("also looking for 2D artists"). A passing
+  mention gets only the facts stated for it plus company-wide facts; role-specific details (contract,
+  remote, tech, apply link written for another role) are not inherited.
 - Same title in different locations with different links → separate roles (e.g. Abnormal's two "Engineering Manager" posts).
 - Combinatorial titles ("Staff and Senior SWEs, Full Stack and Backend") → one role per combination
   that the post actually offers. _Open: confirm on SmarterDx (46108976)._
@@ -32,11 +36,15 @@ for both model output and gold. Labels don't need to get spelling right, only me
 If several are offered ("Full-time or Part-time"), use the first listed and add a note. _(Single value
 is a known schema limitation.)_
 
-**remote_policy**: `remote | hybrid | onsite | null`. "Remote or NYC office" → `remote`.
+**remote_policy**: `remote | hybrid | onsite | null`. Several offered → the most flexible
+(remote > hybrid > onsite): "Remote or NYC office" → `remote`, "Onsite or Hybrid" → `hybrid`.
+An office location with no remote/hybrid mention for the role → `onsite`.
 
 **seniority**: from the title or explicit text only ("Senior", "Staff", "0–3 years" → junior).
 "Software Engineer II" → `mid`, "Software Engineer 1" → `junior`. A plain "Software Engineer" → `null`.
 "Senior Staff" → `staff` (closest; no finer value).
+"Experienced" said of the role → `senior`. Titles with "Manager" → `manager`, "Head of" → `director`,
+unless the title states a level ("Senior Product Manager" → `senior`).
 
 **tech_stack**: named technologies only: languages, frameworks, libraries, databases, cloud services,
 tools, operating systems. Lowercase.

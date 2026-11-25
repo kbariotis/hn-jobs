@@ -71,11 +71,9 @@
     },
     {
       "id": 46108976,
-      "status": "draft",
+      "status": "reviewed",
       "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
-      "notes": [
-        "OPEN: \"Staff and Senior SWEs, Full Stack and Backend focused\" -> 4 roles (Staff/Senior x FS/BE) or as extracted? Decide a convention for combinatorial titles."
-      ],
+      "notes": [],
       "text": "SmarterDx | 150-250k+ + equity + benefits | Remote (US only) | Multiple roles | https://smarterdx.com/careers\n\nWe build clinical AI that empowers hospitals to analyze the complete record of every patient to fully capture the value of care delivered. Founded by physicians in 2020, our proprietary AI platform understands the nuances of clinical reasoning, enabling hospitals to accurately reflect every patient visit for fair reimbursement. By doing so, hospitals can recover millions in earned revenue, enhance care outcome and quality metrics, and optimize healthcare operations.\n\nThe current team is very high functioning (MD + data scientist combos, former ASF board member, Google and Amazon engineers, Stanford LLM researchers, etc.) and initially scaled the company to $1MM+ in contracted revenue without raising capital.\n\nSmarterDx recently became part of Smarter Technologies as part of a $1.1B deal by New Mountain Capital, a leading growth-oriented investment firm. We have been backed by top investors including Floodgate (Lyft, Twitch, Twitter), Transformation Capital, and Bessemer for a total of $71M, including our $50M Series B, and are experiencing an incredible growth trajectory customer and revenue wise with no signs of slowing down with 150% YoY headcount growth! This time last year, we were at ~110 employees, and are above 280 as of today!\n\nWe are looking for: Security Engineering Manager - Staff and Senior SWEs, Full Stack and Backend focused - Staff ML Engineers - Data Science Managers - Staff Data Scientists - Senior Data Analysts - Senior Product Managers - More!\n\nWe have PMF, and it's time to scale! For more and to apply, see https://smarterdx.com/careers",
       "roles": [
         {
@@ -1029,12 +1027,9 @@
     },
     {
       "id": 46109054,
-      "status": "draft",
+      "status": "reviewed",
       "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
-      "notes": [
-        "CORRECTED: \"react\" on all roles. \"writing React components\" is company-level text; company-level tech applies to every role (same convention as 46109059).",
-        "REOPENED (v4 migration): Both roles are labelled seniority=senior but \"senior\" appears nowhere in the post. Check for an explicit level, else null."
-      ],
+      "notes": [],
       "text": "MONUMENTAL | https://www.monumental.co/ | Amsterdam, The Netherlands | Full Time | Onsite\n\nWe make robots that autonomously construct buildings. We are currently developing and manufacturing our autonomous bricklaying system in the beautiful centre of Amsterdam. And our robots are already earning real revenue operating on construction sites all over the Netherlands.\n\nWe're looking for experienced software engineers for PLATFORM and FULL STACK who can help us solve problems like:\n\n- Data sync and analytics queries across a fleet of robots (that can be offline for hours at a time)\n\n- Rapid deployment and iteration of experimental software changes across firmware, control software and UI\n\n- Modelling buildings in code and finding the right UI for operators to edit them\n\nCheck out the progress we've already made on Atrium, our operating system for robotics: https://www.monumental.co/atrium\n\nWe're rapidly scaling up operations and we need experienced engineers who can build the systems that manage all of that complexity. If you think that 'full-stack' could reasonably mean debugging firmware, mixing buckets of mortar _and_ writing React components, we are looking for you. Robotics experience not required!\n\nhttps://www.monumental.co/jobs",
       "roles": [
         {
@@ -1448,7 +1443,7 @@
     },
     {
       "id": 46109125,
-      "status": "draft",
+      "status": "reviewed",
       "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
       "notes": [],
       "text": "Neon Health | AI in healthcare | Hiring Eng, CSM & Growth | SF, Remote (North America)\n\n- Senior Backend Engineer | SF, Remote (North America) | Full-time | $170-225k + equity\n\n- Applied AI Systems Engineer | SF, Remote (North America) | Full-time | $120-180k + equity\n\n- Customer Success Manager | SF | Full-time | $120-170k + equity\n\n- Head of Growth | SF | Full-time | $150-$180k + equity\n\n- Growth Specialist | SF | Full-time | $105-$135k + equity\n\nhttp://neonhealth.com/\n\nWe’re mission-driven capitalists: making life-saving drugs more accessible, and building a $200B+ company on the scale of Palantir or ServiceNow.\n\nTraction: profitable and growing fast. Selling 7+ figure contracts to enterprise healthcare customers.\n\nTeam: built by exited founders, YC & MIT alum, ex-Tesla, ex-Google engineers.\n\nTop investors: funded by elite Silicon Valley VCs who've backed unicorns like DoorDash, Lyft, and Mammoth Biosciences. And strategic healthcare investors with deep industry connections.\n\nOutsized impact & opportunity: work at the intersection of agentic AI, healthcare transformation, and life-changing patient outcomes.\n\nIf you want to work on a team of A-player athletes, doing the best work of your career, and helping get life-saving drugs to the people who need them, apply here: https://neonhealth.com/careers#open-positions (and make sure to mention HN!)",
@@ -1527,7 +1522,7 @@
               "country_code": "US"
             }
           ],
-          "seniority": null,
+          "seniority": "manager",
           "tech_stack": [],
           "salary": {
             "min": 120000,
@@ -1554,7 +1549,7 @@
               "country_code": "US"
             }
           ],
-          "seniority": "manager",
+          "seniority": "director",
           "tech_stack": [],
           "salary": {
             "min": 150000,
@@ -1649,13 +1644,67 @@
     },
     {
       "id": 46109520,
-      "status": "draft",
+      "status": "reviewed",
       "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
       "notes": [
-        "REOPENED (v4 migration): Header says \"Various Roles (Front-end, Back-end, Full Stack)\" -> LABELING.md says 3 roles; labelled as 1."
+        "Round 3: 3 roles per header. Header-level full-time/Miami/remote and company tech inherited; \"senior\" only on Full-Stack (written next to it)."
       ],
       "text": "FanBasis.com | Various Roles (Front-end, Back-end, Full Stack) | Full-Time Miami/Remote\n\nFanBasis is building the leading platform for selling digital products, services, and communities — what Shopify was for physical goods, we’re becoming for digital entrepreneurs. Our mission is simple: help creators, experts, and online business owners turn their skills into scalable, revenue-generating digital offers.\n\nWe're looking for senior full-stack developers with either strong experience with Laravel or with React and NodeJs/Tsoa backends. We have an exciting roadmap of new products along with some internal refactoring initiatives.\n\nIf you are interested in the role, please send your resume to drew @ fanbasis dot com",
       "roles": [
+        {
+          "company_name": "FanBasis",
+          "role_title": "Front-end Developer",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "Miami",
+              "region": "FL",
+              "country_code": "US"
+            }
+          ],
+          "seniority": null,
+          "tech_stack": [
+            "laravel",
+            "react",
+            "node",
+            "tsoa"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": "drew@fanbasis.com",
+          "description": "FanBasis is building a leading platform for selling digital products, services, and communities. They are seeking senior full-stack developers with strong experience in Laravel or React and Node.js/Tsoa backends."
+        },
+        {
+          "company_name": "FanBasis",
+          "role_title": "Back-end Developer",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "Miami",
+              "region": "FL",
+              "country_code": "US"
+            }
+          ],
+          "seniority": null,
+          "tech_stack": [
+            "laravel",
+            "react",
+            "node",
+            "tsoa"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": "drew@fanbasis.com",
+          "description": "FanBasis is building a leading platform for selling digital products, services, and communities. They are seeking senior full-stack developers with strong experience in Laravel or React and Node.js/Tsoa backends."
+        },
         {
           "company_name": "FanBasis",
           "role_title": "Full-Stack Developer",
@@ -1770,12 +1819,9 @@
     },
     {
       "id": 46109602,
-      "status": "draft",
+      "status": "reviewed",
       "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
-      "notes": [
-        "CORRECTED: header says \"Onsite or Hybrid (London, UK and New York, USA)\"; model only extracted London.",
-        "REOPENED (v4 migration): Locations are London only, but the header says \"Onsite or Hybrid (London, UK and New York, USA)\" and an earlier note says New York was added. Possibly reverted by accident via a suggestion pill."
-      ],
+      "notes": [],
       "text": "Citymapper by Via | London, UK | Onsite or Hybrid (London, UK and New York, USA) | VISA\n\nOur mission: making cities usable. Award-winning navigation app.\n\nRead more about Citymapper For Cities: https://ridewithvia.com/solutions/citymapper\n\n- Engineering Manager or Director (London): https://job-boards.greenhouse.io/via/jobs/8001882002 - Director of Engineering (London): https://job-boards.greenhouse.io/via/jobs/8074378002\n\nThis and more roles - see: https://job-boards.greenhouse.io/via\n\nTech stack: AWS, Python, some C++, some Rust, EKS, Terraform.",
       "roles": [
         {
@@ -1918,9 +1964,11 @@
     },
     {
       "id": 46109991,
-      "status": "draft",
+      "status": "reviewed",
       "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
-      "notes": [],
+      "notes": [
+        "Round 3: header-level locations (Tysons VA office), Hybrid (USA) and 'U.S. citizenship required' applied to both roles."
+      ],
       "text": "Stellar Science | Hybrid (USA) Albuquerque NM, Washington DC (Tysons VA), Dayton OH | Full time, interns/co-ops | U.S. citizenship required | https://www.stellarscience.com\n\nCompany: We're a small scientific software development company that develops custom scientific and engineering analysis applications in domains including: space situational awareness (monitoring the locations, health and status of on-orbit satellites), image simulation, high power microwave systems, modeling and simulation, laser systems modeling, AI/ML including physics-informed neural networks (PINN), human body thermoregulation, computer vision and image processing, high performance computing (HPC), computer aided design (CAD), and more. All exciting applications and no CRUD. We emphasize high quality code and lightweight processes that free software engineers to be productive.\n\nExperience: Except for interns, we currently require a Bachelors degree in physics, engineering, math, computer science, or a related field. Masters or PhD is a plus. (Roughly 25% of our staff have PhDs.)\n\nTechnologies: Mostly C++23, Qt 6.9, CMake, git, OpenGL, CUDA, Boost, Jenkins. Windows and Linux, msvc/gcc/clang/clangcl. AI/ML and analysis projects use Python and C++. Some projects use Java or Typescript/React.\n\nApply online: at https://www.stellarscience.com/careers/.",
       "roles": [
         {
@@ -1928,7 +1976,9 @@
           "role_title": "Software Engineer",
           "employment_type": "full-time",
           "remote_policy": "hybrid",
-          "remote_regions": [],
+          "remote_regions": [
+            "US"
+          ],
           "timezones": [],
           "locations": [
             {
@@ -1937,8 +1987,8 @@
               "country_code": "US"
             },
             {
-              "city": "Washington",
-              "region": "DC",
+              "city": "Tysons",
+              "region": "VA",
               "country_code": "US"
             },
             {
@@ -1969,7 +2019,7 @@
             "react"
           ],
           "salary": null,
-          "visa_sponsorship": null,
+          "visa_sponsorship": false,
           "apply_url": "https://www.stellarscience.com/careers/",
           "apply_email": null,
           "description": "Stellar Science is a small scientific software development company developing custom scientific and engineering analysis applications in domains such as space situational awareness, image simulation, high power microwave systems, and AI/ML."
@@ -1979,7 +2029,9 @@
           "role_title": "Intern/Co-op",
           "employment_type": "internship",
           "remote_policy": "hybrid",
-          "remote_regions": [],
+          "remote_regions": [
+            "US"
+          ],
           "timezones": [],
           "locations": [
             {
@@ -1988,8 +2040,8 @@
               "country_code": "US"
             },
             {
-              "city": "Washington",
-              "region": "DC",
+              "city": "Tysons",
+              "region": "VA",
               "country_code": "US"
             },
             {
@@ -2020,7 +2072,7 @@
             "react"
           ],
           "salary": null,
-          "visa_sponsorship": null,
+          "visa_sponsorship": false,
           "apply_url": "https://www.stellarscience.com/careers/",
           "apply_email": null,
           "description": "Stellar Science is a small scientific software development company developing custom scientific and engineering analysis applications in domains such as space situational awareness, image simulation, high power microwave systems, and AI/ML."
@@ -2029,10 +2081,10 @@
     },
     {
       "id": 46110016,
-      "status": "draft",
+      "status": "reviewed",
       "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
       "notes": [
-        "REOPENED (v4 migration): $80k-$110k is written next to \"Senior Software Engineer\" only; LABELING.md says salary applies only to the role it is written next to. Second role currently has it."
+        "Round 3: Flows role restored (distinct title, own apply link). Salary null: $80k-$110k+ is written next to Senior Software Engineer only."
       ],
       "text": "Spacelift | Remote (Europe) | Full-time | Senior Software Engineer | $80k-$110k+ (can go higher)\n\nWe're a VC-funded startup (recently raised $51M Series C) building an infrastructure orchestrator and collaborative management platform for Infrastructure-as-Code – from OpenTofu, Terraform, Terragrunt, CloudFormation, Pulumi, Kubernetes, to Ansible.\n\nOn the backend we're using 100% Go with AWS primitives. We're looking for backend developers who like doing DevOps'y stuff sometimes (because in a way it's the spirit of our company), or have experience with the cloud native ecosystem. Ideally you'd have experience working with an IaC tool, i.e. Terraform, Pulumi, Ansible, CloudFormation, Kubernetes, or SaltStack.\n\nOverall we have a deeply technical product, trying to build something customers love to use, and have a lot of happy and satisfied customers. We promise interesting work, the ability to open source parts of the project which don't give us a business advantage, as well as healthy working hours.\n\nIf that sounds like fun to you, please apply at https://careers.spacelift.io/jobs/3006934-software-engineer-remote-europe-mid-and-senior\n\nYou can find out more about the product we're building at https://spacelift.io and also see our engineering blog for a few technical blog posts of ours: https://spacelift.io/blog/engineering\n\nAdditionally, we're hiring for a new product we're building, Flows. Mostly the same requirements and tech stack, without the devops bits. You can see a demo of Flows and apply for it here: https://careers.spacelift.io/jobs/6438380-product-software-engineer-flows-remote-europe",
       "roles": [
@@ -2093,12 +2145,7 @@
             "aws",
             "saltstack"
           ],
-          "salary": {
-            "min": 80000,
-            "max": 110000,
-            "currency": "USD",
-            "period": "year"
-          },
+          "salary": null,
           "visa_sponsorship": null,
           "apply_url": "https://careers.spacelift.io/jobs/6438380-product-software-engineer-flows-remote-europe",
           "apply_email": null,
@@ -2431,7 +2478,7 @@
     },
     {
       "id": 46112597,
-      "status": "draft",
+      "status": "reviewed",
       "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
       "notes": [
         "SCHEMA: part-time AND contract (\"Comp: contract, €60–€120/hour, 8–16h/week\") - single employment_type loses one. Salary verified correct."
@@ -2441,7 +2488,7 @@
         {
           "company_name": "MouseMux",
           "role_title": "Community + Outreach + Content",
-          "employment_type": "contract",
+          "employment_type": "part-time",
           "remote_policy": "remote",
           "remote_regions": [
             "EU"
@@ -2459,7 +2506,7 @@
             "period": "hour"
           },
           "visa_sponsorship": null,
-          "apply_url": "https://mousemux.com",
+          "apply_url": null,
           "apply_email": "info@mousemux.com",
           "description": "MouseMux is seeking a part-time, autonomous contractor for community management, outreach, and content creation to help scale a Windows multi-cursor software tool."
         }
@@ -2492,9 +2539,11 @@
     },
     {
       "id": 46113013,
-      "status": "draft",
+      "status": "reviewed",
       "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
-      "notes": [],
+      "notes": [
+        "Round 3: 'also looking for' mentions are roles (title only). Contract/Remote, ASP.NET tech and the SWE apply link describe the ASP.NET role, so not inherited."
+      ],
       "text": "MaFi Games | Senior ASP.NET (full-stack) | Contract | Remote\n\nHi, I'm the co-founder of MaFi Games, the indie studio behind Captain of Industry. We're looking for an experienced full-stack ASP.NET engineer to help us grow our community website, including features like a modding database, blog, and forum.\n\nSome reasons you'd enjoy working with us:\n\n- A multicultural, collaborative, and innovative work environment where your voice is heard.\n\n- Fully remote job with flexible working hours and vacation schedule.\n\n- High quality C# code base, code reviews, tests.\n\n- High work satisfaction, work with a talented team on a popular video game with a wonderful community.\n\nIf interested, please see the detailed info, requirements, and application instructions at https://www.captain-of-industry.com/jobs-swe-hn, thanks!\n\nNote: We are also looking for Senior Game devs, 2D artists, and SFX artists.",
       "roles": [
         {
@@ -2518,7 +2567,7 @@
         },
         {
           "company_name": "MaFi Games",
-          "role_title": "Senior Game dev",
+          "role_title": "Senior Game Developer",
           "employment_type": null,
           "remote_policy": null,
           "remote_regions": [],
@@ -2530,11 +2579,11 @@
           "visa_sponsorship": null,
           "apply_url": null,
           "apply_email": null,
-          "description": "MaFi Games is looking for a Senior Game dev."
+          "description": "MaFi Games (Captain of Industry) is also hiring a Senior Game Developer; no further details in the post."
         },
         {
           "company_name": "MaFi Games",
-          "role_title": "2D artist",
+          "role_title": "2D Artist",
           "employment_type": null,
           "remote_policy": null,
           "remote_regions": [],
@@ -2546,11 +2595,11 @@
           "visa_sponsorship": null,
           "apply_url": null,
           "apply_email": null,
-          "description": "MaFi Games is looking for a 2D artist."
+          "description": "MaFi Games (Captain of Industry) is also hiring a 2D Artist; no further details in the post."
         },
         {
           "company_name": "MaFi Games",
-          "role_title": "SFX artist",
+          "role_title": "SFX Artist",
           "employment_type": null,
           "remote_policy": null,
           "remote_regions": [],
@@ -2562,7 +2611,7 @@
           "visa_sponsorship": null,
           "apply_url": null,
           "apply_email": null,
-          "description": "MaFi Games is looking for an SFX artist."
+          "description": "MaFi Games (Captain of Industry) is also hiring a SFX Artist; no further details in the post."
         }
       ]
     },
@@ -2651,18 +2700,16 @@
     },
     {
       "id": 46136484,
-      "status": "draft",
+      "status": "reviewed",
       "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
-      "notes": [
-        "OPEN: header \"Full-time | INTERNS\" -> likely 2 roles (full-time engineer + internship). Extracted as 1 role with full-time + seniority=intern, which is contradictory."
-      ],
+      "notes": [],
       "text": "ChainSecurity | Blockchain Security Engineer | Full-time | INTERNS , HYBRID/REMOTE, Zurich, Switzerland | VISA possible | https://chainsecurity.com/\n\nChainSecurity is a young and innovative cybersecurity company that operates in the blockchain and cryptocurrency space. Our mission is to make the blockchain space secure and trustworthy for people, companies, and governments alike. We are proud of our security experts from the renowned universities ETH Zurich, EPFL Lausanne and others. We are trusted by 100+ blockchain companies and established corporations with security audits and services. We have secured complex systems for top blockchain clients, such as decentralized finance (DeFi) projects, and multinational organizations, such as banks and industrial consortia.\n\nA ChainSecurity Auditor will review the most complex blockchain projects to find vulnerabilities which no-one else can. By using state of the art tools, expert knowledge and a deep understanding of the fundamentals, we secure projects handling billions, often forming the foundation in the new paradigm of an open financial system.\n\nYour Responsibilities:\n\n* Work directly with the developers of the most successful teams in the blockchain industry to audit their code and secure their products\n\n* Contribute to our security tools and create new ones in collaboration with our internal research team\n\n* Conduct security research and publish your findings\n\nRequirements:\n\n* Strong background in software engineering, focused on security relevant areas and most importantly being able to reason about complex code\n\n* Experience with penetration testing, vulnerability scanning, threat modeling or similar is a plus\n\n* Good knowledge of cryptography\n\n* Proficiency with Linux and Git\n\n* Good written communication skills\n\n* Fluent in OOP programming language\n\nBonus Points:\n\n* Formal Verification, White Box, Vulnerability Scanning\n\n* Solid Blockchain Knowledge\n\n* Consensus Algorithms\n\nJoin us here: https://www.chainsecurity.com/jobs/blockchain-security-engineer\n\nQuestions about the role? Contact: jobs@chainsecurity.com",
       "roles": [
         {
           "company_name": "ChainSecurity",
           "role_title": "Blockchain Security Engineer",
           "employment_type": "full-time",
-          "remote_policy": "hybrid",
+          "remote_policy": "remote",
           "remote_regions": [],
           "timezones": [],
           "locations": [
@@ -2672,7 +2719,7 @@
               "country_code": "CH"
             }
           ],
-          "seniority": "intern",
+          "seniority": null,
           "tech_stack": [
             "linux",
             "git"
