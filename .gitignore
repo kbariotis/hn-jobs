@@ -5,4 +5,6 @@ chroma/
 
 # Generated: regenerate with npm run extract / npm run eval:extract
 data/extracted/
-data/evals/
+# directory contents (not the dir) so the committed baseline can be re-included
+data/evals/*
+!data/evals/baseline.*.json

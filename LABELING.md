@@ -75,3 +75,12 @@ homepage. Never construct or extend one.
 1. `npm run review`: amber pills = another model disagrees. Decide on the rules above, not on which model said it.
 2. Write a note for every non-obvious decision. If a rule is missing, add it here.
 3. `npm run eval:extract`: check that mismatches are model errors, not label errors.
+4. `npm run eval:extract -- --models <a,b> --write-baseline`, then commit the gold file and `data/evals/baseline.<thread>.json` together.
+
+## Regression gate
+
+`npm run eval:check -- --models <a,b>` exits 1 if a model makes an error the baseline didn't. Run it after every prompt, schema, canonicalizer or model change.
+
+- The gate tracks errors as (posting, role, field), not percentages. With ~30 postings one flipped field moves a score by about 3 points.
+- Postings reviewed, edited or reopened since the baseline are listed but not gated, so reviewing never breaks the gate. Re-baseline to include them.
+- Extractions aren't committed. A fresh clone needs `--run`, and fresh runs aren't bit-for-bit reproducible, so allow some slack with `--tolerance N`.
