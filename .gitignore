@@ -2,3 +2,7 @@ node_modules/
 chroma/
 
 .env
+
+# Generated: regenerate with npm run extract / npm run eval:extract
+data/extracted/
+data/evals/
