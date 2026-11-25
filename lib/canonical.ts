@@ -26,7 +26,9 @@ const TECH_ALIASES: Record<string, string> = {
 };
 
 // Concepts/domains/protocols: not technologies per LABELING.md.
-const NOT_TECH = new Set(["ai", "ml", "llm", "llms", "llm apis", "genai", "saas", "rest apis", "rest api", "apis", "http", "iot", "cloud", "web"]);
+const NOT_TECH = new Set(["ai", "ml", "llm", "llms", "llm apis", "genai", "saas", "rest apis", "rest api", "apis", "http", "iot", "cloud", "web",
+  // network protocols (found in the Oct 2026 held-out thread)
+  "tcp", "udp", "tls", "quic", "dns", "ipv6", "http/2", "http/3"]);
 
 export function canonicalTech(raw: string): string | null {
   let t = raw.trim().toLowerCase();

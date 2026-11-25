@@ -1,81 +1,32 @@
 require("dotenv").config();
 
 import readline from "readline/promises";
-import {
-  createAgent,
-  SystemMessage,
-  tool,
-  Document,
-  HumanMessage,
-} from "langchain";
-import { Chroma } from "@langchain/community/vectorstores/chroma";
-import embeddingsModel from "../models/embeddings";
+import { createAgent, SystemMessage, tool, HumanMessage } from "langchain";
 import { MemorySaver } from "@langchain/langgraph";
 import chatModel from "../models/chat";
+import { db } from "../lib/db";
+import { search } from "../lib/search";
 
 const checkpointer = new MemorySaver();
+const THREAD_ID = Number(process.env.THREAD_ID ?? "46108941");
 
-const vectorStore = new Chroma(embeddingsModel, {
-  collectionName: process.env.CHROMA_COLLECTION_NAME,
-});
-
-function groupChunksToContext(chunks: Document[]) {
-  // Group by role_id
-  const groups = new Map<string, Document[]>();
-  for (const doc of chunks) {
-    const id = String(doc.metadata.role_id ?? "unknown");
-    const arr = groups.get(id) ?? [];
-    arr.push(doc);
-    groups.set(id, arr);
-  }
-
-  // Sort doc ids to make group order deterministic
-  const sortedDocIds = Array.from(groups.keys()).sort();
-
-  const response: string[] = [];
-  for (const docId of sortedDocIds) {
-    const docs = groups.get(docId)!;
-    const sorted = docs.sort((a, b) => {
-      const aChunk = a.metadata.chunk_id;
-      const bChunk = b.metadata.chunk_id;
-      const aChunkNum = Number(aChunk);
-      const bChunkNum = Number(bChunk);
-      if (!Number.isNaN(aChunkNum) && !Number.isNaN(bChunkNum)) {
-        return aChunkNum - bChunkNum;
-      }
-      if (aChunk < bChunk) return -1;
-      if (aChunk > bChunk) return 1;
-      return 0;
-    });
-
-    const header = `DOC ID: ${docId}\nContent: `;
-    const body = sorted.map((d) => `${d.pageContent}`).join(" ");
-
-    response.push(`${header}${body}`);
-  }
-  return response;
-}
-
+// Filtered strategy: the LLM-parsed constraints (remote, region, stack, level...) become SQL
+// filters, then roles are ranked by vector similarity. See eval:retrieval for how it scores.
 const retrieve = tool(
   async ({ query }) => {
-    console.log("Retrieving docs for query:", query);
-
-    const chunks = await vectorStore.similaritySearch(query);
-
-    const roleIds = Array.from(
-      new Set(chunks.map((doc) => doc.metadata.role_id))
+    const { hits, filters } = await search(query, { strategy: "filtered", threadId: THREAD_ID, k: 10 });
+    console.log(`Retrieved ${hits.length} roles`, JSON.stringify(filters));
+    if (hits.length === 0) return "No matching roles found.";
+    const { rows } = await db().query<{ role_id: string; doc: string; apply_url: string | null; apply_email: string | null }>(
+      "SELECT role_id, doc, apply_url, apply_email FROM roles WHERE role_id = ANY($1)",
+      [hits.map((h) => h.role_id)]
     );
-
-    console.log(`Retrieved ${roleIds.join(", ")} documents.`);
-
-    const retriever = vectorStore.asRetriever({
-      filter: { role_id: { $in: roleIds } },
-      k: 50,
-    });
-
-    const retrievedDocs: Document[] = await retriever.invoke(query);
-
-    return groupChunksToContext(retrievedDocs).join("\n---\n");
+    const byId = new Map(rows.map((r) => [r.role_id, r]));
+    return hits
+      .map((h) => byId.get(h.role_id))
+      .filter((r) => r !== undefined)
+      .map((r) => `ROLE ID: ${r.role_id}\n${r.doc}\nApply: ${r.apply_url ?? r.apply_email ?? "see HN post"}`)
+      .join("\n---\n");
   },
   {
     name: "retrieve",
@@ -86,7 +37,6 @@ const retrieve = tool(
       required: ["query"],
       additionalProperties: false,
     },
-    responseFormat: "content_and_artifact",
   }
 );
 

@@ -16,9 +16,9 @@ for both model output and gold. Labels don't need to get spelling right, only me
 ## Roles
 
 - One role per distinct title. "Various Roles (Front-end, Back-end, Full Stack)" → 3 roles.
-- Every named title is a role, including passing mentions ("also looking for 2D artists"). A passing
-  mention gets only the facts stated for it plus company-wide facts; role-specific details (contract,
-  remote, tech, apply link written for another role) are not inherited.
+- Every named title is a role, including passing mentions ("also looking for 2D artists"). Passing
+  mentions inherit like any other role (table below): header-level employment type / remote policy
+  and company tech apply; salary, seniority and visa only where written next to them.
 - Same title in different locations with different links → separate roles (e.g. Abnormal's two "Engineering Manager" posts).
 - Combinatorial titles ("Staff and Senior SWEs, Full Stack and Backend") → one role per combination
   that the post actually offers. _Open: confirm on SmarterDx (46108976)._
@@ -84,6 +84,16 @@ homepage. Never construct or extend one.
 2. Write a note for every non-obvious decision. If a rule is missing, add it here.
 3. `npm run eval:extract`: check that mismatches are model errors, not label errors.
 4. `npm run eval:extract -- --models <a,b> --write-baseline`, then commit the gold file and `data/evals/baseline.<thread>.json` together.
+
+### Held-out threads (blind)
+
+Gold for a new thread checks that the rules and prompt generalize beyond the thread they were tuned on.
+Label it blind, or the labels inherit the model's mistakes:
+
+1. `npm run seed-gold -- --thread <id> --sample 25 --seed 1 --blank` (random sample, no roles).
+2. `npm run review -- --thread <id> --blind`: no model suggestions; add roles by hand.
+3. `npm run eval:extract -- --thread <id> --models <m>`, then adjudicate each mismatch: label error
+   (fix the label, with a note) or model error (leave it). Never fix a label just because the model disagrees.
 
 ## Regression gate
 

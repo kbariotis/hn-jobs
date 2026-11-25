@@ -2542,7 +2542,7 @@
       "status": "reviewed",
       "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
       "notes": [
-        "Round 3: 'also looking for' mentions are roles (title only). Contract/Remote, ASP.NET tech and the SWE apply link describe the ASP.NET role, so not inherited."
+        "Header-level Contract/Remote and company tech (C# codebase) inherited by the passing-mention roles per the inheritance table; ASP.NET stays role-specific. apply_url: the only application link in the post."
       ],
       "text": "MaFi Games | Senior ASP.NET (full-stack) | Contract | Remote\n\nHi, I'm the co-founder of MaFi Games, the indie studio behind Captain of Industry. We're looking for an experienced full-stack ASP.NET engineer to help us grow our community website, including features like a modding database, blog, and forum.\n\nSome reasons you'd enjoy working with us:\n\n- A multicultural, collaborative, and innovative work environment where your voice is heard.\n\n- Fully remote job with flexible working hours and vacation schedule.\n\n- High quality C# code base, code reviews, tests.\n\n- High work satisfaction, work with a talented team on a popular video game with a wonderful community.\n\nIf interested, please see the detailed info, requirements, and application instructions at https://www.captain-of-industry.com/jobs-swe-hn, thanks!\n\nNote: We are also looking for Senior Game devs, 2D artists, and SFX artists.",
       "roles": [
@@ -2568,48 +2568,54 @@
         {
           "company_name": "MaFi Games",
           "role_title": "Senior Game Developer",
-          "employment_type": null,
-          "remote_policy": null,
+          "employment_type": "contract",
+          "remote_policy": "remote",
           "remote_regions": [],
           "timezones": [],
           "locations": [],
           "seniority": "senior",
-          "tech_stack": [],
+          "tech_stack": [
+            "c#"
+          ],
           "salary": null,
           "visa_sponsorship": null,
-          "apply_url": null,
+          "apply_url": "https://www.captain-of-industry.com/jobs-swe-hn",
           "apply_email": null,
           "description": "MaFi Games (Captain of Industry) is also hiring a Senior Game Developer; no further details in the post."
         },
         {
           "company_name": "MaFi Games",
           "role_title": "2D Artist",
-          "employment_type": null,
-          "remote_policy": null,
+          "employment_type": "contract",
+          "remote_policy": "remote",
           "remote_regions": [],
           "timezones": [],
           "locations": [],
           "seniority": null,
-          "tech_stack": [],
+          "tech_stack": [
+            "c#"
+          ],
           "salary": null,
           "visa_sponsorship": null,
-          "apply_url": null,
+          "apply_url": "https://www.captain-of-industry.com/jobs-swe-hn",
           "apply_email": null,
           "description": "MaFi Games (Captain of Industry) is also hiring a 2D Artist; no further details in the post."
         },
         {
           "company_name": "MaFi Games",
           "role_title": "SFX Artist",
-          "employment_type": null,
-          "remote_policy": null,
+          "employment_type": "contract",
+          "remote_policy": "remote",
           "remote_regions": [],
           "timezones": [],
           "locations": [],
           "seniority": null,
-          "tech_stack": [],
+          "tech_stack": [
+            "c#"
+          ],
           "salary": null,
           "visa_sponsorship": null,
-          "apply_url": null,
+          "apply_url": "https://www.captain-of-industry.com/jobs-swe-hn",
           "apply_email": null,
           "description": "MaFi Games (Captain of Industry) is also hiring a SFX Artist; no further details in the post."
         }

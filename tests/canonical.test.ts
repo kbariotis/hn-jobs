@@ -33,3 +33,8 @@ test("locations: city abbreviations, country names, UK -> GB", () => {
   assert.deepEqual(canonicalLocation({ city: "London", region: null, country_code: "UK" }), { city: "London", region: null, country_code: "GB" });
   assert.deepEqual(canonicalLocation({ city: null, region: null, country_code: "Belgium" }), { city: null, region: null, country_code: "BE" });
 });
+
+test("protocols are not tech", () => {
+  for (const t of ["TCP", "tls", "QUIC"]) assert.equal(canonicalTech(t), null);
+  assert.equal(canonicalTech("grpc"), "grpc"); // a framework, not a bare protocol
+});

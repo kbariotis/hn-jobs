@@ -5,108 +5,62 @@ An AI-powered chat assistant that helps you find the best open roles suited to y
 ## Features
 
 - **Intelligent Chat Interface**: Interactive conversation-based job search
-- **Semantic Search**: Uses embeddings to understand job requirements and match them with your profile
-- **Job Data Extraction**: Automatically extracts structured information (company, role, tech stack, seniority, etc.) from unstructured HN job posts
-- **Vector Database**: ChromaDB for fast semantic similarity search across thousands of jobs
-- **LLM-Powered**: Uses local models (Ollama) and LangChain for intelligent reasoning and search
-- **Agent-Based Architecture**: LangGraph agents for multi-step reasoning and tool orchestration
+- **Structured extraction**: Gemini Flash turns each HN post into roles (company, title, remote policy, regions, locations, seniority, tech, salary…) per [LABELING.md](LABELING.md)
+- **Filtered semantic search**: an LLM turns the query into hard filters (remote, region, stack, level, salary) applied in SQL, then ranks matches by embedding similarity
+- **Postgres + pgvector**: one store for roles, filterable fields and vectors
+- **Evals with regression gates**: extraction scored against a human-reviewed gold set; retrieval scored on 24 queries with label-derived relevance
 
 ## Architecture
 
-### Core Components
-
-- **`ops/chat.ts`** - Interactive chat interface that uses LangChain agents to understand your needs and retrieve relevant jobs
-- **`ops/indexing.ts`** - Processes raw HN job listings, extracts structured data using LLMs, and indexes them in ChromaDB
-- **`ops/relevance.ts`** - Evaluates job relevance against your profile
-
-### Data Flow
-
 ```
-HN Jobs API/Raw Data
-    ↓
-Indexing Pipeline (LLM extraction + chunking)
-    ↓
-ChromaDB Vector Store
-    ↓
-Chat Interface (Agent + Retrieval)
-    ↓
-User Results
+HN Algolia API ──► data/threads/<id>.json (snapshot)
+                        │ npm run extract   (Gemini Flash, cached JSONL per prompt version)
+                        ▼
+                 data/extracted/*.jsonl
+                        │ npm run index     (upsert roles, embed changed docs)
+                        ▼
+          Postgres: roles (fields + tsvector) + role_embeddings (per embedding model)
+                        │ lib/search.ts     (vector | filtered)
+                        ▼
+               ops/chat.ts agent ──► user
 ```
 
-## Tech Stack
-
-- **Language**: TypeScript
-- **LLM Framework**: LangChain, LangGraph
-- **Vector Database**: ChromaDB
-- **LLM Models**: Ollama (local), HuggingFace (embeddings)
-- **Runtime**: Node.js with ts-node
+Key files: `lib/schema.ts` (role schema), `prompts/extract.ts`, `lib/canonical.ts` (normalization), `lib/search.ts`, `lib/query-parse.ts`, `lib/geo.ts` (what "available in X" means), `db/migrations/`.
 
 ## Prerequisites
 
 - Node.js 18+
-- Docker & Docker Compose (for ChromaDB)
-- Ollama (for local LLM inference)
+- Docker (Postgres + pgvector)
+- A `GOOGLE_API_KEY` (extraction, query parsing, embeddings). Ollama is optional for local embeddings.
 
-## Installation
-
-1. Clone the repository:
-
-```bash
-git clone https://github.com/kbariotis/hn-jobs.git
-cd hn-jobs
-```
-
-2. Install dependencies:
+## Setup
 
 ```bash
 npm install
+cp .env.example .env   # set POSTGRES_PASSWORD / DATABASE_URL (local-only password) and GOOGLE_API_KEY
+npm run db:up
+npm run migrate
 ```
-
-3. Set up ChromaDB using Docker Compose:
-
-```bash
-docker-compose up -d
-```
-
-4. Ensure Ollama is running locally on port 11434
 
 ## Usage
 
-### Index Jobs from HN
-
-Process and index Hacker News job listings:
-
 ```bash
-npm run start -- ops/indexing.ts
+npm run extract -- --concurrency 8   # extract the thread in THREAD_ID (resumable)
+npm run index                        # load roles into Postgres and embed them
+npm run start -- ops/chat.ts         # chat assistant
 ```
 
-This will:
+## Evals
 
-- Load raw HN job data from `data/hn.json`
-- Extract structured information using the LLM (company, role, tech stack, etc.)
-- Chunk the content into semantic pieces
-- Store everything in ChromaDB with vector embeddings
+| What | Command | Gate |
+|---|---|---|
+| Extraction vs gold labels | `npm run eval:extract -- --models google-genai:gemini-3.5-flash` | `npm run eval:check -- --models …` |
+| Retrieval (24 queries, vector vs filtered) | `npm run eval:retrieval` | `npm run eval:retrieval -- --check` |
+| Label review UI | `npm run review` (127.0.0.1:4777) | |
 
-### Start the Chat Assistant
+Baselines live in `data/evals/baseline*.json` and are committed. Re-baseline with `--write-baseline` when a change is intended, and commit it with the change. See LABELING.md for the labelling rules and review workflow.
 
-Run the interactive job search assistant:
-
-```bash
-npm run start -- ops/chat.ts
-```
-
-The assistant will:
-
-- Ask you about your preferences and skills
-- Perform semantic searches on your behalf
-- Present relevant job opportunities with structured details
-- Provide context-aware recommendations
-
-## Data
-
-- **`data/hn.json`** - Raw HackerNews job postings
-- **`data/gold_set.json`** - Ground truth query-to-job mappings for evaluation
-- **`chroma/`** - Vector database storage (persisted)
+Current retrieval (Gemini embeddings, thread 46108941, 837 roles): filtered nDCG@10 0.97, vector-only 0.80.
 
 ## Author
 

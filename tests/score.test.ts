@@ -29,6 +29,8 @@ test("aligns same-title roles by location", () => {
 
 test("does not align unrelated titles", () => {
   assert.deepEqual(alignRoles([role({ role_title: "Product Designer" })], [role({ role_title: "Backend Engineer" })]), []);
+  // single leftover pair with partial title overlap is the same role, reworded
+  assert.deepEqual(alignRoles([role({ role_title: "Intern" })], [role({ role_title: "Intern/Co-op" })]), [[0, 0]]);
 });
 
 test("perfect prediction scores 100 everywhere", () => {

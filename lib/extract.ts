@@ -4,6 +4,7 @@ import { Extraction, type Role } from "./schema";
 import { toGeminiSchema } from "./gemini-schema";
 import { groundRoles, type GroundingWarning } from "./grounding";
 import { canonicalizeRoles } from "./canonical";
+import { RateLimiter, withBackoff } from "./rate";
 import type { Posting } from "./preprocess";
 import extractPrompt, { PROMPT_VERSION } from "../prompts/extract";
 import { getExtractModel } from "../models/extract";
@@ -35,7 +36,7 @@ export async function extractPosting(
   extractor: StructuredModel,
   modelId: string,
   posting: Posting,
-  timeoutMs = 120_000
+  { timeoutMs = 120_000, limiter }: { timeoutMs?: number; limiter?: RateLimiter } = {}
 ): Promise<ExtractionRecord> {
   const base = {
     id: posting.id,
@@ -47,9 +48,13 @@ export async function extractPosting(
   };
   const started = Date.now();
   try {
-    const raw = await extractor.invoke(
-      [extractPrompt, new HumanMessage(posting.text)],
-      { timeout: timeoutMs }
+    // Each attempt waits for a limiter slot; 429s back off and retry instead of failing the posting.
+    const raw = await withBackoff(
+      async () => {
+        await limiter?.acquire();
+        return extractor.invoke([extractPrompt, new HumanMessage(posting.text)], { timeout: timeoutMs });
+      },
+      { onRetry: (n, ms) => console.warn(`  ↻ ${posting.id}: rate limited, retry ${n} in ${Math.round(ms / 1000)}s`) }
     );
     // Providers differ in how strictly they honour the schema — validate regardless.
     const parsed = Extraction.parse(raw);

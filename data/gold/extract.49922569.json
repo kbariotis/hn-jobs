@@ -1,0 +1,1649 @@
+{
+  "thread_id": 49922569,
+  "postings": [
+    {
+      "id": 49922929,
+      "status": "reviewed",
+      "seeded_from": "skeleton:google-genai:gemini-3.5-flash@prompt-v5",
+      "notes": [
+        "ADJUDICATED (held-out): employment_type, remote_policy, seniority, tech_stack, remote_regions corrected to what the post states; blind label had them empty or wrong. Verified against text, not taken on the model's word."
+      ],
+      "text": "Fastly | Software Engineers (Senior, Staff, Principal) | US, UK, EU, APAC ONSITE PREFERRED | Full-time\nWhen you look at the headers of major websites, you’ll see us. If it has to be performant, secure, scaled worldwide, and always-on, it uses Fastly.\n\nWe're a global edge cloud platform for performance and security, emphasizing open standards, sustainable engineering, and resilience-by-design.\n\nWe're hiring across compute, security, platform engineering, network and edge protocols, release engineering, network architecture, client services engineering, and more.\n\nOnsite preferred, but remote candidates with a strong fit are welcome!\n\nRather than building walled gardens, we co-founded the Bytecode Alliance, heavily upstream our work to open standards, actively author IETF drafts, and power the global infrastructure for open-source Python, Rust, Ruby, OpenStreetMap, and much more.\n\n* The Stack: Rust, C/C++, Go, Javascript, Typescript, WebAssembly (Wasm/WASI), Wasmtime, Cranelift, eBPF/XDP, QUIC, HTTP, TLS, TCP, Varnish/VCL, Linux kernel internals, distributed systems, professional services. * Apply: https://www.fastly.com/about/careers",
+      "roles": [
+        {
+          "company_name": "Fastly",
+          "role_title": "Senior Software Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [
+            "US",
+            "GB",
+            "EUROPE",
+            "APAC"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": "senior",
+          "tech_stack": [
+            "rust",
+            "c",
+            "c++",
+            "go",
+            "javascript",
+            "typescript",
+            "webassembly",
+            "wasmtime",
+            "cranelift",
+            "ebpf",
+            "xdp",
+            "quic",
+            "tls",
+            "tcp",
+            "varnish",
+            "vcl",
+            "linux"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://www.fastly.com/about/careers",
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "Fastly",
+          "role_title": "Staff Software Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [
+            "US",
+            "GB",
+            "EUROPE",
+            "APAC"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": "staff",
+          "tech_stack": [
+            "rust",
+            "c",
+            "c++",
+            "go",
+            "javascript",
+            "typescript",
+            "webassembly",
+            "wasmtime",
+            "cranelift",
+            "ebpf",
+            "xdp",
+            "quic",
+            "tls",
+            "tcp",
+            "varnish",
+            "vcl",
+            "linux"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://www.fastly.com/about/careers",
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "Fastly",
+          "role_title": "Principal Software Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [
+            "US",
+            "GB",
+            "EUROPE",
+            "APAC"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": "principal",
+          "tech_stack": [
+            "rust",
+            "c",
+            "c++",
+            "go",
+            "javascript",
+            "typescript",
+            "webassembly",
+            "wasmtime",
+            "cranelift",
+            "ebpf",
+            "xdp",
+            "quic",
+            "tls",
+            "tcp",
+            "varnish",
+            "vcl",
+            "linux"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://www.fastly.com/about/careers",
+          "apply_email": null,
+          "description": ""
+        }
+      ]
+    },
+    {
+      "id": 49923163,
+      "status": "reviewed",
+      "seeded_from": "skeleton:google-genai:gemini-3.5-flash@prompt-v5",
+      "notes": [
+        "REOPENED: marked reviewed with fields still empty from the skeleton seed (post states them). Fill fields blind, then re-mark reviewed.",
+        "ADJUDICATED (held-out): empty/malformed fields corrected to what the post states (verified against text)."
+      ],
+      "text": "JustPark | Senior Software Engineer, Reporting | Hybrid: Dallas, TX | Full-Time/Perm | Competitive salary + Benefits.\n\nApply at: https://apply.workable.com/j/FE43DE896A\n\nJustPark is the premier partner offering both B2B solutions for destinations and B2C services for drivers, giving us the best of both worlds. We simplify the entire parking experience. From venues and councils to private driveways, our platform makes it simple for drivers to find, book, and pay for parking—while empowering our operating partners to deliver exceptional parking experiences.\n\nJoin the JustPark Reporting team. You'll build, ship and maintain the data platform and reporting products behind our venue operations, used at venues like Mercedes Benz Stadium, The Greek Theatre and The O2 Arena. Following the 2024 merger of ParkHub and JustPark, we're scaling internationally, which means distributed systems, teams, and interesting problems at the intersection of payments, data and real time event operations. This is a hands-on engineering role where you'll own meaningful pieces of our platform from design through production, including keeping them healthy on live event days.\nWe're an AI native engineering team: engineers use Claude Code, Copilot and Cursor as daily tools for code generation, review, debugging and documentation, and we build MCP integrations that connect our AI tools directly to Jira, Confluence, Slack and internal APIs so engineers stay in flow.\nYou'll work closely with Product, QA, and our UK engineering and data teams to shape the data strategy of a fast growing international company.\n\nSome of what you'll be doing:\n-Design, build and ship backend services and streaming data pipelines in Go that handle real world scale\n-Own data end to end: event schema and contract design, durable messaging patterns, and the read models and warehouse tables analytics is served from\n-Build financial data flows, including payment processor ingestion, fee reconciliation and ledger backed reporting\n-Ingest and reconcile third party data (partner files and payment processor APIs) with idempotent, replayable backfills\n-Develop and evolve API and GraphQL serving layers that power our internal and external products\n-Migrate existing reporting paths onto the new architecture",
+      "roles": [
+        {
+          "company_name": "JustPark",
+          "role_title": "Senior Software Engineer, Reporting",
+          "employment_type": "full-time",
+          "remote_policy": "hybrid",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "Dallas",
+              "region": "TX",
+              "country_code": "US"
+            }
+          ],
+          "seniority": "senior",
+          "tech_stack": [
+            "go",
+            "graphql"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://apply.workable.com/j/FE43DE896A",
+          "apply_email": null,
+          "description": ""
+        }
+      ]
+    },
+    {
+      "id": 49924581,
+      "status": "reviewed",
+      "seeded_from": "skeleton:google-genai:gemini-3.5-flash@prompt-v5",
+      "notes": [
+        "ADJUDICATED (held-out): employment_type, remote_policy, remote_regions corrected to what the post states; blind label had them empty or wrong. Verified against text, not taken on the model's word."
+      ],
+      "text": "Tether | AI Harness Engineer | REMOTE (Worldwide) | Full-time\n\nWe're looking for an AI Harness Engineer to build local AI systems combining agentic AI with P2P technology.\n\nLooking for strong JavaScript/TypeScript experience and hands-on work with AI/LLMs, agent harnesses, local inference, and/or P2P/distributed systems. Open-source experience is a plus.\n\nApply: https://careers.tether.io/o/ai-harness-engineer-100-remote-worldwide",
+      "roles": [
+        {
+          "company_name": "Tether",
+          "role_title": "AI Harness Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [
+            "GLOBAL"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [
+            "javascript",
+            "typescript",
+            "llm",
+            "ai"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://careers.tether.io/o/ai-harness-engineer-100-remote-worldwide",
+          "apply_email": null,
+          "description": ""
+        }
+      ]
+    },
+    {
+      "id": 49924869,
+      "status": "reviewed",
+      "seeded_from": "skeleton:google-genai:gemini-3.5-flash@prompt-v5",
+      "notes": [
+        "OPEN: title says Lead but post says All experience levels are welcome. Seniority lead (title) or null (text)?"
+      ],
+      "text": "NeverBlink | Community & Ecosystem Lead | Remote (EU)\n\nWe are building a HuggingFace / npm for ontologies. Ontologies are what gives data meaning.\n\nWe are looking for people to get this tech into the hands of as many devs in AI & data as possible. You don't need to know what are ontologies, we can teach you that. Some background in agents or analytics preferred.\n\nApply if you like working with OSS communities, technical writing, and physical events (e.g., workshops at conferences). You get ownership over the process – you tell us how you want to run this.\n\nAll experience levels are welcome: https://app.dover.com/apply/98147191-8319-43cd-911f-98f678be33be/faf8246c-0af5-45ab-a0c2-ea236ecc9df9/",
+      "roles": [
+        {
+          "company_name": "NeverBlink",
+          "role_title": "Community & Ecosystem Lead",
+          "employment_type": null,
+          "remote_policy": "remote",
+          "remote_regions": [
+            "EU"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://app.dover.com/apply/98147191-8319-43cd-911f-98f678be33be/faf8246c-0af5-45ab-a0c2-ea236ecc9df9/",
+          "apply_email": null,
+          "description": ""
+        }
+      ]
+    },
+    {
+      "id": 49925643,
+      "status": "draft",
+      "seeded_from": "skeleton:google-genai:gemini-3.5-flash@prompt-v5",
+      "notes": [],
+      "text": "It's my duty again to point out the popular request of including a 4DWW tag in the description to communicate community interest in the Four Day Work Week\n\nFour characters more in the description is all we ask <bowing>",
+      "roles": []
+    },
+    {
+      "id": 49926031,
+      "status": "draft",
+      "seeded_from": "skeleton:google-genai:gemini-3.5-flash@prompt-v5",
+      "notes": [],
+      "text": "whitecircle.com/careers, we're building the most advanced AI safety infra, raised roughly $70m in total, join us",
+      "roles": []
+    },
+    {
+      "id": 49926213,
+      "status": "reviewed",
+      "seeded_from": "skeleton:google-genai:gemini-3.5-flash@prompt-v5",
+      "notes": [
+        "ADJUDICATED (held-out): empty/malformed fields corrected to what the post states (verified against text).",
+        "MODEL ERROR kept: apply_email null is correct. The post says to send questions, not applications, to that address."
+      ],
+      "text": "Tandem Health | Engineers, Designers, PMs | On-site in Stockholm, Sweden | Full time\n\nAt Tandem Health we're building the AI-native operating system for clinics, so clinicians can focus on care rather than administration. We're building, launching and iterating quickly, and already support more than 10,000 care organisations across 14 European markets, including most of the NHS. We recently raised a $100M Series B to go further, faster.\n\nIt started with our AI medical scribe, which listens in to the patient-clinician encounter to generate medical records and saves clinicians 5-10 minutes per patient. Today our AI medical assistant supports clinicians before, during and after each visit, with medical coding and clinical decision support, three products certified as medical devices under EU MDR.\n\nWe're expanding our Stockholm team with exceptionally driven builders in a wide range of roles.\n\nMore info and application at https://tandemhealth.ai/about/careers\n\nFeel free to reach out to me at john.moberg[at]tandemhealth.ai if you have any questions, but please don't send applications my way",
+      "roles": [
+        {
+          "company_name": "Tandem Health",
+          "role_title": "Engineers",
+          "employment_type": "full-time",
+          "remote_policy": "onsite",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "Stockholm",
+              "region": null,
+              "country_code": "SE"
+            }
+          ],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://tandemhealth.ai/about/careers",
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "Tandem Health",
+          "role_title": "Designers",
+          "employment_type": "full-time",
+          "remote_policy": "onsite",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "Stockholm",
+              "region": null,
+              "country_code": "SE"
+            }
+          ],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://tandemhealth.ai/about/careers",
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "Tandem Health",
+          "role_title": "PMs",
+          "employment_type": "full-time",
+          "remote_policy": "onsite",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "Stockholm",
+              "region": null,
+              "country_code": "SE"
+            }
+          ],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://tandemhealth.ai/about/careers",
+          "apply_email": null,
+          "description": ""
+        }
+      ]
+    },
+    {
+      "id": 49926228,
+      "status": "reviewed",
+      "seeded_from": "skeleton:google-genai:gemini-3.5-flash@prompt-v5",
+      "notes": [
+        "ADJUDICATED (held-out): salary, tech_stack, locations, remote_regions corrected to what the post states; blind label had them empty or wrong. Verified against text, not taken on the model's word."
+      ],
+      "text": "Trackerbot | Full-Stack Developer (Node.js) | REMOTE |  €35-45k/year\n\nTrackerbot.me is a profitable SaaS product used by thousands of eCommerce sellers to automate order tracking and fulfillment across marketplaces such as eBay and Amazon.\n\nWe're a small engineering team of 3 (including me, the CTO/co-owner), so this is a hands-on role with a lot of ownership. You'll work directly on the product and take features from idea to production.\n\nOur stack is primarily Node.js / JavaScript, PostgreSQL, Heroku, AWS/S3, and Chrome Extensions.\n\nWe're looking for someone with strong Node.js and PostgreSQL experience who is comfortable working independently on a production SaaS product. Experience with Heroku and especially Chrome extension development is a big plus.\n\nThe position is fully remote. We're based in Sofia, Bulgaria, and also have an office here if you're local and want to work in person occasionally.\n\nInterview process: short intro call → small take-home assignment → discussion of your solution → offer.\n\nNo LeetCode and no six-round interview process.\n\nApply: email me at dobrev.d10@gmail.com with your LinkedIn, GitHub, CV, or whatever best demonstrates your experience.",
+      "roles": [
+        {
+          "company_name": "Trackerbot",
+          "role_title": "Full-Stack Developer (Node.js)",
+          "employment_type": null,
+          "remote_policy": "remote",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "Sofia",
+              "region": null,
+              "country_code": "BG"
+            }
+          ],
+          "seniority": null,
+          "tech_stack": [
+            "node",
+            "javascript",
+            "postgres",
+            "heroku",
+            "aws",
+            "s3"
+          ],
+          "salary": {
+            "min": 35000,
+            "max": 45000,
+            "currency": "EUR",
+            "period": "year"
+          },
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": "dobrev.d10@gmail.com",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "id": 49926872,
+      "status": "draft",
+      "seeded_from": "skeleton:google-genai:gemini-3.5-flash@prompt-v5",
+      "notes": [
+        "REOPENED: marked reviewed with fields still empty from the skeleton seed (post states them). Fill fields blind, then re-mark reviewed."
+      ],
+      "text": "Cardog | Toronto, Ontario | ONSITE, HYBRID, REMOTE (role-dependent) | Full-time | https://cardog.app/careers\n\nCardog turns raw vehicle data into facts you can check: VIN decode, market price, recalls, and what the car's own modules report. Insurers, dealers, manufacturers and the public bodies that register vehicles all use it. We're a small team and every engineer owns a whole area.\n\nData\n- Data Platform Engineer (Remote). Own the datasets: government files, manufacturer filings, dealer listings, signals from the vehicle. Decide which source wins when two disagree, and be able to prove it. SQL first, entity resolution, tens of millions of rows. Postgres, TypeScript, Workers, R2.\n- VIN Decode Engineer (Remote). Own decode accuracy. Read manufacturer filings line by line, write the patterns, and test them against millions of real VINs. For people who are obsessive about correctness. TypeScript, Postgres.\n\nDesign\n- Design Engineer (Remote). Own the component library and the screens built on it. Dense data, and making uncertain or missing values look uncertain. You design in the browser and you merge it yourself. React, Next.js, Tailwind.\n- Founding Engineer, Dealer Platform (Toronto / Remote). First engineer on software for dealer groups. Time in stores, then ship it the same week. Strong Postgres, multi-tenant.\n\nBusiness\n- Account Executive (Toronto / Remote). Enterprise and public-sector sales cycles measured in quarters. Run technical first calls alone and pull your own numbers in SQL.\n- Policy & Standards Lead (Ontario). Represent us in the consultations and standards bodies writing the rules for vehicle data. Closer to counsel than comms.\n\nField\n- Hardware Engineer, Vehicle Interface (Toronto). Own the diagnostic-port device: board, firmware, enclosure, from bench to a unit on a dealer lot. C or Rust, CAN at the frame level, UDS/ISO-TP against real cars.\n- Forward Deployed Engineer (Ontario). Take named accounts from the first meeting to a running system. TypeScript, SQL, and some time under dashboards.\n\nApply on the page (each role takes applications in place) or write to careers@cardog.app.",
+      "roles": [
+        {
+          "company_name": "Cardog",
+          "role_title": "Data Platform Engineer",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://cardog.app/careers",
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "Cardog",
+          "role_title": "VIN Decode Engineer",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://cardog.app/careers",
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "Cardog",
+          "role_title": "Design Engineer",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://cardog.app/careers",
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "Cardog",
+          "role_title": "Founding Engineer, Dealer Platform",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://cardog.app/careers",
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "Cardog",
+          "role_title": "Account Executive",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://cardog.app/careers",
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "Cardog",
+          "role_title": "Policy & Standards Lead",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://cardog.app/careers",
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "Cardog",
+          "role_title": "Hardware Engineer, Vehicle Interface",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://cardog.app/careers",
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "Cardog",
+          "role_title": "Forward Deployed Engineer",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://cardog.app/careers",
+          "apply_email": null,
+          "description": ""
+        }
+      ]
+    },
+    {
+      "id": 49927265,
+      "status": "reviewed",
+      "seeded_from": "skeleton:google-genai:gemini-3.5-flash@prompt-v5",
+      "notes": [
+        "ADJUDICATED (held-out): remote_policy, salary, locations, remote_regions corrected to what the post states; blind label had them empty or wrong. Verified against text, not taken on the model's word."
+      ],
+      "text": "Portswigger | https://portswigger.net/ | Knutsford, UK | Full Time | Onsite | £80,000-150,000\n\nPortswigger makes the most widely used pentesting suite in the world, the Burp Suite. We have fully embraced AI and are using it to both offer agentic solutions in Burp AT and completely rewire how the company itself works.\n\nDoing this requires instinctive builders who can't see an inefficiency without needing to rationalise it and are brimming with creativity. The AI Pioneer role is a unique chance to be a part of this, you will rove all across the business, doing everything from overhauling sales workflows to reinventing recruiting pipelines. You will need to have had experience in building and shipping - but this can have been in any capacity, any background, from engineering to marketing, is welcomed, so long as the work has been excellent. The team is onsite 5 days a week in a purpose-built office and is friendly, warm and committed.\n\nIf this sounds like the role for you, don't delay, apply today!\nhttps://apply.workable.com/portswigger/j/58071DA702/",
+      "roles": [
+        {
+          "company_name": "Portswigger",
+          "role_title": "AI Pioneer",
+          "employment_type": "full-time",
+          "remote_policy": "onsite",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "Knutsford",
+              "region": null,
+              "country_code": "GB"
+            }
+          ],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": {
+            "min": 80000,
+            "max": 150000,
+            "currency": "GBP",
+            "period": "year"
+          },
+          "visa_sponsorship": null,
+          "apply_url": "https://apply.workable.com/portswigger/j/58071DA702/",
+          "apply_email": null,
+          "description": ""
+        }
+      ]
+    },
+    {
+      "id": 49928452,
+      "status": "draft",
+      "seeded_from": "skeleton:google-genai:gemini-3.5-flash@prompt-v5",
+      "notes": [],
+      "text": "exe.dev | onsite | SF Bay Area | Full-time designer\n\nCome own and build a brand at a Series A startup.",
+      "roles": [
+        {
+          "company_name": "exe.dev",
+          "role_title": "Designer",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": null,
+          "description": ""
+        }
+      ]
+    },
+    {
+      "id": 49929200,
+      "status": "reviewed",
+      "seeded_from": "skeleton:google-genai:gemini-3.5-flash@prompt-v5",
+      "notes": [
+        "REOPENED: marked reviewed with fields still empty from the skeleton seed (post states them). Fill fields blind, then re-mark reviewed.",
+        "ADJUDICATED (held-out): empty/malformed fields corrected to what the post states (verified against text).",
+        "OPEN: FULLY REMOTE with pay for outside the US implies hiring abroad. GLOBAL (implied) or [] (not stated)? Labelled [] per current rule."
+      ],
+      "text": "SerpApi | https://serpapi.com | Junior to Senior Fullstack Engineer multiple positions | Customer Success Engineer | Hiring Coordinator | Python/Ruby/PHP/Js/Rust/Kotlin/C#/Crystal/Nim/Elixir Developer Advocate positions | Based in Austin, TX but remote-first structure | Full-time | ONSITE or FULLY REMOTE | $150K - 180K a year 1099 for US or local avg + 20% for outside the US\n\nSerpApi is the leading API to scrape and parse search engine results. We provide 100+ APIs to Google, Google Maps, Google Images, Bing, Baidu, and more.\n\nOur current stack is Ruby, Rails, MongoDB, and React.JS. We are looking for more Junior and Senior FullStack Engineers.\n\nWe have an awesome work environment: We are a remote first company (before Covid!). We do continuous integration, continuous deployments, code reviews, code pairings, profit sharing, and most of communication is async via GitHub.\n\nWe value super strongly transparency, do open books, have a public roadmap, and contribute to the EFF.\n\nApply at: https://serpapi.com/careers",
+      "roles": [
+        {
+          "company_name": "SerpApi",
+          "role_title": "Junior Fullstack Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "Austin",
+              "region": "TX",
+              "country_code": "US"
+            }
+          ],
+          "seniority": "junior",
+          "tech_stack": [
+            "ruby",
+            "rails",
+            "mongodb",
+            "react"
+          ],
+          "salary": {
+            "min": 150000,
+            "max": 180000,
+            "currency": "USD",
+            "period": "year"
+          },
+          "visa_sponsorship": null,
+          "apply_url": "https://serpapi.com/careers",
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "SerpApi",
+          "role_title": "Senior Fullstack Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "Austin",
+              "region": "TX",
+              "country_code": "US"
+            }
+          ],
+          "seniority": "senior",
+          "tech_stack": [
+            "ruby",
+            "rails",
+            "mongodb",
+            "react"
+          ],
+          "salary": {
+            "min": 150000,
+            "max": 180000,
+            "currency": "USD",
+            "period": "year"
+          },
+          "visa_sponsorship": null,
+          "apply_url": "https://serpapi.com/careers",
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "SerpApi",
+          "role_title": "Customer Success Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "Austin",
+              "region": "TX",
+              "country_code": "US"
+            }
+          ],
+          "seniority": null,
+          "tech_stack": [
+            "ruby",
+            "rails",
+            "mongodb",
+            "react"
+          ],
+          "salary": {
+            "min": 150000,
+            "max": 180000,
+            "currency": "USD",
+            "period": "year"
+          },
+          "visa_sponsorship": null,
+          "apply_url": "https://serpapi.com/careers",
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "SerpApi",
+          "role_title": "Hiring Coordinator",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "Austin",
+              "region": "TX",
+              "country_code": "US"
+            }
+          ],
+          "seniority": null,
+          "tech_stack": [
+            "ruby",
+            "rails",
+            "mongodb",
+            "react"
+          ],
+          "salary": {
+            "min": 150000,
+            "max": 180000,
+            "currency": "USD",
+            "period": "year"
+          },
+          "visa_sponsorship": null,
+          "apply_url": "https://serpapi.com/careers",
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "SerpApi",
+          "role_title": "Developer Advocate",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "Austin",
+              "region": "TX",
+              "country_code": "US"
+            }
+          ],
+          "seniority": null,
+          "tech_stack": [
+            "python",
+            "ruby",
+            "php",
+            "javascript",
+            "rust",
+            "kotlin",
+            "c#",
+            "crystal",
+            "nim",
+            "elixir",
+            "rails",
+            "mongodb",
+            "react"
+          ],
+          "salary": {
+            "min": 150000,
+            "max": 180000,
+            "currency": "USD",
+            "period": "year"
+          },
+          "visa_sponsorship": null,
+          "apply_url": "https://serpapi.com/careers",
+          "apply_email": null,
+          "description": ""
+        }
+      ]
+    },
+    {
+      "id": 49929510,
+      "status": "reviewed",
+      "seeded_from": "skeleton:google-genai:gemini-3.5-flash@prompt-v5",
+      "notes": [
+        "ADJUDICATED (held-out): employment_type, salary, locations corrected to what the post states; blind label had them empty or wrong. Verified against text, not taken on the model's word."
+      ],
+      "text": "Fig | Founding Engineer | San Francisco | ONSITE (hybrid) | Full-time | $180K-$270K + .5 - 2% equity | https://www.growfig.ai\n\nFig builds AI agents purpose-fit to food production workflows, focusing on immediate revenue generation and cost saving activities.\n\nWe're looking for a founding engineer who truly wants end to end ownership, and considers themselves to be a barrel! (https://www.conordewey.com/blog/barrels-and-ammunition)\n\nIf you enjoy hard engineering problems & owning solutions to them end to end, you'd be a great fit!\n\napply at https://jobs.ashbyhq.com/growfig!",
+      "roles": [
+        {
+          "company_name": "Fig",
+          "role_title": "Founding Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "hybrid",
+          "remote_regions": [
+            "SAN FRANSISCO"
+          ],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "San Francisco",
+              "region": "CA",
+              "country_code": "US"
+            }
+          ],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": {
+            "min": 180000,
+            "max": 270000,
+            "currency": "USD",
+            "period": "year"
+          },
+          "visa_sponsorship": null,
+          "apply_url": "https://jobs.ashbyhq.com/growfig",
+          "apply_email": null,
+          "description": ""
+        }
+      ]
+    },
+    {
+      "id": 49930656,
+      "status": "draft",
+      "seeded_from": "skeleton:google-genai:gemini-3.5-flash@prompt-v5",
+      "notes": [],
+      "text": "Vistulo | Senior Java, C#, React & Calypso engineers, Calypso BA/PO | REMOTE (Poland or Romania) | B2B contract, pay ranges below\n\nVistulo hires engineers in Poland to work on trading systems for capital-markets clients. All roles below are with a top North American bank: actively developed front-office systems (algorithmic order management and routing, FX, fixed income, and one of the largest Calypso deployments in the world). You work alongside the original engineering team in North America and Europe. This is core product work, not legacy support. Long-term and fully remote, with overlap with US Eastern hours (6h for the trading roles; some roles work full ET hours for the first ~2 months of onboarding).\n\n- Senior Java Trading Systems Engineer (microsecond-latency OMS/order routing, equities/options/FX), 270–300 PLN/hr, remote from Poland or Romania: https://ats.vistulo.com/roles/253cbd69-1019-4547-93b6-6ef8dbc9e771/java-trading-systems-engineer-2026-06/hn/\n\n- Senior C# Trading Systems Engineer (.NET, FIX, low-latency, 7+ yrs), 250–280 PLN/hr, remote from Poland or Romania: https://ats.vistulo.com/roles/a7986cb1-7531-4376-9f07-8dfa11e965c7/sr-c-trading-engineer-2026-07/hn/\n\n- Calypso Developer (Java, FX, fixed income), remote from Poland or Romania, 240–270 PLN/hr: https://ats.vistulo.com/roles/0b4668c6-525e-4d41-8c6a-f6a8b2f09b34/calypso-dev-2026-08/hn/\n\n- Java Backend Engineer (event-driven distributed systems, 6+ yrs), 220–240 PLN/hr, remote from Poland or Romania,: https://ats.vistulo.com/roles/64866447-8224-49ab-b655-5c2f894dc491/java-backend-engineer-2026-09/hn/\n\n- Senior React Frontend Developer (React/TypeScript, fixed income trading flows, RFQ a plus), 220–250 PLN/hr, remote from Poland or Romania,: https://ats.vistulo.com/roles/1f5cb00f-791b-4491-a189-32a272309aaa/sr-react-with-fi-2026-06/hn/\n\n- Business Analyst / Product Owner, Calypso (Calypso v17+, IR & credit derivatives, back office), 200–240 PLN/hr, remote from Poland or Romania: https://ats.vistulo.com/roles/54c7dcf3-d40a-4d1f-8073-ee99c65404c5/calypso-ba-2026-08/hn/\n\nApply via the links above. Questions: contact@vistulo.com.",
+      "roles": [
+        {
+          "company_name": "Vistulo",
+          "role_title": "Senior Java Trading Systems Engineer",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "Vistulo",
+          "role_title": "Senior C# Trading Systems Engineer",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "Vistulo",
+          "role_title": "Calypso Developer",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "Vistulo",
+          "role_title": "Java Backend Engineer",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "Vistulo",
+          "role_title": "Senior React Frontend Developer",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "Vistulo",
+          "role_title": "Business Analyst / Product Owner, Calypso",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": null,
+          "description": ""
+        }
+      ]
+    },
+    {
+      "id": 49931382,
+      "status": "reviewed",
+      "seeded_from": "skeleton:google-genai:gemini-3.5-flash@prompt-v5",
+      "notes": [
+        "ADJUDICATED (held-out): seniority, salary, tech_stack, locations, remote_regions corrected to what the post states; blind label had them empty or wrong. Verified against text, not taken on the model's word.",
+        "OPEN: B2B 6-month project at an hourly rate. employment_type contract (unmistakably implied) or null (word not written)?"
+      ],
+      "text": "Applandeo | Senior Data Scientist | Remote (Poland) or Cracow | B2B from 200 PLN/h+  | 6month project\n\nWe are looking for a Senior Data Scientist to join our Payment Intelligence / Fraud Prevention team.\n\n* Stack: Python, SQL, GCP, Vertex AI, BigQuery, MLOps, Deep Learning\n* Role: Full ML lifecycle (feature engineering, production, A/B testing)\n* Requirements: Production ML experience, fluency in English & Polish\n\nFull job description and direct application: https://applandeo.com/careers/senior-data-scientist/",
+      "roles": [
+        {
+          "company_name": "Applandeo",
+          "role_title": "Senior Data Scientist",
+          "employment_type": null,
+          "remote_policy": "remote",
+          "remote_regions": [
+            "PL"
+          ],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "Cracow",
+              "region": null,
+              "country_code": "PL"
+            }
+          ],
+          "seniority": "senior",
+          "tech_stack": [
+            "python",
+            "sql",
+            "gcp",
+            "vertex ai",
+            "bigquery"
+          ],
+          "salary": {
+            "min": 200,
+            "max": null,
+            "currency": "PLN",
+            "period": "hour"
+          },
+          "visa_sponsorship": null,
+          "apply_url": "https://applandeo.com/careers/senior-data-scientist",
+          "apply_email": null,
+          "description": ""
+        }
+      ]
+    },
+    {
+      "id": 49935587,
+      "status": "draft",
+      "seeded_from": "skeleton:google-genai:gemini-3.5-flash@prompt-v5",
+      "notes": [],
+      "text": "Wipro.com | Multiple roles - Software - AI - FDE - Cloud | Global (US/CAN/EU/India) | on-site and remote\n\nMy company is hiring for multiple roles, and I'd like to offer internal referrals to qualified candidates from this community. I'm doing this purely because we need great talent—I don't benefit personally from referrals. If you're interested, feel free to send a brief introduction to contact info in my profile. I'll follow up with my company email to discuss the opportunity further.\n\nCheck out the open roles here: https://careers.wipro.com/",
+      "roles": [
+        {
+          "company_name": "Wipro",
+          "role_title": "Software",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "Wipro",
+          "role_title": "AI",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "Wipro",
+          "role_title": "FDE",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "Wipro",
+          "role_title": "Cloud",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": null,
+          "description": ""
+        }
+      ]
+    },
+    {
+      "id": 49939804,
+      "status": "reviewed",
+      "seeded_from": "skeleton:google-genai:gemini-3.5-flash@prompt-v5",
+      "notes": [
+        "ADJUDICATED (held-out): employment_type, apply_url, locations corrected to what the post states; blind label had them empty or wrong. Verified against text, not taken on the model's word."
+      ],
+      "text": "Hover | https://hover.to | San Francisco, CA & New York, NY | ONSITE | Full-time\n\nRole: Senior Software Engineer, 3D Measurements --> https://hover.to/job-posts/7723481\n\nWe are writing software that generates 3D models of buildings. The construction and insurance industry uses those models to derive metrics, estimate construction/repair cost (think water damage due to flooding, wind damage etc.) and  accelerate claims processing. Our long term ambition is to have an accurate and up to date 3D model (digital twin) of every building on the planet.\nHover is expanding the team on many fronts. The 3D Measurements team in particular is looking for talented & experienced software engineers that have proven experience designing and implementing systems for 3D modeling, reconstruction, or CAD-related software and that bring a solid foundation in geometry and 3D math.\n\nIf you're interested in working with us, please apply online at https://hover.to/careers/#open-roles. Mention you're from HN and let us know what you've been working on lately.",
+      "roles": [
+        {
+          "company_name": "Hover",
+          "role_title": "Senior Software Engineer, 3D Measurements",
+          "employment_type": "full-time",
+          "remote_policy": "onsite",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "San Francisco",
+              "region": "CA",
+              "country_code": "US"
+            },
+            {
+              "city": "New York",
+              "region": "NY",
+              "country_code": "US"
+            }
+          ],
+          "seniority": "senior",
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://hover.to/job-posts/7723481",
+          "apply_email": null,
+          "description": ""
+        }
+      ]
+    },
+    {
+      "id": 49962303,
+      "status": "draft",
+      "seeded_from": "skeleton:google-genai:gemini-3.5-flash@prompt-v5",
+      "notes": [],
+      "text": "Elman (Deep Science Ventures) | Co-founder & CTO | London, UK-based preferred / REMOTE considered | Full-time | Pre-seed\n\nWe're building AI to predict clinical trial and drug development outcomes, and quantify how much confidence those predictions deserve. By linking the evidence available at a decision to the judgement made and what happened next, we aim to learn which experimental findings predict outcomes in which therapeutic settings. The platform is already running, with work from an Allen Institute collaboration described in this preprint https://elman.ai/preprint.\n\nWe want a hands-on technical co-founder to lead development, build the evaluation programme and hire the first technical team once funded. Benchmark design, applied statistics and production LLM systems. The modelling approach is open. Biology experience useful, not required.\n\nFounder equity.\n\nRole and application: https://elman.ai/hn",
+      "roles": [
+        {
+          "company_name": "Elman",
+          "role_title": "Co-founder & CTO",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": null,
+          "description": ""
+        }
+      ]
+    },
+    {
+      "id": 49963906,
+      "status": "reviewed",
+      "seeded_from": "skeleton:google-genai:gemini-3.5-flash@prompt-v5",
+      "notes": [
+        "ADJUDICATED (held-out): empty/malformed fields corrected to what the post states (verified against text)."
+      ],
+      "text": "InfoHawk | Software Engineer | London, UK or NYC | HYBRID (UK or US), occasional onsite | Full-time | https://www.infohawk.com\n\nFraud reaches people through ads, cloned brand sites, counterfeit shops and AI-generated video, and it moves faster than any manual review. InfoHawk detects it while it is still running, correlates it across platforms and formats, and surfaces it early enough for our customers to act. We are a small team of engineers plus security, privacy and fraud specialists. Pre-seed, $2.25M led by Moonshots Capital: https://www.infohawk.com/news/2026-06-08-pre-seed-funding-an...\n\nYou’d own how data gets in: scrapers and collectors that survive source changes, official APIs where they exist, undocumented endpoints where they don’t. Sources break constantly. Can you figure out how to use AI to spot the change and adapt automatically? Stack: TypeScript, Node, SvelteKit, Postgres, Playwright, heavy AI-assisted development.\n\nWe’re looking for ~3-5 years building scraping or integration systems in production, but if you’re a great engineer who doesn’t tick every box we’d still like to hear from you. UK-based for London, US-based for NYC; we cannot sponsor visas. Two of our three founders are engineers, one in each city, and you’ll work with them directly.\n\njames@infohawk.com",
+      "roles": [
+        {
+          "company_name": "InfoHawk",
+          "role_title": "Software Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "hybrid",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "London",
+              "region": null,
+              "country_code": "GB"
+            },
+            {
+              "city": "New York",
+              "region": "NY",
+              "country_code": "US"
+            }
+          ],
+          "seniority": null,
+          "tech_stack": [
+            "typescript",
+            "node",
+            "sveltekit",
+            "postgres",
+            "playwright"
+          ],
+          "salary": null,
+          "visa_sponsorship": false,
+          "apply_url": "https://www.infohawk.com",
+          "apply_email": "james@infohawk.com",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "id": 49964448,
+      "status": "reviewed",
+      "seeded_from": "skeleton:google-genai:gemini-3.5-flash@prompt-v5",
+      "notes": [
+        "ADJUDICATED (held-out): empty/malformed fields corrected to what the post states (verified against text)."
+      ],
+      "text": "ALBERT | REMOTE ALMOST ANYWHERE IN THE WORLD| Hiring principal and distinguished engineers to build net new products | up to ~ $750k\nHiring: exceptional consumer product engineers at Albert.\n\nWe're a consumer fintech with 20M+ users who trust us to budget, save, invest, and bank in one place. Profitable for 4+ years. And as of today, our average employee tenure is 3.6 years, a number you almost never see in startup tech, and one we're quietly proud of. People stay because the work is good, the people are sharp, and we've built something worth staying for.\n\nNow we're building net-new consumer products from zero, and we're looking for people who love to tinker and build stuff to ship them with us.\n\nThe kind of person we're looking for: • Top fraction of a percentile in craft, the kind of good that's hard to fake • Builds for fun, not just for work. The kind who ships a working prototype over the weekend and can't help themselves • Comfortable owning 0 to 1 consumer products end-to-end • Allergic to politics, theater, and bureaucracy\n\nWhat you get: • Remote, anywhere with reasonable timezone overlap (and for someone truly exceptional, we'll make async work) • Real scale from day one (20M+ users, real money, real consequences) • Compensation that beats the market. We pay well and we mean it. Base, discretionary year-end bonus, meaningful 401(k) match, and meaningful equity in a profitable, growing unicorn (the kind that's actually worth something) • Platinum PPO health benefits with Blue Shield, top of the top of the line, covering your entire family • A mission worth your time: make money simple, so people spend less time managing it and keep more of it • Small senior-heavy teams, direct ownership, no layers • Forthcoming with the business metrics that matter, so you always know how the company is actually doing • The startup perks done right: catered lunches, wellness stipend, team offsites, casual dress. The stuff that compounds when you're showing up engaged for years, not months • Profitable for 4+ years, so you build with conviction, not runway anxiety\n\nStack: python, claude, postgres, react.js /react native\n\nIf this is you, email us at recruiting@albert.com\n\nAlso, we carefully review every application. If we think there may be a fit, we'll reach out within a few business days. Either way, thank you for your interest in what we're building and for taking the time to connect with us.",
+      "roles": [
+        {
+          "company_name": "Albert",
+          "role_title": "Principal Engineer",
+          "employment_type": null,
+          "remote_policy": "remote",
+          "remote_regions": [
+            "GLOBAL"
+          ],
+          "timezones": [
+            "reasonable timezone overlap"
+          ],
+          "locations": [],
+          "seniority": "principal",
+          "tech_stack": [
+            "python",
+            "claude",
+            "postgres",
+            "react",
+            "react native"
+          ],
+          "salary": {
+            "min": null,
+            "max": 750000,
+            "currency": "USD",
+            "period": "year"
+          },
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": "recruiting@albert.com",
+          "description": ""
+        },
+        {
+          "company_name": "Albert",
+          "role_title": "Distinguished Engineer",
+          "employment_type": null,
+          "remote_policy": "remote",
+          "remote_regions": [
+            "GLOBAL"
+          ],
+          "timezones": [
+            "reasonable timezone overlap"
+          ],
+          "locations": [],
+          "seniority": "principal",
+          "tech_stack": [
+            "python",
+            "claude",
+            "postgres",
+            "react",
+            "react native"
+          ],
+          "salary": {
+            "min": null,
+            "max": 750000,
+            "currency": "USD",
+            "period": "year"
+          },
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": "recruiting@albert.com",
+          "description": ""
+        }
+      ]
+    },
+    {
+      "id": 49967017,
+      "status": "draft",
+      "seeded_from": "skeleton:google-genai:gemini-3.5-flash@prompt-v5",
+      "notes": [],
+      "text": "Sphinx Defense | Software Engineering | Remote (US Only) | https://www.sphinxdefense.com\n\nSphinx Defense builds software to solve complex national security problems for America and its allies. Founded by engineers and technologists with deep experience across commercial and defense technology, we're building a vehicle-agnostic communication infrastructure to enable satellite operators to securely utilize antenna networks and maneuver satellites in real-time. We're bootstrapped, profitable, and growing aggressively.\n\nTo learn more about who we are, our engineering culture, and whether this is the right place for you,  https://sphinxdefense.com/\n\nOur current openings are:\nSr.. Backend Engineer - Colorado Springs, CO: https://grnh.se/auntb4us8us\nSr.. Backend Engineer - Remote: https://grnh.se/kp0xwi9b8us\nBackend Engineer - Colorado Springs, CO: https://grnh.se/z0jox39h8us\nBackend Engineer - Remote: https://grnh.se/bd3zrpcg8us\nInfrastructure Deployment Manager - Colorado Springs, CO: https://grnh.se/fibm1r478us\nInfrastructure Deployment Manager - Chantilly, VA: https://grnh.se/a70fgkh58us\nSr. Network Engineer - Colorado Springs, CO: https://grnh.se/v1c47kta8us\nSr. Full Stack Engineer - Colorado Springs, CO: https://grnh.se/dugo9l3i8us\nSr. Full Stack Engineer - Chantilly, VA: https://grnh.se/ndhlbbo18us\nSr. Full Stack Engineer - El Segundo, CA: https://grnh.se/vj6j0s6j8us\nFull Stack Engineer - Remote: https://grnh.se/sw2e30pl8us\n\nDon’t see a role that aligns with your interests or don’t have the specific Space/ Command & Control experience? Apply to the general interest application and list what type of role you would be interested in :  https://grnh.se/4ce199d68us",
+      "roles": [
+        {
+          "company_name": "Sphinx Defense",
+          "role_title": "Sr.. Backend Engineer",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "Sphinx Defense",
+          "role_title": "Sr.. Backend Engineer",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "Sphinx Defense",
+          "role_title": "Backend Engineer",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "Sphinx Defense",
+          "role_title": "Backend Engineer",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "Sphinx Defense",
+          "role_title": "Infrastructure Deployment Manager",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "Sphinx Defense",
+          "role_title": "Infrastructure Deployment Manager",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "Sphinx Defense",
+          "role_title": "Sr. Network Engineer",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "Sphinx Defense",
+          "role_title": "Sr. Full Stack Engineer",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "Sphinx Defense",
+          "role_title": "Sr. Full Stack Engineer",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "Sphinx Defense",
+          "role_title": "Sr. Full Stack Engineer",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "Sphinx Defense",
+          "role_title": "Full Stack Engineer",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": null,
+          "description": ""
+        }
+      ]
+    },
+    {
+      "id": 49967489,
+      "status": "reviewed",
+      "seeded_from": "skeleton:google-genai:gemini-3.5-flash@prompt-v5",
+      "notes": [
+        "ADJUDICATED (held-out): empty/malformed fields corrected to what the post states (verified against text)."
+      ],
+      "text": "Close | Backend Engineers, Sr. Software Engineer (Marketing) | REMOTE (US)\nhttps://close.com/careers\n\nClose is a CRM for small and midsize sales teams (11,000+ paying customers). In 2026 we shipped Chloe, our AI agent that makes sales calls and works inside the CRM.\n\nBackend Engineers (Senior / Staff). Python, Flask/FastAPI, MongoDB, PostgreSQL, Elasticsearch. Two teams:\n- CRM: agentic enrichment, AI search, making the CRM usable by any MCP agent. Elasticsearch experience is a big plus.\n- Backend Platforms: a new team building paved roads for our engineers (API patterns, observability, Flask to FastAPI) and guardrails for agent-written code\nYou've shipped LLM features to real users and owned production systems.\n\nSr. Software Engineer, Marketing. Our first engineer dedicated to close.com (Astro, Sanity, Vercel). You'd own motion and interactivity, performance, SEO, and conversion tracking, and build tools so Marketing can ship without waiting on engineering. 5+ years building marketing sites, with Segment/Amplitude-style analytics.",
+      "roles": [
+        {
+          "company_name": "Close",
+          "role_title": "Backend Engineer",
+          "employment_type": null,
+          "remote_policy": "remote",
+          "remote_regions": [
+            "US"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": "senior",
+          "tech_stack": [
+            "python",
+            "flask",
+            "fastapi",
+            "mongodb",
+            "postgres",
+            "elasticsearch"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://close.com/careers",
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "Close",
+          "role_title": "Sr. Software Engineer, Marketing",
+          "employment_type": null,
+          "remote_policy": "remote",
+          "remote_regions": [
+            "US"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": "senior",
+          "tech_stack": [
+            "astro",
+            "sanity",
+            "vercel",
+            "segment",
+            "amplitude"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://close.com/careers",
+          "apply_email": null,
+          "description": ""
+        }
+      ]
+    },
+    {
+      "id": 49972097,
+      "status": "draft",
+      "seeded_from": "skeleton:google-genai:gemini-3.5-flash@prompt-v5",
+      "notes": [],
+      "text": "SentiLink | https://www.sentilink.com/ | Engineering & Data Science | REMOTE, HYBRID, and ONSITE (UNITED STATES ONLY) | Full Time\n\nPrimarily hiring in the U.S. for more senior level roles.\n\nWe’re hiring across Engineering (Primarily Backend/Data Platform) and Data Science / ML roles. Hiring at Manager/Director level as well as Senior IC levels. We’re language-agnostic and hire for fundamentals.\n\nAcross the team you’ll see: • Python, Go, Rust, Scala • PostgreSQL, Snowflake • Kafka, Redis • Terraform, Kubernetes • ML: XGBoost, PyTorch, Feature stores, real-time scoring pipelines\n\nIf you love solving complex distributed systems challenges, building customer-facing ML products, or working on detection systems that must be both high-precision and low-latency, you’ll fit right in.\n\nApply for roles here: https://jobs.ashbyhq.com/sentilink?utm_source=hacker_news\n\nAt SentiLink, we stop identity fraud at scale. Our products protect banks, fintechs, marketplaces, and leading financial institutions from synthetic identity fraud, identity theft, and emerging threat. We analyze millions of applications while keeping real users moving fast.\n\nWe’ve seen tremendous traction and are growing extremely quickly. Our real-time APIs have helped verify hundreds of millions of identities, starting with financial services and rapidly expanding into new markets. SentiLink is backed by world-class investors including Craft Ventures, Andreessen Horowitz, NYCA, and Max Levchin.\n\nSentiLink supports a variety of ways to work, ranging from fully remote to in-office. We operate as a digital-first company with strong collaboration across the U.S. and India. We maintain physical offices in Austin, San Francisco, New York City, Seattle, Los Angeles, and Chicago in the U.S. If you’re located near one of these offices, we would love for you to spend time in the office regularly. Some roles are hybrid or in-office by design.\n\nWe’re a small, high-impact team solving one of the most interesting and adversarial problems in fintech: how do you build systems that reliably determine whether a real human is on the other side of a financial transaction?",
+      "roles": [
+        {
+          "company_name": "SentiLink",
+          "role_title": "Backend Engineer",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "SentiLink",
+          "role_title": "Data Platform Engineer",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "SentiLink",
+          "role_title": "Data Scientist",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "SentiLink",
+          "role_title": "Machine Learning Engineer",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": null,
+          "description": ""
+        }
+      ]
+    },
+    {
+      "id": 49996333,
+      "status": "draft",
+      "seeded_from": "skeleton:google-genai:gemini-3.5-flash@prompt-v5",
+      "notes": [],
+      "text": "Coast | https://coastpay.com/ | Full-time | Hybrid in New York City, NY\n\nCoast is re-imagining the trillion-dollar U.S. B2B card payments infrastructure, with a focus on the country’s 500,000 commercial fleets, 40 million commercial vehicles, and many million commercial drivers. Coast's mission is to deliver modern digital experiences, affordable and transparent financial services products at a transformational scale, and to improve working lives in one of the country’s biggest industry sectors.\n\nCoast is competing and winning with software, and we are building a world-class R&D team.\n\nRoles currently available:\n\nLead Data Engineer: https://job-boards.greenhouse.io/coast/jobs/6215755004\n\nProduct Engineer, Full-stack Engineer (Mid-level/Senior): https://job-boards.greenhouse.io/coast/jobs/4000170004\n\nProduct Designer (Senior/Staff): https://job-boards.greenhouse.io/coast/jobs/5850295004\n\nStaff Product Manager: https://job-boards.greenhouse.io/coast/jobs/6212510004",
+      "roles": [
+        {
+          "company_name": "Coast",
+          "role_title": "Lead Data Engineer",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "Coast",
+          "role_title": "Product Engineer, Full-stack Engineer (Mid-level/Senior)",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "Coast",
+          "role_title": "Product Designer (Senior/Staff)",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "Coast",
+          "role_title": "Staff Product Manager",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": null,
+          "description": ""
+        }
+      ]
+    },
+    {
+      "id": 50002587,
+      "status": "draft",
+      "seeded_from": "skeleton:google-genai:gemini-3.5-flash@prompt-v5",
+      "notes": [],
+      "text": "ICEYE | Platform, DevOps and Observability Engineers (Senior/Staff) | Espoo, Finland / Berlin, Germany | HYBRID | Full-time (relocation support)\n\nICEYE builds and operates the world's largest SAR satellite constellation. I lead the Platform organisation: three teams (Core Platform/Infra, Developer Enablement, SRE) that build the foundation our engineering ships on. Go and Python, Kubernetes on cloud and on-prem, some of it air-gapped. Terraform/OpenTofu, Istio, Vault, LGTM stack, OpenTelemetry. Mission-critical systems.\n\nWe are hiring in Espoo and our new Berlin office:\n\n- Staff Platform Engineer: own the Kubernetes platform across cloud and on-prem, build & extend tooling in Go, set technical direction. https://jobs.ashbyhq.com/iceye/cf6ba0e9-a750-4ee7-9b0a-8cb519cb7c39\n\n- Senior DevOps Engineer: build and run core platform components (Go, K8s, ingress, service mesh, secrets, IaC). https://jobs.ashbyhq.com/iceye/c6b51b8b-94af-4007-8464-4a4b858fa5e7\n\n- Senior/Staff Platform Observability Engineer: own metrics, logs and traces as a product for all engineering teams, build tooling around it. https://jobs.ashbyhq.com/iceye/19a2709c-1e6d-4c8d-958a-2f07f017f372\n\nWhat we look for: hands-on Kubernetes and cloud experience, comfort with on-prem, pragmatism and empathy for the developers you serve.\n\nQuestions? Reach me at wb@iceye.com. Apply directly.",
+      "roles": [
+        {
+          "company_name": "ICEYE",
+          "role_title": "Staff Platform Engineer",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "ICEYE",
+          "role_title": "Senior DevOps Engineer",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": null,
+          "description": ""
+        },
+        {
+          "company_name": "ICEYE",
+          "role_title": "Senior/Staff Platform Observability Engineer",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": null,
+          "description": ""
+        }
+      ]
+    }
+  ]
+}

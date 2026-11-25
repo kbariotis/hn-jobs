@@ -1,0 +1,51 @@
+{
+  "thread_id": 49922569,
+  "created_at": "2026-11-25T15:17:58.532Z",
+  "gold": {
+    "49922929": "169953653386",
+    "49923163": "c65e10affa57",
+    "49924581": "1b59eeda35e6",
+    "49924869": "17ad9489d35d",
+    "49926213": "bf8cc9618ac6",
+    "49926228": "7512b9c5a84e",
+    "49927265": "5df14a7dce64",
+    "49929200": "cca65d5180ee",
+    "49929510": "6eef07eac776",
+    "49931382": "a9a4d649e28e",
+    "49939804": "02760b69dd75",
+    "49963906": "c7a5b1c66a3c",
+    "49964448": "cb06f8cc4206",
+    "49967489": "12b1b80c9612"
+  },
+  "models": {
+    "google-genai:gemini-3.5-flash": {
+      "prompt_version": "5",
+      "fields": {
+        "company_name": 100,
+        "employment_type": 95.8,
+        "remote_policy": 100,
+        "seniority": 95.8,
+        "visa_sponsorship": 100,
+        "salary": 100,
+        "apply_url": 100,
+        "apply_email": 87.5,
+        "tech_stack": 100,
+        "locations": 100,
+        "remote_regions": 88.4,
+        "timezones": 100
+      },
+      "mismatches": [
+        "49924869|Community & Ecosystem Lead|seniority",
+        "49926213|Designers|apply_email",
+        "49926213|Engineers|apply_email",
+        "49926213|PMs|apply_email",
+        "49929200|Customer Success Engineer|remote_regions",
+        "49929200|Developer Advocate|remote_regions",
+        "49929200|Hiring Coordinator|remote_regions",
+        "49929200|Junior Fullstack Engineer|remote_regions",
+        "49929200|Senior Fullstack Engineer|remote_regions",
+        "49931382|Senior Data Scientist|employment_type"
+      ]
+    }
+  }
+}

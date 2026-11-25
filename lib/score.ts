@@ -35,6 +35,7 @@ function roleSimilarity(pred: Role, gold: Role): number {
 }
 
 export const MATCH_THRESHOLD = 0.5;
+export const LEFTOVER_THRESHOLD = 0.3; // some title overlap required, so unrelated roles never pair
 
 /** Greedy one-to-one alignment, best pairs first. Fine at HN-post scale (<20 roles). */
 export function alignRoles(pred: Role[], gold: Role[]): Array<[number, number]> {
@@ -55,6 +56,12 @@ export function alignRoles(pred: Role[], gold: Role[]): Array<[number, number]> 
     usedG.add(j);
     pairs.push([i, j]);
   }
+  // One leftover on each side: same role with a reworded title ("Intern" vs "Intern/Co-op").
+  // Pair them so field errors are scored instead of a missing + an extra role.
+  const leftP = pred.map((_, i) => i).filter((i) => !usedP.has(i));
+  const leftG = gold.map((_, j) => j).filter((j) => !usedG.has(j));
+  if (leftP.length === 1 && leftG.length === 1 && roleSimilarity(pred[leftP[0]], gold[leftG[0]]) >= LEFTOVER_THRESHOLD)
+    pairs.push([leftP[0], leftG[0]]);
   return pairs;
 }
 

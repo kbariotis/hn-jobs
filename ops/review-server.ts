@@ -12,13 +12,15 @@ import { PROMPT_VERSION } from "../prompts/extract";
 
 /**
  * Local gold-label review tool.
- * Usage: npm run review [-- --thread 46108941 --port 4777]
+ * Usage: npm run review [-- --thread 46108941 --port 4777 --blind]
+ *   --blind  hide model extractions (no suggestion pills) so labels aren't anchored on a model
  *
  * Bound to 127.0.0.1 only. Never expose this beyond localhost: it writes repo files.
  */
 const argv = process.argv;
 const argOf = (n: string) => (argv.includes(`--${n}`) ? argv[argv.indexOf(`--${n}`) + 1] : undefined);
 const THREAD_ID = Number(argOf("thread") ?? process.env.THREAD_ID ?? "46108941");
+const BLIND = argv.includes("--blind");
 const PORT = Number(argOf("port") ?? process.env.REVIEW_PORT ?? 4777);
 const HOST = "127.0.0.1";
 const GOLD = goldPath(THREAD_ID);
@@ -123,7 +125,7 @@ async function handle(req: http.IncomingMessage, res: http.ServerResponse) {
 
   if (req.method === "GET" && url.pathname === "/api/data") {
     const { gold, etag } = await readGold();
-    const extractions = await loadExtractions(new Set(gold.postings.map((p) => p.id)));
+    const extractions = BLIND ? {} : await loadExtractions(new Set(gold.postings.map((p) => p.id)));
     return send(res, 200, {
       etag,
       thread_id: gold.thread_id,

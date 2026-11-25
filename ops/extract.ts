@@ -1,6 +1,7 @@
 require("dotenv").config();
 
 import fs from "fs/promises";
+import { RateLimiter } from "../lib/rate";
 import { loadThread, toPostings } from "../lib/preprocess";
 import {
   buildExtractor,
@@ -12,7 +13,8 @@ import {
 import { extractModelId } from "../models/extract";
 import { PROMPT_VERSION } from "../prompts/extract";
 
-// Usage: npm run extract -- [--thread 46108941] [--limit 20 | --ids 1,2,3] [--refresh] [--concurrency 4]
+// Usage: npm run extract -- [--thread 46108941] [--limit 20 | --ids 1,2,3] [--refresh] [--concurrency 4] [--rpm 60]
+//   --rpm  max requests/minute across all workers (default EXTRACT_RPM or 60); 429s back off and retry
 function arg(name: string): string | undefined {
   const i = process.argv.indexOf(`--${name}`);
   return i === -1 ? undefined : process.argv[i + 1];
@@ -22,6 +24,8 @@ async function main() {
   const threadId = arg("thread") ?? process.env.THREAD_ID ?? "46108941";
   const limit = arg("limit") ? Number(arg("limit")) : Infinity;
   const concurrency = Number(arg("concurrency") ?? process.env.EXTRACT_CONCURRENCY ?? 1);
+  const rpm = Number(arg("rpm") ?? process.env.EXTRACT_RPM ?? 60);
+  const limiter = new RateLimiter(rpm);
   const modelId = extractModelId();
 
   const thread = await loadThread(threadId, { refresh: process.argv.includes("--refresh") });
@@ -43,7 +47,7 @@ async function main() {
   const todo = postings.filter((p) => !done.has(p.id));
 
   console.log(
-    `${modelId} | thread ${threadId} | ${postings.length} postings, ${done.size} done, ${todo.length} to go -> ${out}`
+    `${modelId} | thread ${threadId} | ${rpm} rpm | ${postings.length} postings, ${done.size} done, ${todo.length} to go -> ${out}`
   );
 
   await fs.mkdir("data/extracted", { recursive: true });
@@ -55,7 +59,7 @@ async function main() {
   const worker = async () => {
     while (next < todo.length) {
       const posting = todo[next++];
-      const rec: ExtractionRecord = await extractPosting(extractor, modelId, posting);
+      const rec: ExtractionRecord = await extractPosting(extractor, modelId, posting, { limiter });
       await fs.appendFile(out, JSON.stringify(rec) + "\n"); // append-as-you-go = crash-safe
       if (rec.error) {
         failed++;

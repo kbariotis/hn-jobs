@@ -6,6 +6,12 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "review"],
       "port": 4777
+    },
+    {
+      "name": "review-heldout",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "review", "--", "--thread", "49922569", "--port", "4778", "--blind"],
+      "port": 4778
     }
   ]
 }
