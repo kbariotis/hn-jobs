@@ -1,0 +1,2690 @@
+{
+  "thread_id": 46108941,
+  "postings": [
+    {
+      "id": 46108947,
+      "status": "reviewed",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [],
+      "text": "Tendavo | Founding Engineer | Stockholm | On-site (Hybrid) | Full-time | Visa | https://tendavo.se/\n\nTendavo helps SMEs win public procurement tenders - a massive, neglected market. We are bootstrapped, profitable and have around 100 happy customers without taking a dollar of external investment. We are based at the SSE Business Lab, where companies such as Klarna and Legora originated.\n\nWe spent the last year validating PMF. The CTO has built the core foundation, and now we are hiring a Founding Engineer to architect and code the rest of the platform side-by-side.\n\nThe Team: CEO: ex-McKinsey | CTO: +13 years of startup experience, previously founded a data startup scraping 50m pages/week.\n\nThe Role:\nYou will work side-by-side with the CTO to build the platform from the ground up. You get full technical ownership to design agents and LLM workflows that replace our manual routines.\nThis is a high-agency role: We have validated Product-Market Fit; your job is to scale it.\n\nTech: Python (AI & core systems), PostgreSQL, TypeScript, GCP\n\nWe offer equity, mentorship from a technical team, and a clear path to VP/Head of Engineering.\n\nReach out to me directly at tom.dickson@tendavo.se - we'd love to hear from you!",
+      "roles": [
+        {
+          "company_name": "Tendavo",
+          "role_title": "Founding Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "hybrid",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "Stockholm",
+              "region": null,
+              "country_code": "SE"
+            }
+          ],
+          "seniority": null,
+          "tech_stack": [
+            "python",
+            "postgres",
+            "typescript",
+            "gcp"
+          ],
+          "salary": null,
+          "visa_sponsorship": true,
+          "apply_url": "https://tendavo.se/",
+          "apply_email": "tom.dickson@tendavo.se",
+          "description": "Tendavo helps SMEs win public procurement tenders and is looking for a Founding Engineer to work side-by-side with the CTO to architect and code the rest of the platform."
+        }
+      ]
+    },
+    {
+      "id": 46108949,
+      "status": "reviewed",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [],
+      "text": "klarasystems.com | OpenZFS Developer | REMOTE | Full-time Contract\n\nWe successfully hired from HN in the previous round and are looking for another OpenZFS Developer (3+ years of experience) to join our team!\n\nKlara Inc. provides development & solutions focused on open source software and the community-driven development of OpenZFS and FreeBSD. We develop new features, investigate/fix bugs, and support the community of these important open source infrastructure projects. Some of our recent work includes major ZFS features such as Fast Deduplication (OpenZFS 2.3: https://github.com/openzfs/zfs/discussions/15896) and AnyRAID: https://github.com/openzfs/zfs/pull/17567.\n\nWe’re looking for an OpenZFS Developer with:\n\n- Strong C programming skills and solid understanding of data structures\n\n- Experience with file systems, VFS, and OS internals (threading, locking, IPC, memory management)\n\n- Familiarity with ZFS internals (DMU, MOS, vdevs, ZPL, datasets, boot environments)\n\n- Ability to work across Linux, FreeBSD, or illumos environments\n\nPrevious upstream contributions to OpenZFS or other open source projects are a big plus.\n\nSubmit an application through our site: https://klarasystems.com/careers/openzfs-developer/",
+      "roles": [
+        {
+          "company_name": "Klara Inc.",
+          "role_title": "OpenZFS Developer",
+          "employment_type": "contract",
+          "remote_policy": "remote",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [
+            "c",
+            "openzfs",
+            "freebsd",
+            "linux",
+            "illumos",
+            "zfs"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://klarasystems.com/careers/openzfs-developer/",
+          "apply_email": null,
+          "description": "Klara Inc. provides development and solutions focused on open source software and the community-driven development of OpenZFS and FreeBSD. They are looking for an OpenZFS Developer with strong C programming skills, experience with file systems, and familiarity with ZFS internals."
+        }
+      ]
+    },
+    {
+      "id": 46108976,
+      "status": "draft",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [
+        "OPEN: \"Staff and Senior SWEs, Full Stack and Backend focused\" -> 4 roles (Staff/Senior x FS/BE) or as extracted? Decide a convention for combinatorial titles."
+      ],
+      "text": "SmarterDx | 150-250k+ + equity + benefits | Remote (US only) | Multiple roles | https://smarterdx.com/careers\n\nWe build clinical AI that empowers hospitals to analyze the complete record of every patient to fully capture the value of care delivered. Founded by physicians in 2020, our proprietary AI platform understands the nuances of clinical reasoning, enabling hospitals to accurately reflect every patient visit for fair reimbursement. By doing so, hospitals can recover millions in earned revenue, enhance care outcome and quality metrics, and optimize healthcare operations.\n\nThe current team is very high functioning (MD + data scientist combos, former ASF board member, Google and Amazon engineers, Stanford LLM researchers, etc.) and initially scaled the company to $1MM+ in contracted revenue without raising capital.\n\nSmarterDx recently became part of Smarter Technologies as part of a $1.1B deal by New Mountain Capital, a leading growth-oriented investment firm. We have been backed by top investors including Floodgate (Lyft, Twitch, Twitter), Transformation Capital, and Bessemer for a total of $71M, including our $50M Series B, and are experiencing an incredible growth trajectory customer and revenue wise with no signs of slowing down with 150% YoY headcount growth! This time last year, we were at ~110 employees, and are above 280 as of today!\n\nWe are looking for: Security Engineering Manager - Staff and Senior SWEs, Full Stack and Backend focused - Staff ML Engineers - Data Science Managers - Staff Data Scientists - Senior Data Analysts - Senior Product Managers - More!\n\nWe have PMF, and it's time to scale! For more and to apply, see https://smarterdx.com/careers",
+      "roles": [
+        {
+          "company_name": "SmarterDx",
+          "role_title": "Security Engineering Manager",
+          "employment_type": null,
+          "remote_policy": "remote",
+          "remote_regions": [
+            "US"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": "manager",
+          "tech_stack": [],
+          "salary": {
+            "min": 150000,
+            "max": 250000,
+            "currency": "USD",
+            "period": "year"
+          },
+          "visa_sponsorship": null,
+          "apply_url": "https://smarterdx.com/careers",
+          "apply_email": null,
+          "description": "SmarterDx builds clinical AI that empowers hospitals to analyze patient records and fully capture the value of care delivered."
+        },
+        {
+          "company_name": "SmarterDx",
+          "role_title": "Staff Software Engineer",
+          "employment_type": null,
+          "remote_policy": "remote",
+          "remote_regions": [
+            "US"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": "staff",
+          "tech_stack": [],
+          "salary": {
+            "min": 150000,
+            "max": 250000,
+            "currency": "USD",
+            "period": "year"
+          },
+          "visa_sponsorship": null,
+          "apply_url": "https://smarterdx.com/careers",
+          "apply_email": null,
+          "description": "SmarterDx builds clinical AI that empowers hospitals to analyze patient records and fully capture the value of care delivered."
+        },
+        {
+          "company_name": "SmarterDx",
+          "role_title": "Senior Software Engineer, Full Stack",
+          "employment_type": null,
+          "remote_policy": "remote",
+          "remote_regions": [
+            "US"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": "senior",
+          "tech_stack": [],
+          "salary": {
+            "min": 150000,
+            "max": 250000,
+            "currency": "USD",
+            "period": "year"
+          },
+          "visa_sponsorship": null,
+          "apply_url": "https://smarterdx.com/careers",
+          "apply_email": null,
+          "description": "SmarterDx builds clinical AI that empowers hospitals to analyze patient records and fully capture the value of care delivered."
+        },
+        {
+          "company_name": "SmarterDx",
+          "role_title": "Senior Software Engineer, Backend",
+          "employment_type": null,
+          "remote_policy": "remote",
+          "remote_regions": [
+            "US"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": "senior",
+          "tech_stack": [],
+          "salary": {
+            "min": 150000,
+            "max": 250000,
+            "currency": "USD",
+            "period": "year"
+          },
+          "visa_sponsorship": null,
+          "apply_url": "https://smarterdx.com/careers",
+          "apply_email": null,
+          "description": "SmarterDx builds clinical AI that empowers hospitals to analyze patient records and fully capture the value of care delivered."
+        },
+        {
+          "company_name": "SmarterDx",
+          "role_title": "Staff ML Engineer",
+          "employment_type": null,
+          "remote_policy": "remote",
+          "remote_regions": [
+            "US"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": "staff",
+          "tech_stack": [],
+          "salary": {
+            "min": 150000,
+            "max": 250000,
+            "currency": "USD",
+            "period": "year"
+          },
+          "visa_sponsorship": null,
+          "apply_url": "https://smarterdx.com/careers",
+          "apply_email": null,
+          "description": "SmarterDx builds clinical AI that empowers hospitals to analyze patient records and fully capture the value of care delivered."
+        },
+        {
+          "company_name": "SmarterDx",
+          "role_title": "Data Science Manager",
+          "employment_type": null,
+          "remote_policy": "remote",
+          "remote_regions": [
+            "US"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": "manager",
+          "tech_stack": [],
+          "salary": {
+            "min": 150000,
+            "max": 250000,
+            "currency": "USD",
+            "period": "year"
+          },
+          "visa_sponsorship": null,
+          "apply_url": "https://smarterdx.com/careers",
+          "apply_email": null,
+          "description": "SmarterDx builds clinical AI that empowers hospitals to analyze patient records and fully capture the value of care delivered."
+        },
+        {
+          "company_name": "SmarterDx",
+          "role_title": "Staff Data Scientist",
+          "employment_type": null,
+          "remote_policy": "remote",
+          "remote_regions": [
+            "US"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": "staff",
+          "tech_stack": [],
+          "salary": {
+            "min": 150000,
+            "max": 250000,
+            "currency": "USD",
+            "period": "year"
+          },
+          "visa_sponsorship": null,
+          "apply_url": "https://smarterdx.com/careers",
+          "apply_email": null,
+          "description": "SmarterDx builds clinical AI that empowers hospitals to analyze patient records and fully capture the value of care delivered."
+        },
+        {
+          "company_name": "SmarterDx",
+          "role_title": "Senior Data Analyst",
+          "employment_type": null,
+          "remote_policy": "remote",
+          "remote_regions": [
+            "US"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": "senior",
+          "tech_stack": [],
+          "salary": {
+            "min": 150000,
+            "max": 250000,
+            "currency": "USD",
+            "period": "year"
+          },
+          "visa_sponsorship": null,
+          "apply_url": "https://smarterdx.com/careers",
+          "apply_email": null,
+          "description": "SmarterDx builds clinical AI that empowers hospitals to analyze patient records and fully capture the value of care delivered."
+        },
+        {
+          "company_name": "SmarterDx",
+          "role_title": "Senior Product Manager",
+          "employment_type": null,
+          "remote_policy": "remote",
+          "remote_regions": [
+            "US"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": "senior",
+          "tech_stack": [],
+          "salary": {
+            "min": 150000,
+            "max": 250000,
+            "currency": "USD",
+            "period": "year"
+          },
+          "visa_sponsorship": null,
+          "apply_url": "https://smarterdx.com/careers",
+          "apply_email": null,
+          "description": "SmarterDx builds clinical AI that empowers hospitals to analyze patient records and fully capture the value of care delivered."
+        }
+      ]
+    },
+    {
+      "id": 46108986,
+      "status": "reviewed",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [],
+      "text": "WireScreen (Series A) | Senior Software Engineer | NYC - hybrid | Full-time | $165k-$210k base + equity | https://jobs.ashbyhq.com/wirescreen/89e08ab3-01ed-4296-9459-abc96e850aec?utm_source=xgRXlw271G\n\nWireScreen is a fast-growing Sequoia-backed Series A startup building the go-to open source intelligence platform for navigating global supply chains and China-related risk. While China maintains some of the world’s most detailed corporate ownership records, the real challenge is connecting the dots. That’s where we come in—surfacing the networks, relationships, and financial ties behind companies to support national security, compliance, and regulatory oversight.\n\nWe’re looking for senior software engineers to build our data platform and help us ingest and model messy, unstructured data into insights and actionable intelligence. At the heart of this is a 50m+ entity knowledge-graph with 200m+ relationships represented - and we need your help to build a system that can scale this up by an order of a magnitude. Today, we mostly use Python, Postgres, Airflow and Pyspark.\n\nIf you have prior startup experience, can bring strong Python (PySpark is a big plus) experience and have previously worked with TB-scale data sets - we’d love to talk to you.\n\nApply here: https://jobs.ashbyhq.com/wirescreen/89e08ab3-01ed-4296-9459-abc96e850aec?utm_source=xgRXlw271G\n\nOr you can reach out to me directly at leo.green@wirescreen.ai - I lead recruiting here at WireScreen, but if I don't know the answer I'll ping our engineering folks and come back to you fast.",
+      "roles": [
+        {
+          "company_name": "WireScreen",
+          "role_title": "Senior Software Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "hybrid",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "New York",
+              "region": "NY",
+              "country_code": "US"
+            }
+          ],
+          "seniority": "senior",
+          "tech_stack": [
+            "python",
+            "postgres",
+            "airflow",
+            "pyspark"
+          ],
+          "salary": {
+            "min": 165000,
+            "max": 210000,
+            "currency": "USD",
+            "period": "year"
+          },
+          "visa_sponsorship": null,
+          "apply_url": "https://jobs.ashbyhq.com/wirescreen/89e08ab3-01ed-4296-9459-abc96e850aec?utm_source=xgRXlw271G",
+          "apply_email": "leo.green@wirescreen.ai",
+          "description": "WireScreen is a Sequoia-backed Series A startup building an open source intelligence platform for global supply chains and risk. They are seeking a Senior Software Engineer to build their data platform, ingest unstructured data, and scale their knowledge-graph."
+        }
+      ]
+    },
+    {
+      "id": 46108992,
+      "status": "reviewed",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [],
+      "text": "ElectricSQL | https://electric-sql.com | Founders Associate | FT | US based, SF Bay Area preferred (working with remote team) | $140-160k + equity\n\nElectric is a devtools startup. We solve reactive, real-time sync across client and server [1]. We have a large developer community, millions of downloads a week, high profile customers and top-tier investors. Our software is built into platforms like Firebase, Prisma and TanStack. Our cloud product is growing 7% week on week.\n\nThis is a generalist, operational role. Working directly with the founders and founding team [2] to handle company operations as we grow into and through the Series stages.\n\nIt would be ideal if you're based in the San Francisco Bay Area. If not, you need to be able to travel there every month or so. You also need to travel to Europe for team on-sites a few times a year.\n\nMore information and application details here:\nhttps://electric-sql.com/about/jobs/founders-associate\n\n[1] https://electric-sql.com/blog/2025/07/29/local-first-sync-with-tanstack-db\n[2] https://electric-sql.com/about/team",
+      "roles": [
+        {
+          "company_name": "ElectricSQL",
+          "role_title": "Founders Associate",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [
+            "US"
+          ],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "San Francisco Bay Area",
+              "region": "CA",
+              "country_code": "US"
+            }
+          ],
+          "seniority": null,
+          "tech_stack": [
+            "firebase",
+            "prisma",
+            "tanstack"
+          ],
+          "salary": {
+            "min": 140000,
+            "max": 160000,
+            "currency": "USD",
+            "period": "year"
+          },
+          "visa_sponsorship": null,
+          "apply_url": "https://electric-sql.com/about/jobs/founders-associate",
+          "apply_email": null,
+          "description": "ElectricSQL is a devtools startup solving reactive, real-time sync across client and server. They are looking for a Founders Associate to handle generalist, operational duties working directly with the founders and founding team."
+        }
+      ]
+    },
+    {
+      "id": 46108994,
+      "status": "reviewed",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [],
+      "text": "Jam.dev | Staff Fullstack Engineer & AI Product Engineer | Typescript/React | Remote (+ in person in SF, Austin, NYC) | Full-time\n\nDev tools company with 200,000+ users in 2 years. $10M in funding from Vercel CEO, GitHub CTO, Cloudflare CEO, etc.\n\nWe’re building a flight recorder for web apps – so anyone can report issues to engineers in a way that's actually debuggable (w/ console, network, websockets debugger, etc).\n\nSmall, senior team – several ex-engineering directors turned ICs (mostly ex-early Cloudflare). Looking for staff-level engineers with experience building highly performant front-end apps.\n\nStack: React/Typescript and MobX (MST) on the frontend, and Node/GraphQL across our backend.\n\nThe challenge ahead: Scaling. Usage 10x’ed last year, and our users are in 176 countries, on all sorts of devices, network conditions, etc. Our bar for quality is high.\n\nAs a dev tool, developers at Jam are directly connected and involved with the product. Your usage of the product will directly inform the direction of Jam’s future.\n\nApply here (we read and respond to every submission): https://jam.dev/careers",
+      "roles": [
+        {
+          "company_name": "Jam.dev",
+          "role_title": "Staff Fullstack Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "San Francisco",
+              "region": "CA",
+              "country_code": "US"
+            },
+            {
+              "city": "Austin",
+              "region": "TX",
+              "country_code": "US"
+            },
+            {
+              "city": "New York",
+              "region": "NY",
+              "country_code": "US"
+            }
+          ],
+          "seniority": "staff",
+          "tech_stack": [
+            "typescript",
+            "react",
+            "mobx",
+            "node",
+            "graphql"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://jam.dev/careers",
+          "apply_email": null,
+          "description": "Jam.dev is looking for a Staff Fullstack Engineer to join their small, senior team building a flight recorder for web apps."
+        },
+        {
+          "company_name": "Jam.dev",
+          "role_title": "AI Product Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "San Francisco",
+              "region": "CA",
+              "country_code": "US"
+            },
+            {
+              "city": "Austin",
+              "region": "TX",
+              "country_code": "US"
+            },
+            {
+              "city": "New York",
+              "region": "NY",
+              "country_code": "US"
+            }
+          ],
+          "seniority": null,
+          "tech_stack": [
+            "typescript",
+            "react",
+            "mobx",
+            "node",
+            "graphql"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://jam.dev/careers",
+          "apply_email": null,
+          "description": "Jam.dev is looking for an AI Product Engineer to join their small, senior team building a flight recorder for web apps."
+        }
+      ]
+    },
+    {
+      "id": 46108996,
+      "status": "reviewed",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [],
+      "text": "Twikey | Gent, Belgium (Hybrid) | Full-time | Senior Back-end Engineer\n\nTwikey builds software for automating recurring payments: digital contract and mandate signing, SEPA direct debit processing, invoicing logic, and integrations with European banks and accounting systems. We’re growing and looking for a Senior Back-end Engineer to help improve and extend the core of our platform.\n\nYou’ll work with the CTO and a small engineering team on real production challenges: performance, correctness, data modelling, integration workflows, and system reliability. The role is hands-on and technical: clean code, maintainability, and measurable improvements matter.\n\nStack: Java + Spring, Go, PostgreSQL, REST APIs, Linux. (Front-end uses Angular/Svelte.)\n\nWhat you’d work on\n  •  Improving backend performance (queries, caching, algorithms, data flows)\n  •  Designing and implementing new backend features\n  •  Keeping the codebase clean, testable, and maintainable\n  •  Working on integrations with banks and third-party systems\n  •  Reviewing code, proposing improvements, reducing complexity\n  •  Contributing to release processes in an Agile environment\n\nRequirements\n  •  5+ years professional experience with Java + Spring\n  •  Strong experience with PostgreSQL\n  •  Comfortable improving performance and understanding system behavior underload\n  •  Writes clean, structured, testable code\n  •  Communicates clearly and works well in a small team\n  •  Fluent in at least two of: Dutch / English / French\n  •  Nice to have: API integrations, webservices, Linux, fintech/banking domain knowledge\n\nIf you’re motivated by clean code, stable systems, and performance improvements, we’d like to hear from you.\n Apply: https://www.twikey.com/jobs/?utm_source=hn",
+      "roles": [
+        {
+          "company_name": "Twikey",
+          "role_title": "Senior Back-end Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "hybrid",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "Gent",
+              "region": null,
+              "country_code": "BE"
+            }
+          ],
+          "seniority": "senior",
+          "tech_stack": [
+            "java",
+            "spring",
+            "go",
+            "postgres",
+            "linux",
+            "angular",
+            "svelte"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://www.twikey.com/jobs/?utm_source=hn",
+          "apply_email": null,
+          "description": "Twikey builds software for automating recurring payments and is looking for a Senior Back-end Engineer to improve and extend the core platform using Java, Go, and PostgreSQL."
+        }
+      ]
+    },
+    {
+      "id": 46109010,
+      "status": "reviewed",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [],
+      "text": "Aqora | Quantum Computing Expert | Full-time | Paris (HQ) or Remote (Europe) We're building the go-to hub for quantum computing, focused on organizing quantum hackathons and competitions globally as well as hosting quantum datasets and algorithms.\nWe've partnered with major industry players, generating six-figure revenues, and have more exciting projects lined up. Our MVP is live, and we're looking for a Quantum Computing Expert to help us scale.\n\nIn this role, you’ll: - Refine quantum use cases and define metrics to evaluate submissions.\n\n- Build partnerships and onboard quantum professionals.\n\n- Contribute to product-market fit and platform growth.\n\n- Assist with hackathons and write technical articles on challenges.\n\nRequirements:\n\n- Experience in quantum algorithm development (digital & analog).\n\n- Experience mentoring at hackathons.\n\n- Proactive and detail-oriented.\n\nBonus: PhD in quantum physics. Perks: Competitive salary, equity options, workspace at Station F (Paris).\n\nApply by sending your resume, intro, and portfolio to https://quantum.jobs/jobs/85500519-quantum-computing-expert.\n\nHelp shape the future of quantum computing at Aqora!",
+      "roles": [
+        {
+          "company_name": "Aqora",
+          "role_title": "Quantum Computing Expert",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [
+            "EUROPE"
+          ],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "Paris",
+              "region": null,
+              "country_code": "FR"
+            }
+          ],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://quantum.jobs/jobs/85500519-quantum-computing-expert",
+          "apply_email": null,
+          "description": "Aqora is building the go-to hub for quantum computing by organizing hackathons, hosting datasets, and building partnerships. They are looking for a Quantum Computing Expert to help refine use cases, build partnerships, and scale platform growth."
+        }
+      ]
+    },
+    {
+      "id": 46109012,
+      "status": "reviewed",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [
+        "CORRECTED: apply_url = \"beaconai.co/careers\" (post ends \"Join us at beaconai.co/careers\"; careers link preferred over homepage). An earlier note wrongly called this invented."
+      ],
+      "text": "Beacon AI | San Carlos, CA | Hybrid (On-Site) | Full-Time | www.beaconai.co\nBeacon AI builds intelligent systems that make aviation safer and more autonomous. We’ve completed multiple DoD programs and are expanding our team with exceptional technical leaders to push the boundaries of human-machine collaboration in the cockpit.\n\nAt Beacon, you will lead by example, mentoring and growing a small team of talented engineers (typically 1–2 to start) while staying hands-on in design and execution. You’ll help shape critical systems that advance aviation safety and autonomy, working alongside a team that values effort, creativity, and accountability.\n\nWe’re hiring Lead Engineers with 5-9 YOE who love solving complex problems. At Beacon, you’ll own your work end-to-end, from prototype to deployment, and literally see your code take flight in real world aviation environments! Roles:\n\n++ Lead iOS Engineer [Tech Stack: Swift, SwiftUI, UIKit, Mapbox]\n\n++ Lead Infra/Backend Engineer [Tech Stack: AWS]\n\n++ Lead WebApp/FrontEnd Engineer [Tech Stack: Python, Typescript, React]\n\n++ Lead Autonomy/Robotics Engineer [Tech Stack: C++, Python, iOT]\n\n++ Lead Security Software Engineer [Skills: Ability to perform hands-on security engineering tasks, CMMC Compliance Knowledge]\n\nJoin us at beaconai.co/careers. Mention in the application that you saw our post on HN.",
+      "roles": [
+        {
+          "company_name": "Beacon AI",
+          "role_title": "Lead iOS Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "hybrid",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "San Carlos",
+              "region": "CA",
+              "country_code": "US"
+            }
+          ],
+          "seniority": "lead",
+          "tech_stack": [
+            "swift",
+            "swiftui",
+            "uikit",
+            "mapbox"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "beaconai.co/careers",
+          "apply_email": null,
+          "description": "Beacon AI builds intelligent systems that make aviation safer and more autonomous. As a Lead iOS Engineer, you will lead by example, mentoring a small team of engineers while staying hands-on in design and execution using Swift, SwiftUI, UIKit, and Mapbox."
+        },
+        {
+          "company_name": "Beacon AI",
+          "role_title": "Lead Infra/Backend Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "hybrid",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "San Carlos",
+              "region": "CA",
+              "country_code": "US"
+            }
+          ],
+          "seniority": "lead",
+          "tech_stack": [
+            "aws"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "beaconai.co/careers",
+          "apply_email": null,
+          "description": "Beacon AI builds intelligent systems that make aviation safer and more autonomous. As a Lead Infra/Backend Engineer, you will lead by example, mentoring a small team of engineers while staying hands-on in design and execution using AWS."
+        },
+        {
+          "company_name": "Beacon AI",
+          "role_title": "Lead WebApp/FrontEnd Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "hybrid",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "San Carlos",
+              "region": "CA",
+              "country_code": "US"
+            }
+          ],
+          "seniority": "lead",
+          "tech_stack": [
+            "python",
+            "typescript",
+            "react"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "beaconai.co/careers",
+          "apply_email": null,
+          "description": "Beacon AI builds intelligent systems that make aviation safer and more autonomous. As a Lead WebApp/FrontEnd Engineer, you will lead by example, mentoring a small team of engineers while staying hands-on in design and execution using Python, TypeScript, and React."
+        },
+        {
+          "company_name": "Beacon AI",
+          "role_title": "Lead Autonomy/Robotics Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "hybrid",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "San Carlos",
+              "region": "CA",
+              "country_code": "US"
+            }
+          ],
+          "seniority": "lead",
+          "tech_stack": [
+            "c++",
+            "python"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "beaconai.co/careers",
+          "apply_email": null,
+          "description": "Beacon AI builds intelligent systems that make aviation safer and more autonomous. As a Lead Autonomy/Robotics Engineer, you will lead by example, mentoring a small team of engineers while staying hands-on in design and execution using C++, Python, and IoT."
+        },
+        {
+          "company_name": "Beacon AI",
+          "role_title": "Lead Security Software Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "hybrid",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "San Carlos",
+              "region": "CA",
+              "country_code": "US"
+            }
+          ],
+          "seniority": "lead",
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "beaconai.co/careers",
+          "apply_email": null,
+          "description": "Beacon AI builds intelligent systems that make aviation safer and more autonomous. As a Lead Security Software Engineer, you will perform hands-on security engineering tasks and apply CMMC compliance knowledge."
+        }
+      ]
+    },
+    {
+      "id": 46109020,
+      "status": "reviewed",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [
+        "CORRECTED: removed \"saas\" from tech_stack (business model, not a technology)."
+      ],
+      "text": "PostMatch.io | Growth Hacker/Marketing/Sales | Remote (USA/Canada) | Contract to Fulltime | Commission + Equity\n\nI’ve built a SaaS product with PMF already solved and a clear roadmap. Competitor traction shows there’s plenty of room in the space, and I’m looking for marketers and growth hackers to help secure customers and drive growth.\n\nYou’d be a great fit if you:\n\n- Know how to acquire early customers in B2B SaaS\n- Thrive on creative, low-cost growth tactics (organic + paid)\n- Enjoy working lean and iterating quickly\n\nWe’ll need to operate lean in the beginning, but once revenue starts flowing, there will be budget for paid channels and ads to help scale further.\n\nCommission is VERY generous for the short term engagement.\n\nI’m open to trialing potential partners on a commission basis, and if we’re a good fit and see results, I’m ready to discuss a strategic equity partnership or salary.\n\nLet’s connect if you’re excited to help take a business from early traction to serious growth.\n\nContact: launch@postmatch.io",
+      "roles": [
+        {
+          "company_name": "PostMatch.io",
+          "role_title": "Growth Hacker/Marketing/Sales",
+          "employment_type": "contract",
+          "remote_policy": "remote",
+          "remote_regions": [
+            "US",
+            "CA"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": "launch@postmatch.io",
+          "description": "PostMatch.io is looking for a Growth Hacker/Marketing/Sales professional to help secure early B2B SaaS customers and drive growth. The position starts as a commission-based contract with potential for strategic equity or salary."
+        }
+      ]
+    },
+    {
+      "id": 46109031,
+      "status": "reviewed",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [],
+      "text": "Koyeb | Multiple Roles | Europe - Remote | Full-time | https://www.koyeb.com/\n\nAt Koyeb, we make developers’ lives easier with the fastest way to deploy applications globally. The Koyeb Serverless Platform is completely managed: we take code, build it into containers, and run it inside of MicroVMs distributed across multiple continents.\nWe are a team of 13 product-minded people who have built a community of over 100,000 developers worldwide.\n\nOpen Roles\nSoftware Engineer - Infrastructure & Site Reliability Engineering (Golang) Software Engineer - Team, Billing & Orchestration (Golang)\nFrontend Engineer(Typescript, React)\n\nApply here - https://www.koyeb.com/careers",
+      "roles": [
+        {
+          "company_name": "Koyeb",
+          "role_title": "Software Engineer - Infrastructure & Site Reliability Engineering",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [
+            "EUROPE"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [
+            "go"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://www.koyeb.com/careers",
+          "apply_email": null,
+          "description": "Koyeb is a serverless platform making developers' lives easier by providing a fast way to deploy applications globally using containers and MicroVMs."
+        },
+        {
+          "company_name": "Koyeb",
+          "role_title": "Software Engineer - Team, Billing & Orchestration",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [
+            "EUROPE"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [
+            "go"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://www.koyeb.com/careers",
+          "apply_email": null,
+          "description": "Koyeb is a serverless platform making developers' lives easier by providing a fast way to deploy applications globally using containers and MicroVMs."
+        },
+        {
+          "company_name": "Koyeb",
+          "role_title": "Frontend Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [
+            "EUROPE"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [
+            "typescript",
+            "react"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://www.koyeb.com/careers",
+          "apply_email": null,
+          "description": "Koyeb is a serverless platform making developers' lives easier by providing a fast way to deploy applications globally using containers and MicroVMs."
+        }
+      ]
+    },
+    {
+      "id": 46109032,
+      "status": "reviewed",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [
+        "FIXED (v4): \"REMOTE (US Pacific hours)\" -> remote_regions=[], timezones=['US Pacific hours'] (LABELING.md: timezones are not regions; \"Global\" -> GLOBAL)."
+      ],
+      "text": "Virtasant | SRE/Platform Engineer | REMOTE (US Pacific hours) | Full-time\n\nWe're seeking an experienced SRE / Platform Engineer to design, build, and maintain scalable infrastructure for mission-critical systems in a fast-paced environment:\n\nRequirements:\n\n- 8+ years industry experience (3+ years in platform/SRE roles)\n\n- Strong Linux/Unix, networking, and system internals knowledge\n\n- Programming skills (Python, Go, Java)\n\n- Cloud platforms (AWS, Azure, GCP) and Kubernetes\n\n- IaC tools (Terraform, Ansible, Pulumi)\n\n- CI/CD and monitoring tools experience\n\nApply at: https://virtasant.teamtailor.com/jobs/6703434-platform-engineer?promotion=1699526-trackable-share-link-037b7373-518c-45e4-b3e5-cd08bb922935",
+      "roles": [
+        {
+          "company_name": "Virtasant",
+          "role_title": "SRE/Platform Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [],
+          "timezones": [
+            "US Pacific hours"
+          ],
+          "locations": [],
+          "seniority": "senior",
+          "tech_stack": [
+            "linux",
+            "unix",
+            "python",
+            "go",
+            "java",
+            "aws",
+            "azure",
+            "gcp",
+            "kubernetes",
+            "terraform",
+            "ansible",
+            "pulumi"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://virtasant.teamtailor.com/jobs/6703434-platform-engineer?promotion=1699526-trackable-share-link-037b7373-518c-45e4-b3e5-cd08bb922935",
+          "apply_email": null,
+          "description": "Virtasant is seeking an experienced SRE / Platform Engineer to design, build, and maintain scalable infrastructure for mission-critical systems."
+        }
+      ]
+    },
+    {
+      "id": 46109033,
+      "status": "reviewed",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [
+        "CORRECTED (by reviewer): \"Senior Staff SWE\" seniority -> staff (Senior Staff is above Staff; no finer enum value)."
+      ],
+      "text": "Temporal Technologies | Multiple positions in United States - WORK FROM HOME | FULL-TIME |\n\nTemporal offers an entirely new way to build scalable and reliable applications. Temporal enables developers to focus on writing important business logic, and not on managing state or worrying about the underlying infrastructure. Backed by top VC firms, we have built a team of professionals from various successful start-ups and well-known technology companies.\n\nTemporal Raises Secondary Funding: https://temporal.io/blog/temporal-raises-secondary-funding\n\nTemporal in 7 minutes: https://temporal.io/tldr\n\nWe're looking for senior level engineers for multiple roles - see here - https://www.temporal.io/careers\n\nFEATURED ROLES:\n\nStaff Software Engineer, Traffic → https://grnh.se/1cbb896d7us\n\nStaff Software Engineer, Cloud Infrastructure → https://grnh.se/8b0ba8347us\n\nStaff Software Engineer - Cloud Capacity → https://grnh.se/a0hc6o6h7us\n\nSenior Product Manager, SDK & Developer Primitives → https://grnh.se/2e82af137us\n\nStaff Cloud Security Engineer → https://grnh.se/nn0axiu57us\n\nSenior Staff SWE, Cloud Proxy → https://grnh.se/5lz30bcx7us\n\nUS benefits include: Unlimited PTO, 12 Holidays + 2 Floating Holidays, 100% Premiums Coverage for Medical, Dental, and Vision, AD&D, LT & ST Disability and Life Insurance , Empower 401K Plan, Additional Perks for Learning & Development, Lifestyle Spending, In-Home Office Setup, Professional Memberships, WFH Meals, Internet Stipend and more! Benefits outside the United States vary by country.",
+      "roles": [
+        {
+          "company_name": "Temporal Technologies",
+          "role_title": "Staff Software Engineer, Traffic",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [
+            "US"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": "staff",
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://grnh.se/1cbb896d7us",
+          "apply_email": null,
+          "description": "Temporal Technologies is looking for a Staff Software Engineer, Traffic to join their team in the United States. Temporal provides a new way to build scalable and reliable applications by allowing developers to focus on business logic rather than state management."
+        },
+        {
+          "company_name": "Temporal Technologies",
+          "role_title": "Staff Software Engineer, Cloud Infrastructure",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [
+            "US"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": "staff",
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://grnh.se/8b0ba8347us",
+          "apply_email": null,
+          "description": "Temporal Technologies is seeking a Staff Software Engineer, Cloud Infrastructure to join their remote team in the United States. The company builds tools that enable developers to focus on writing business logic without worrying about infrastructure."
+        },
+        {
+          "company_name": "Temporal Technologies",
+          "role_title": "Staff Software Engineer - Cloud Capacity",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [
+            "US"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": "staff",
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://grnh.se/a0hc6o6h7us",
+          "apply_email": null,
+          "description": "Temporal Technologies is hiring a Staff Software Engineer - Cloud Capacity for a remote position in the US. Temporal offers an innovative platform for building scalable and reliable applications."
+        },
+        {
+          "company_name": "Temporal Technologies",
+          "role_title": "Senior Product Manager, SDK & Developer Primitives",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [
+            "US"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": "senior",
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://grnh.se/2e82af137us",
+          "apply_email": null,
+          "description": "Temporal Technologies is looking for a Senior Product Manager, SDK & Developer Primitives to work remotely in the United States. Temporal helps developers build reliable applications by removing infrastructure and state management burdens."
+        },
+        {
+          "company_name": "Temporal Technologies",
+          "role_title": "Staff Cloud Security Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [
+            "US"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": "staff",
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://grnh.se/nn0axiu57us",
+          "apply_email": null,
+          "description": "Temporal Technologies is hiring a Staff Cloud Security Engineer for a US-based remote role. The company enables developers to focus on important business logic through their scalable application development platform."
+        },
+        {
+          "company_name": "Temporal Technologies",
+          "role_title": "Senior Staff SWE, Cloud Proxy",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [
+            "US"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": "staff",
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://grnh.se/5lz30bcx7us",
+          "apply_email": null,
+          "description": "Temporal Technologies is looking for a Senior Staff SWE, Cloud Proxy to join their team remotely in the United States. Temporal provides developers with a completely new way to build scalable and reliable applications."
+        }
+      ]
+    },
+    {
+      "id": 46109039,
+      "status": "reviewed",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [
+        "employment_type: not stated anywhere in the post -> null. prompt-v2 defaulted to full-time."
+      ],
+      "text": "Shepherd | ONSITE | San Francisco, CA\n\nShepherd is an all-in-one commercial insurance platform. We provide savings on insurance premiums for commercial businesses that are leveraging modern technology on their worksites. While we began with commercial construction, we're expanding into adjacent sectors, like renewables.\n\nWe’ve raised over $20M and we’re looking for product-minded engineers to join us as we continue to scale! We’re looking for someone who thrives on ownership, drives results, and cares deeply about both technical excellence and customer impact.\n\nWe’re hiring for:\n\n* Senior Software Engineer, Full Stack\n\n* Senior Software Engineer, Backend\n\n* Senior Software Engineer, AI Products & Agents\n\nOur stack includes:\n\n* Typescript, React, Next.js, GraphQL w/ Apollo, Node.js, Postgres & Redis\n\nApply here: https://shepherdinsurance.com/careers\nIn the form, be sure to mention that you heard about this opportunity via Hacker News.\n\nIf you want to read more about our team and culture, check out our blog: https://shepherdinsurance.com/blog",
+      "roles": [
+        {
+          "company_name": "Shepherd",
+          "role_title": "Senior Software Engineer, Full Stack",
+          "employment_type": null,
+          "remote_policy": "onsite",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "San Francisco",
+              "region": "CA",
+              "country_code": "US"
+            }
+          ],
+          "seniority": "senior",
+          "tech_stack": [
+            "typescript",
+            "react",
+            "nextjs",
+            "graphql",
+            "apollo",
+            "node",
+            "postgres",
+            "redis"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://shepherdinsurance.com/careers",
+          "apply_email": null,
+          "description": "Shepherd is an all-in-one commercial insurance platform providing savings for businesses leveraging modern technology. We are looking for a product-minded Senior Software Engineer, Full Stack to join our team in San Francisco."
+        },
+        {
+          "company_name": "Shepherd",
+          "role_title": "Senior Software Engineer, Backend",
+          "employment_type": null,
+          "remote_policy": "onsite",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "San Francisco",
+              "region": "CA",
+              "country_code": "US"
+            }
+          ],
+          "seniority": "senior",
+          "tech_stack": [
+            "typescript",
+            "react",
+            "nextjs",
+            "graphql",
+            "apollo",
+            "node",
+            "postgres",
+            "redis"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://shepherdinsurance.com/careers",
+          "apply_email": null,
+          "description": "Shepherd is an all-in-one commercial insurance platform providing savings for businesses leveraging modern technology. We are looking for a product-minded Senior Software Engineer, Backend to join our team in San Francisco."
+        },
+        {
+          "company_name": "Shepherd",
+          "role_title": "Senior Software Engineer, AI Products & Agents",
+          "employment_type": null,
+          "remote_policy": "onsite",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "San Francisco",
+              "region": "CA",
+              "country_code": "US"
+            }
+          ],
+          "seniority": "senior",
+          "tech_stack": [
+            "typescript",
+            "react",
+            "nextjs",
+            "graphql",
+            "apollo",
+            "node",
+            "postgres",
+            "redis"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://shepherdinsurance.com/careers",
+          "apply_email": null,
+          "description": "Shepherd is an all-in-one commercial insurance platform providing savings for businesses leveraging modern technology. We are looking for a product-minded Senior Software Engineer, AI Products & Agents to join our team in San Francisco."
+        }
+      ]
+    },
+    {
+      "id": 46109054,
+      "status": "draft",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [
+        "CORRECTED: \"react\" on all roles. \"writing React components\" is company-level text; company-level tech applies to every role (same convention as 46109059).",
+        "REOPENED (v4 migration): Both roles are labelled seniority=senior but \"senior\" appears nowhere in the post. Check for an explicit level, else null."
+      ],
+      "text": "MONUMENTAL | https://www.monumental.co/ | Amsterdam, The Netherlands | Full Time | Onsite\n\nWe make robots that autonomously construct buildings. We are currently developing and manufacturing our autonomous bricklaying system in the beautiful centre of Amsterdam. And our robots are already earning real revenue operating on construction sites all over the Netherlands.\n\nWe're looking for experienced software engineers for PLATFORM and FULL STACK who can help us solve problems like:\n\n- Data sync and analytics queries across a fleet of robots (that can be offline for hours at a time)\n\n- Rapid deployment and iteration of experimental software changes across firmware, control software and UI\n\n- Modelling buildings in code and finding the right UI for operators to edit them\n\nCheck out the progress we've already made on Atrium, our operating system for robotics: https://www.monumental.co/atrium\n\nWe're rapidly scaling up operations and we need experienced engineers who can build the systems that manage all of that complexity. If you think that 'full-stack' could reasonably mean debugging firmware, mixing buckets of mortar _and_ writing React components, we are looking for you. Robotics experience not required!\n\nhttps://www.monumental.co/jobs",
+      "roles": [
+        {
+          "company_name": "Monumental",
+          "role_title": "Platform Software Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "onsite",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "Amsterdam",
+              "region": null,
+              "country_code": "NL"
+            }
+          ],
+          "seniority": "senior",
+          "tech_stack": [
+            "react"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://www.monumental.co/jobs",
+          "apply_email": null,
+          "description": "Monumental makes robots that autonomously construct buildings and is looking for an experienced software engineer for platform development in Amsterdam."
+        },
+        {
+          "company_name": "Monumental",
+          "role_title": "Full Stack Software Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "onsite",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "Amsterdam",
+              "region": null,
+              "country_code": "NL"
+            }
+          ],
+          "seniority": "senior",
+          "tech_stack": [
+            "react"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://www.monumental.co/jobs",
+          "apply_email": null,
+          "description": "Monumental makes robots that autonomously construct buildings and is looking for an experienced full stack software engineer to build systems that manage complex operations."
+        }
+      ]
+    },
+    {
+      "id": 46109059,
+      "status": "reviewed",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [],
+      "text": "Abnormal.AI (Series D, $5.1 Billion valuation Unicorn) | REMOTE in US, Canada and Singapore) with optional offices in SF & NYC. HYBRID in Bangalore, India | Full-time |\n\nhttps://careers.abnormal.ai\n\nI'm looking for exceptional engineering managers, full-stack, backend and ML engineers to join my teams at Abnormal AI to fight cybercrime. We have multiple open positions for each of these roles, working in Python, Golang, Typescript and React among other leading edge technologies. If you're looking for personal as well as company growth, you won't find a better company than Abnormal AI.\n\nI'm the Director of Engineering for the Messaging Security Products Division. We build the user-facing products for inbound email security and have many interesting challenges working at massive scale. Please see the following links for more details on the open positions and our general careers page link for all open positions across the company. We are hiring for engineering in other divisions as well!\n\nEngineering Manager\nRemote - Singapore: https://abnormal.ai/careers/jobs/7497288003?gh_jid=7497288003\n\nEngineering Manager\nHybrid - Bangalore: https://abnormal.ai/careers/jobs/7496072003?gh_jid=7496072003\n\nSoftware Engineer II - Fullstack (4 open positions)\nRemote - USA/Canada: https://abnormal.ai/careers/jobs/6671235003?gh_jid=6671235003\n\nSoftware Engineer II - Fullstack\nHybrid - Bangalore:  https://abnormal.ai/careers/jobs/6577843003?gh_jid=6577843003\n\nSoftware Engineer II - Backend\nHybrid - Bangalore: https://abnormal.ai/careers/jobs/6592675003?gh_jid=6592675003\n\nSoftware Engineer 1 - Fullstack\nRemote Singapore: https://abnormal.ai/careers/jobs/7500482003?gh_jid=7500482003\n\nMachine Learning Engineer II\nRemote - Singapore: https://abnormal.ai/careers/jobs/7509271003?gh_jid=7509271003",
+      "roles": [
+        {
+          "company_name": "Abnormal.AI",
+          "role_title": "Engineering Manager",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [
+            "SG"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": "manager",
+          "tech_stack": [
+            "python",
+            "go",
+            "typescript",
+            "react"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://abnormal.ai/careers/jobs/7497288003?gh_jid=7497288003",
+          "apply_email": null,
+          "description": "Engineering Manager to lead teams fighting cybercrime at Abnormal AI in Singapore."
+        },
+        {
+          "company_name": "Abnormal.AI",
+          "role_title": "Engineering Manager",
+          "employment_type": "full-time",
+          "remote_policy": "hybrid",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "Bangalore",
+              "region": null,
+              "country_code": "IN"
+            }
+          ],
+          "seniority": "manager",
+          "tech_stack": [
+            "python",
+            "go",
+            "typescript",
+            "react"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://abnormal.ai/careers/jobs/7496072003?gh_jid=7496072003",
+          "apply_email": null,
+          "description": "Engineering Manager to lead teams fighting cybercrime at Abnormal AI in Bangalore."
+        },
+        {
+          "company_name": "Abnormal.AI",
+          "role_title": "Software Engineer II - Fullstack",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [
+            "US",
+            "CA"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": "mid",
+          "tech_stack": [
+            "python",
+            "go",
+            "typescript",
+            "react"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://abnormal.ai/careers/jobs/6671235003?gh_jid=6671235003",
+          "apply_email": null,
+          "description": "Software Engineer II - Fullstack to build user-facing products for inbound email security."
+        },
+        {
+          "company_name": "Abnormal.AI",
+          "role_title": "Software Engineer II - Fullstack",
+          "employment_type": "full-time",
+          "remote_policy": "hybrid",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "Bangalore",
+              "region": null,
+              "country_code": "IN"
+            }
+          ],
+          "seniority": "mid",
+          "tech_stack": [
+            "python",
+            "go",
+            "typescript",
+            "react"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://abnormal.ai/careers/jobs/6577843003?gh_jid=6577843003",
+          "apply_email": null,
+          "description": "Software Engineer II - Fullstack in Bangalore to build user-facing products for inbound email security."
+        },
+        {
+          "company_name": "Abnormal.AI",
+          "role_title": "Software Engineer II - Backend",
+          "employment_type": "full-time",
+          "remote_policy": "hybrid",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "Bangalore",
+              "region": null,
+              "country_code": "IN"
+            }
+          ],
+          "seniority": "mid",
+          "tech_stack": [
+            "python",
+            "go",
+            "typescript",
+            "react"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://abnormal.ai/careers/jobs/6592675003?gh_jid=6592675003",
+          "apply_email": null,
+          "description": "Software Engineer II - Backend in Bangalore to work on messaging security products."
+        },
+        {
+          "company_name": "Abnormal.AI",
+          "role_title": "Software Engineer 1 - Fullstack",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [
+            "SG"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": "junior",
+          "tech_stack": [
+            "python",
+            "go",
+            "typescript",
+            "react"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://abnormal.ai/careers/jobs/7500482003?gh_jid=7500482003",
+          "apply_email": null,
+          "description": "Software Engineer 1 - Fullstack to join the remote Singapore team."
+        },
+        {
+          "company_name": "Abnormal.AI",
+          "role_title": "Machine Learning Engineer II",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [
+            "SG"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": "mid",
+          "tech_stack": [
+            "python",
+            "go",
+            "typescript",
+            "react"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://abnormal.ai/careers/jobs/7509271003?gh_jid=7509271003",
+          "apply_email": null,
+          "description": "Machine Learning Engineer II to work on security products in Singapore."
+        }
+      ]
+    },
+    {
+      "id": 46109094,
+      "status": "reviewed",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [],
+      "text": "Tracebit | https://tracebit.com | London/New York| Full-Time\n\nTracebit is an Accel backed, UK founded security product company taking a new look at canaries for intrusion detection.\n\nWe work with some amazing companies (Docker, Riot Games, Synthesia, Zepz...) to help detect threats in cloud and enterprise.\n\nWe're hiring:\n\n* Founding Engineer | London | £60-120k + generous equity | Relocation & Visa sponsorship available\n\n* Founding Security Researcher | Remote | £100-140k + generous equity\n\n* Founding Account Executive | New York | $180-200k OTE + generous equity\n\n* Founding Sales Engineer | New York / Remote | $180-220k OTE + generous equity\n\nLearn more and apply: https://tracebit.com/careers#section_open-positions",
+      "roles": [
+        {
+          "company_name": "Tracebit",
+          "role_title": "Founding Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "onsite",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "London",
+              "region": null,
+              "country_code": "GB"
+            }
+          ],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": {
+            "min": 60000,
+            "max": 120000,
+            "currency": "GBP",
+            "period": "year"
+          },
+          "visa_sponsorship": true,
+          "apply_url": "https://tracebit.com/careers#section_open-positions",
+          "apply_email": null,
+          "description": "Tracebit is an Accel backed, UK founded security product company taking a new look at canaries for intrusion detection. Seeking a Founding Engineer for the London office."
+        },
+        {
+          "company_name": "Tracebit",
+          "role_title": "Founding Security Researcher",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": {
+            "min": 100000,
+            "max": 140000,
+            "currency": "GBP",
+            "period": "year"
+          },
+          "visa_sponsorship": null,
+          "apply_url": "https://tracebit.com/careers#section_open-positions",
+          "apply_email": null,
+          "description": "Tracebit is an Accel backed, UK founded security product company taking a new look at canaries for intrusion detection. Seeking a Founding Security Researcher on a remote basis."
+        },
+        {
+          "company_name": "Tracebit",
+          "role_title": "Founding Account Executive",
+          "employment_type": "full-time",
+          "remote_policy": "onsite",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "New York",
+              "region": "NY",
+              "country_code": "US"
+            }
+          ],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": {
+            "min": 180000,
+            "max": 200000,
+            "currency": "USD",
+            "period": "year"
+          },
+          "visa_sponsorship": null,
+          "apply_url": "https://tracebit.com/careers#section_open-positions",
+          "apply_email": null,
+          "description": "Tracebit is an Accel backed, UK founded security product company taking a new look at canaries for intrusion detection. Seeking a Founding Account Executive for New York."
+        },
+        {
+          "company_name": "Tracebit",
+          "role_title": "Founding Sales Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "New York",
+              "region": "NY",
+              "country_code": "US"
+            }
+          ],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": {
+            "min": 180000,
+            "max": 220000,
+            "currency": "USD",
+            "period": "year"
+          },
+          "visa_sponsorship": null,
+          "apply_url": "https://tracebit.com/careers#section_open-positions",
+          "apply_email": null,
+          "description": "Tracebit is an Accel backed, UK founded security product company taking a new look at canaries for intrusion detection. Seeking a Founding Sales Engineer for New York / Remote."
+        }
+      ]
+    },
+    {
+      "id": 46109116,
+      "status": "reviewed",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [
+        "FIXED (v4): \"Remote (EU time zone)\" -> remote_regions=[], timezones=['EU time zone'] (LABELING.md: timezones are not regions; \"Global\" -> GLOBAL)."
+      ],
+      "text": "PlantingSpace | Full-time | Remote (EU time zone) + Quarterly Meet-ups | https://planting.space\n\nWe’re building an AI system for analysts and scientists, based on a fundamentally new approach to reasoning and knowledge representation. Our approach differs from LLMs in that we compose algorithms symbolically to represent complex knowledge, and perform probabilistic computations. This enables the AI-driven application of statistical models to different problems, while providing the user with a verifiable reasoning path, and an assessment of the uncertainty in each answer. We are developing applications for analysis and research in domains such as Finance, Strategy Consulting, Engineering, Material Sciences, and more.\n\nThis is an opportunity for senior engineers and product managers to join us, and contribute to shaping a deep-tech product from its earliest stage.\n\nWe’re hiring for the following openings:\n\n* Program Synthesis Engineer\n\n* Bayesian Software Engineer\n\n* Senior Product Manager\n\nFind details and apply at: https://planting.space/joinus/\n\nQuestions? Get in touch: talent@planting.space",
+      "roles": [
+        {
+          "company_name": "PlantingSpace",
+          "role_title": "Program Synthesis Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [],
+          "timezones": [
+            "EU time zone"
+          ],
+          "locations": [],
+          "seniority": "senior",
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://planting.space/joinus/",
+          "apply_email": "talent@planting.space",
+          "description": "Join PlantingSpace as a Program Synthesis Engineer to build an AI system for analysts and scientists based on a fundamentally new approach to reasoning and knowledge representation."
+        },
+        {
+          "company_name": "PlantingSpace",
+          "role_title": "Bayesian Software Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [],
+          "timezones": [
+            "EU time zone"
+          ],
+          "locations": [],
+          "seniority": "senior",
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://planting.space/joinus/",
+          "apply_email": "talent@planting.space",
+          "description": "Join PlantingSpace as a Bayesian Software Engineer to build an AI system for analysts and scientists based on a fundamentally new approach to reasoning and knowledge representation."
+        },
+        {
+          "company_name": "PlantingSpace",
+          "role_title": "Senior Product Manager",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [],
+          "timezones": [
+            "EU time zone"
+          ],
+          "locations": [],
+          "seniority": "senior",
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://planting.space/joinus/",
+          "apply_email": "talent@planting.space",
+          "description": "Join PlantingSpace as a Senior Product Manager to help shape a deep-tech product from its earliest stage, building an AI system for analysts and scientists."
+        }
+      ]
+    },
+    {
+      "id": 46109125,
+      "status": "draft",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [],
+      "text": "Neon Health | AI in healthcare | Hiring Eng, CSM & Growth | SF, Remote (North America)\n\n- Senior Backend Engineer | SF, Remote (North America) | Full-time | $170-225k + equity\n\n- Applied AI Systems Engineer | SF, Remote (North America) | Full-time | $120-180k + equity\n\n- Customer Success Manager | SF | Full-time | $120-170k + equity\n\n- Head of Growth | SF | Full-time | $150-$180k + equity\n\n- Growth Specialist | SF | Full-time | $105-$135k + equity\n\nhttp://neonhealth.com/\n\nWe’re mission-driven capitalists: making life-saving drugs more accessible, and building a $200B+ company on the scale of Palantir or ServiceNow.\n\nTraction: profitable and growing fast. Selling 7+ figure contracts to enterprise healthcare customers.\n\nTeam: built by exited founders, YC & MIT alum, ex-Tesla, ex-Google engineers.\n\nTop investors: funded by elite Silicon Valley VCs who've backed unicorns like DoorDash, Lyft, and Mammoth Biosciences. And strategic healthcare investors with deep industry connections.\n\nOutsized impact & opportunity: work at the intersection of agentic AI, healthcare transformation, and life-changing patient outcomes.\n\nIf you want to work on a team of A-player athletes, doing the best work of your career, and helping get life-saving drugs to the people who need them, apply here: https://neonhealth.com/careers#open-positions (and make sure to mention HN!)",
+      "roles": [
+        {
+          "company_name": "Neon Health",
+          "role_title": "Senior Backend Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [
+            "US",
+            "CA"
+          ],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "San Francisco",
+              "region": "CA",
+              "country_code": "US"
+            }
+          ],
+          "seniority": "senior",
+          "tech_stack": [],
+          "salary": {
+            "min": 170000,
+            "max": 225000,
+            "currency": "USD",
+            "period": "year"
+          },
+          "visa_sponsorship": null,
+          "apply_url": "https://neonhealth.com/careers#open-positions",
+          "apply_email": null,
+          "description": "Neon Health is an AI in healthcare company making life-saving drugs more accessible. They are hiring a Senior Backend Engineer to work at the intersection of agentic AI and healthcare transformation."
+        },
+        {
+          "company_name": "Neon Health",
+          "role_title": "Applied AI Systems Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [
+            "US",
+            "CA"
+          ],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "San Francisco",
+              "region": "CA",
+              "country_code": "US"
+            }
+          ],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": {
+            "min": 120000,
+            "max": 180000,
+            "currency": "USD",
+            "period": "year"
+          },
+          "visa_sponsorship": null,
+          "apply_url": "https://neonhealth.com/careers#open-positions",
+          "apply_email": null,
+          "description": "Neon Health is an AI in healthcare company making life-saving drugs more accessible. They are hiring an Applied AI Systems Engineer to work on agentic AI and healthcare transformation."
+        },
+        {
+          "company_name": "Neon Health",
+          "role_title": "Customer Success Manager",
+          "employment_type": "full-time",
+          "remote_policy": "onsite",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "San Francisco",
+              "region": "CA",
+              "country_code": "US"
+            }
+          ],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": {
+            "min": 120000,
+            "max": 170000,
+            "currency": "USD",
+            "period": "year"
+          },
+          "visa_sponsorship": null,
+          "apply_url": "https://neonhealth.com/careers#open-positions",
+          "apply_email": null,
+          "description": "Neon Health is an AI in healthcare company selling 7+ figure contracts to enterprise healthcare customers. They are hiring a Customer Success Manager in SF."
+        },
+        {
+          "company_name": "Neon Health",
+          "role_title": "Head of Growth",
+          "employment_type": "full-time",
+          "remote_policy": "onsite",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "San Francisco",
+              "region": "CA",
+              "country_code": "US"
+            }
+          ],
+          "seniority": "manager",
+          "tech_stack": [],
+          "salary": {
+            "min": 150000,
+            "max": 180000,
+            "currency": "USD",
+            "period": "year"
+          },
+          "visa_sponsorship": null,
+          "apply_url": "https://neonhealth.com/careers#open-positions",
+          "apply_email": null,
+          "description": "Neon Health is a profitable, fast-growing AI in healthcare company. They are hiring a Head of Growth based in SF."
+        },
+        {
+          "company_name": "Neon Health",
+          "role_title": "Growth Specialist",
+          "employment_type": "full-time",
+          "remote_policy": "onsite",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "San Francisco",
+              "region": "CA",
+              "country_code": "US"
+            }
+          ],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": {
+            "min": 105000,
+            "max": 135000,
+            "currency": "USD",
+            "period": "year"
+          },
+          "visa_sponsorship": null,
+          "apply_url": "https://neonhealth.com/careers#open-positions",
+          "apply_email": null,
+          "description": "Neon Health is a profitable, fast-growing AI in healthcare company. They are hiring a Growth Specialist based in SF."
+        }
+      ]
+    },
+    {
+      "id": 46109127,
+      "status": "reviewed",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [
+        "FIXED (v4): apply_email de-obfuscated."
+      ],
+      "text": "Profitmind | Web Scraping Junior Developer | Remote or Pittsburgh | $90-110k | Full-time | https://www.profitmind.com/\n\nAt Profitmind, we're building massive-scale ecommerce datasets to use in AI training/inference, and we need a junior engineer to help develop the scraping infrastructure for product data. You'll be reverse-engineering undocumented APIs, handling anti-bot systems, and dealing with edge cases like pagination limits, rate limiting, and sites that change their protection schemes without warning. It's fun work! The technical side involves analyzing a site's network requests, deobfuscating and reading obfuscated javascript, and implementing simple HTTP request scraping to full browser automation. You'll also work on the infrastructure layer: state management for resumable scrapes, deduplicating products, data integrity, and monitoring systems to detect when sites change.\n\nThe work you'll be doing is in the hot path of our company, so the systems you will build need to be performant and maintainable. You should have solid Python skills and experience scraping ecommerce websites and APIs. You should also like the slightly-obsessive investigative nature of the work.\n\nIf you worked in scraping or botting in the past, please hit me up!\n\nReach out directly - gray at netail.ai",
+      "roles": [
+        {
+          "company_name": "Profitmind",
+          "role_title": "Web Scraping Junior Developer",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "Pittsburgh",
+              "region": "PA",
+              "country_code": "US"
+            }
+          ],
+          "seniority": "junior",
+          "tech_stack": [
+            "python",
+            "javascript"
+          ],
+          "salary": {
+            "min": 90000,
+            "max": 110000,
+            "currency": "USD",
+            "period": "year"
+          },
+          "visa_sponsorship": null,
+          "apply_url": "https://www.profitmind.com/",
+          "apply_email": "gray@netail.ai",
+          "description": "Profitmind is building massive-scale ecommerce datasets for AI training and inference. They are looking for a junior developer to build web scraping infrastructure, reverse-engineer undocumented APIs, and handle anti-bot systems using Python."
+        }
+      ]
+    },
+    {
+      "id": 46109284,
+      "status": "reviewed",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [
+        "Not a job posting (meta/reply). Expected roles: []."
+      ],
+      "text": "I’m not sure if this is the right place to post this, but to everyone commenting here saying they’re hiring and asking people to send their CVs —\n\nplease have the basic decency to send a simple acknowledgement or revert after receiving them.\n\nThis has happened repeatedly over the past few months after sending dozens of emails from these threads, sometimes 10+ at a time. Not getting even a basic response feels extremely disheartening.\n\nI know it’s a tough time for everyone searching for a job, and we all understand if things are slow —\n\nbut a small confirmation like “Received, we’ll check” or “Not hiring anymore” takes 5 seconds and makes a world of difference.\n\nLet’s be kinder to each other. It’s been a very hard year",
+      "roles": []
+    },
+    {
+      "id": 46109520,
+      "status": "draft",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [
+        "REOPENED (v4 migration): Header says \"Various Roles (Front-end, Back-end, Full Stack)\" -> LABELING.md says 3 roles; labelled as 1."
+      ],
+      "text": "FanBasis.com | Various Roles (Front-end, Back-end, Full Stack) | Full-Time Miami/Remote\n\nFanBasis is building the leading platform for selling digital products, services, and communities — what Shopify was for physical goods, we’re becoming for digital entrepreneurs. Our mission is simple: help creators, experts, and online business owners turn their skills into scalable, revenue-generating digital offers.\n\nWe're looking for senior full-stack developers with either strong experience with Laravel or with React and NodeJs/Tsoa backends. We have an exciting roadmap of new products along with some internal refactoring initiatives.\n\nIf you are interested in the role, please send your resume to drew @ fanbasis dot com",
+      "roles": [
+        {
+          "company_name": "FanBasis",
+          "role_title": "Full-Stack Developer",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "Miami",
+              "region": "FL",
+              "country_code": "US"
+            }
+          ],
+          "seniority": "senior",
+          "tech_stack": [
+            "laravel",
+            "react",
+            "node",
+            "tsoa"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": "drew@fanbasis.com",
+          "description": "FanBasis is building a leading platform for selling digital products, services, and communities. They are seeking senior full-stack developers with strong experience in Laravel or React and Node.js/Tsoa backends."
+        }
+      ]
+    },
+    {
+      "id": 46109556,
+      "status": "reviewed",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [
+        "apply_url \"tramcase.com\" verified (\"Apply here: tramcase.com\")."
+      ],
+      "text": "Hiring Tech Lead - Staff Backend Engineer - AI Engineer – REMOTE LATAM - We build AI tools that help high-volume law firms manage their caseloads more efficiently. Our first product—an AI assistant that transcribes and classifies inbound calls—is in production. We’re now expanding into case tracking, follow-ups, and full workflow automation. Looking for:\nStaff Backend Engineer\n\nTech Lead: Lead a senior team, shape product and tech, work closely with founders.\n\nSenior Engineers (Backend, AI): Remote across LATAM. Build fast, useful tools. Small, experienced team. Real autonomy and product impact.\n\nTech Stack: Python, TypeScript, Postgres, Kubernetes, GCP Languages: Spanish + English for leadership. English only OK for engineers.\n\nApply here: tramcase.com",
+      "roles": [
+        {
+          "company_name": "Tramcase",
+          "role_title": "Tech Lead",
+          "employment_type": null,
+          "remote_policy": "remote",
+          "remote_regions": [
+            "LATAM"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": "lead",
+          "tech_stack": [
+            "python",
+            "typescript",
+            "postgres",
+            "kubernetes",
+            "gcp"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "tramcase.com",
+          "apply_email": null,
+          "description": "Lead a senior team, shape product and tech, and work closely with founders building AI tools for high-volume law firms."
+        },
+        {
+          "company_name": "Tramcase",
+          "role_title": "Staff Backend Engineer",
+          "employment_type": null,
+          "remote_policy": "remote",
+          "remote_regions": [
+            "LATAM"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": "staff",
+          "tech_stack": [
+            "python",
+            "typescript",
+            "postgres",
+            "kubernetes",
+            "gcp"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "tramcase.com",
+          "apply_email": null,
+          "description": "Build fast, useful AI tools for high-volume law firms with a small, experienced team."
+        },
+        {
+          "company_name": "Tramcase",
+          "role_title": "AI Engineer",
+          "employment_type": null,
+          "remote_policy": "remote",
+          "remote_regions": [
+            "LATAM"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": "senior",
+          "tech_stack": [
+            "python",
+            "typescript",
+            "postgres",
+            "kubernetes",
+            "gcp"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "tramcase.com",
+          "apply_email": null,
+          "description": "Build fast, useful AI tools for high-volume law firms with a small, experienced team."
+        }
+      ]
+    },
+    {
+      "id": 46109602,
+      "status": "draft",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [
+        "CORRECTED: header says \"Onsite or Hybrid (London, UK and New York, USA)\"; model only extracted London.",
+        "REOPENED (v4 migration): Locations are London only, but the header says \"Onsite or Hybrid (London, UK and New York, USA)\" and an earlier note says New York was added. Possibly reverted by accident via a suggestion pill."
+      ],
+      "text": "Citymapper by Via | London, UK | Onsite or Hybrid (London, UK and New York, USA) | VISA\n\nOur mission: making cities usable. Award-winning navigation app.\n\nRead more about Citymapper For Cities: https://ridewithvia.com/solutions/citymapper\n\n- Engineering Manager or Director (London): https://job-boards.greenhouse.io/via/jobs/8001882002 - Director of Engineering (London): https://job-boards.greenhouse.io/via/jobs/8074378002\n\nThis and more roles - see: https://job-boards.greenhouse.io/via\n\nTech stack: AWS, Python, some C++, some Rust, EKS, Terraform.",
+      "roles": [
+        {
+          "company_name": "Citymapper by Via",
+          "role_title": "Engineering Manager",
+          "employment_type": null,
+          "remote_policy": "hybrid",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "London",
+              "region": null,
+              "country_code": "GB"
+            }
+          ],
+          "seniority": "manager",
+          "tech_stack": [
+            "aws",
+            "python",
+            "c++",
+            "rust",
+            "eks",
+            "terraform"
+          ],
+          "salary": null,
+          "visa_sponsorship": true,
+          "apply_url": "https://job-boards.greenhouse.io/via/jobs/8001882002",
+          "apply_email": null,
+          "description": "Citymapper by Via is building an award-winning navigation app with the mission of making cities usable. They are looking for an Engineering Manager in London."
+        },
+        {
+          "company_name": "Citymapper by Via",
+          "role_title": "Director of Engineering",
+          "employment_type": null,
+          "remote_policy": "hybrid",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "London",
+              "region": null,
+              "country_code": "GB"
+            }
+          ],
+          "seniority": "director",
+          "tech_stack": [
+            "aws",
+            "python",
+            "c++",
+            "rust",
+            "eks",
+            "terraform"
+          ],
+          "salary": null,
+          "visa_sponsorship": true,
+          "apply_url": "https://job-boards.greenhouse.io/via/jobs/8074378002",
+          "apply_email": null,
+          "description": "Citymapper by Via is building an award-winning navigation app with the mission of making cities usable. They are looking for a Director of Engineering in London."
+        }
+      ]
+    },
+    {
+      "id": 46109675,
+      "status": "reviewed",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [],
+      "text": "WEFLOW | Revenue AI | Full-Time | REMOTE (EU) | 70-110k EUR + Equity depending on experience / location / seniority\n\nHey! I am Philipp, Co-founder at Weflow - a 100% remote B2B SaaS app that focuses on automating as much work as possible for people in sales jobs (leadership, account executives, account managers, customer success, etc.).\n\nWe have found product-market fit, have serious funding available (Gradient Ventures, Cherry Ventures + a few more), and are looking to grow carefully yet quickly.\n\nOur full-stack engineering team is a group of very senior people who enjoy building meaningful technology used by hundreds of real customers. Our tech stack includes next.js, node.js, typescript, AWS.\n\nYou can find our open positions here https://www.getweflow.com/company#hiring or email me directly at philipp stelzer at getweflow dot com",
+      "roles": [
+        {
+          "company_name": "Weflow",
+          "role_title": "Full-Stack Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [
+            "EU"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": "senior",
+          "tech_stack": [
+            "nextjs",
+            "node",
+            "typescript",
+            "aws"
+          ],
+          "salary": {
+            "min": 70000,
+            "max": 110000,
+            "currency": "EUR",
+            "period": "year"
+          },
+          "visa_sponsorship": null,
+          "apply_url": "https://www.getweflow.com/company#hiring",
+          "apply_email": null,
+          "description": "Weflow is a 100% remote B2B SaaS app focused on automating work for sales professionals. The full-stack engineering team consists of senior engineers building technology with Next.js, Node.js, TypeScript, and AWS."
+        }
+      ]
+    },
+    {
+      "id": 46109780,
+      "status": "reviewed",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [],
+      "text": "eventfirst | Senior Full-Stack Engineer | Berlin, Germany | REMOTE (CET) | Full-time\n\nWe are applying AI to organize corporate events.\n\nWe are looking for a senior engineer with at least ten years of full stack experience, a strong focus on product and UX, and optionally some experience building LLM based products. Currently we are focussed on building tooling that enables us to capture domain knowledge from experts to streamline prompt creation and evaluation.\nOur tech stack is Typescript, React, Next.js and Tailwind. On the backend we use Drizzle with Neon, deployed and monitored via Vercel.\nWe have pre-seed funding from a major US VC and are experienced founders. You’ll be working alongside the founders (ex-Apple, ex-Airbnb, ex-Tulip, ex-Tourlane) and will have a chance to shape the company, product and of course the engineering culture.\n\nApply here: https://taskwise.jobs.personio.com/job/1646275",
+      "roles": [
+        {
+          "company_name": "eventfirst",
+          "role_title": "Senior Full-Stack Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [],
+          "timezones": [
+            "CET"
+          ],
+          "locations": [
+            {
+              "city": "Berlin",
+              "region": null,
+              "country_code": "DE"
+            }
+          ],
+          "seniority": "senior",
+          "tech_stack": [
+            "typescript",
+            "react",
+            "nextjs",
+            "tailwind",
+            "drizzle",
+            "neon",
+            "vercel"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://taskwise.jobs.personio.com/job/1646275",
+          "apply_email": null,
+          "description": "Eventfirst is applying AI to organize corporate events and is seeking a Senior Full-Stack Engineer with 10+ years of experience, strong product/UX focus, and optional LLM experience. You will work alongside experienced founders to build internal tooling and shape the product."
+        }
+      ]
+    },
+    {
+      "id": 46109991,
+      "status": "draft",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [],
+      "text": "Stellar Science | Hybrid (USA) Albuquerque NM, Washington DC (Tysons VA), Dayton OH | Full time, interns/co-ops | U.S. citizenship required | https://www.stellarscience.com\n\nCompany: We're a small scientific software development company that develops custom scientific and engineering analysis applications in domains including: space situational awareness (monitoring the locations, health and status of on-orbit satellites), image simulation, high power microwave systems, modeling and simulation, laser systems modeling, AI/ML including physics-informed neural networks (PINN), human body thermoregulation, computer vision and image processing, high performance computing (HPC), computer aided design (CAD), and more. All exciting applications and no CRUD. We emphasize high quality code and lightweight processes that free software engineers to be productive.\n\nExperience: Except for interns, we currently require a Bachelors degree in physics, engineering, math, computer science, or a related field. Masters or PhD is a plus. (Roughly 25% of our staff have PhDs.)\n\nTechnologies: Mostly C++23, Qt 6.9, CMake, git, OpenGL, CUDA, Boost, Jenkins. Windows and Linux, msvc/gcc/clang/clangcl. AI/ML and analysis projects use Python and C++. Some projects use Java or Typescript/React.\n\nApply online: at https://www.stellarscience.com/careers/.",
+      "roles": [
+        {
+          "company_name": "Stellar Science",
+          "role_title": "Software Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "hybrid",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "Albuquerque",
+              "region": "NM",
+              "country_code": "US"
+            },
+            {
+              "city": "Washington",
+              "region": "DC",
+              "country_code": "US"
+            },
+            {
+              "city": "Dayton",
+              "region": "OH",
+              "country_code": "US"
+            }
+          ],
+          "seniority": null,
+          "tech_stack": [
+            "c++",
+            "qt",
+            "cmake",
+            "git",
+            "opengl",
+            "cuda",
+            "boost",
+            "jenkins",
+            "windows",
+            "linux",
+            "msvc",
+            "gcc",
+            "clang",
+            "clangcl",
+            "python",
+            "java",
+            "typescript",
+            "react"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://www.stellarscience.com/careers/",
+          "apply_email": null,
+          "description": "Stellar Science is a small scientific software development company developing custom scientific and engineering analysis applications in domains such as space situational awareness, image simulation, high power microwave systems, and AI/ML."
+        },
+        {
+          "company_name": "Stellar Science",
+          "role_title": "Intern/Co-op",
+          "employment_type": "internship",
+          "remote_policy": "hybrid",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "Albuquerque",
+              "region": "NM",
+              "country_code": "US"
+            },
+            {
+              "city": "Washington",
+              "region": "DC",
+              "country_code": "US"
+            },
+            {
+              "city": "Dayton",
+              "region": "OH",
+              "country_code": "US"
+            }
+          ],
+          "seniority": "intern",
+          "tech_stack": [
+            "c++",
+            "qt",
+            "cmake",
+            "git",
+            "opengl",
+            "cuda",
+            "boost",
+            "jenkins",
+            "windows",
+            "linux",
+            "msvc",
+            "gcc",
+            "clang",
+            "clangcl",
+            "python",
+            "java",
+            "typescript",
+            "react"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://www.stellarscience.com/careers/",
+          "apply_email": null,
+          "description": "Stellar Science is a small scientific software development company developing custom scientific and engineering analysis applications in domains such as space situational awareness, image simulation, high power microwave systems, and AI/ML."
+        }
+      ]
+    },
+    {
+      "id": 46110016,
+      "status": "draft",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [
+        "REOPENED (v4 migration): $80k-$110k is written next to \"Senior Software Engineer\" only; LABELING.md says salary applies only to the role it is written next to. Second role currently has it."
+      ],
+      "text": "Spacelift | Remote (Europe) | Full-time | Senior Software Engineer | $80k-$110k+ (can go higher)\n\nWe're a VC-funded startup (recently raised $51M Series C) building an infrastructure orchestrator and collaborative management platform for Infrastructure-as-Code – from OpenTofu, Terraform, Terragrunt, CloudFormation, Pulumi, Kubernetes, to Ansible.\n\nOn the backend we're using 100% Go with AWS primitives. We're looking for backend developers who like doing DevOps'y stuff sometimes (because in a way it's the spirit of our company), or have experience with the cloud native ecosystem. Ideally you'd have experience working with an IaC tool, i.e. Terraform, Pulumi, Ansible, CloudFormation, Kubernetes, or SaltStack.\n\nOverall we have a deeply technical product, trying to build something customers love to use, and have a lot of happy and satisfied customers. We promise interesting work, the ability to open source parts of the project which don't give us a business advantage, as well as healthy working hours.\n\nIf that sounds like fun to you, please apply at https://careers.spacelift.io/jobs/3006934-software-engineer-remote-europe-mid-and-senior\n\nYou can find out more about the product we're building at https://spacelift.io and also see our engineering blog for a few technical blog posts of ours: https://spacelift.io/blog/engineering\n\nAdditionally, we're hiring for a new product we're building, Flows. Mostly the same requirements and tech stack, without the devops bits. You can see a demo of Flows and apply for it here: https://careers.spacelift.io/jobs/6438380-product-software-engineer-flows-remote-europe",
+      "roles": [
+        {
+          "company_name": "Spacelift",
+          "role_title": "Senior Software Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [
+            "EUROPE"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": "senior",
+          "tech_stack": [
+            "opentofu",
+            "terraform",
+            "terragrunt",
+            "cloudformation",
+            "pulumi",
+            "kubernetes",
+            "ansible",
+            "go",
+            "aws",
+            "saltstack"
+          ],
+          "salary": {
+            "min": 80000,
+            "max": 110000,
+            "currency": "USD",
+            "period": "year"
+          },
+          "visa_sponsorship": null,
+          "apply_url": "https://careers.spacelift.io/jobs/3006934-software-engineer-remote-europe-mid-and-senior",
+          "apply_email": null,
+          "description": "Spacelift is building an infrastructure orchestrator and collaborative management platform for Infrastructure-as-Code. They are looking for a Senior Software Engineer with backend experience in Go and the cloud native ecosystem."
+        },
+        {
+          "company_name": "Spacelift",
+          "role_title": "Product Software Engineer, Flows",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [
+            "EUROPE"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [
+            "opentofu",
+            "terraform",
+            "terragrunt",
+            "cloudformation",
+            "pulumi",
+            "kubernetes",
+            "ansible",
+            "go",
+            "aws",
+            "saltstack"
+          ],
+          "salary": {
+            "min": 80000,
+            "max": 110000,
+            "currency": "USD",
+            "period": "year"
+          },
+          "visa_sponsorship": null,
+          "apply_url": "https://careers.spacelift.io/jobs/6438380-product-software-engineer-flows-remote-europe",
+          "apply_email": null,
+          "description": "Spacelift is hiring a Software Engineer for a new product they are building called Flows, using a similar backend tech stack without the devops bits."
+        }
+      ]
+    },
+    {
+      "id": 46110127,
+      "status": "reviewed",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [
+        "FIXED (v4): employment_type -> null; not stated in the post (LABELING.md: no full-time default)."
+      ],
+      "text": "Abatable (YC S21) — London (Hybrid, 2 days onsite) — Senior Product Engineer — £80,010–£88,900 + stock\n\nAbatable builds the infrastructure that helps organisations source, evaluate, and support high-quality climate and nature projects. We're backed by YC, GFC, Blue Bear, and Azora.\n\nWe're hiring a Senior Product Engineer who ships quickly, thinks deeply about users, and is comfortable owning features end-to-end across the stack. You’ll work on data-heavy, user-facing products that directly enable corporate climate action.\n\nWhat we value:\n\nStrong product sense and ability to challenge requirements\n\nGreat debugging, clear communication, and pragmatic decision-making\n\nFull-stack ability (React/TS/Remix/Postgres), but no specific stack required\n\nPreference for simple, elegant solutions over complexity\n\nWhy join:\n\nMission with real climate impact\n\nHigh ownership, autonomy, and pace\n\nTransparent, supportive culture with true work–life balance\n\nApply: https://apply.workable.com/abatable/j/CF88DAA8C7/",
+      "roles": [
+        {
+          "company_name": "Abatable",
+          "role_title": "Senior Product Engineer",
+          "employment_type": null,
+          "remote_policy": "hybrid",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "London",
+              "region": null,
+              "country_code": "GB"
+            }
+          ],
+          "seniority": "senior",
+          "tech_stack": [
+            "react",
+            "typescript",
+            "remix",
+            "postgres"
+          ],
+          "salary": {
+            "min": 80010,
+            "max": 88900,
+            "currency": "GBP",
+            "period": "year"
+          },
+          "visa_sponsorship": null,
+          "apply_url": "https://apply.workable.com/abatable/j/CF88DAA8C7/",
+          "apply_email": null,
+          "description": "Abatable is building infrastructure for corporate climate and nature projects and is looking for a Senior Product Engineer to own features end-to-end across the stack."
+        }
+      ]
+    },
+    {
+      "id": 46110326,
+      "status": "reviewed",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [
+        "Not a job posting (meta/reply). Expected roles: []."
+      ],
+      "text": "In addition to the search tools mentioned above, feel free to use https://nthesis.ai/public/hn-who-is-hiring. It has search (text / semantic), chat and extracts data from alternate viewpoints (e.g. business / role) and allows you to visualize a semantic map of those things. I hope it helps!",
+      "roles": []
+    },
+    {
+      "id": 46110614,
+      "status": "reviewed",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [
+        "FIXED (v4): employment_type -> null; not stated in the post (LABELING.md: no full-time default)."
+      ],
+      "text": "Goblins | https://goblinsapp.com | Founding Engineer #3 | Williamsburg, New York | ONSITE | $100-200k (+ generous equity)\n\nAt Goblins, we're building America's favorite teacher, starting with K-12 math. We're live in thousands of classrooms for in-class assignments, extra practice, and homework. Students work on a whiteboard while our models analyze their work in real time and nudge them with questions that make them think. Teachers get instant visibility into how the class is doing, who needs help, and what to assign next.\n\nWe just raised our seed round and are backed by the Gates Foundation, giving us the ability to build something transformative in education.\n\nHere's what you might work on:\n\n- Create shareable \"aha moment\" videos from real student sessions.\n\nTurn anonymized whiteboard work and Goblin–student dialogues into short videos or interactive replays that highlight the value of Goblins. Automatically identify the best moments, strip out sensitive data, and produce artifacts that teachers, parents, and districts want to watch and share.\n\n- Rewrite our diffusion transformer real-time avatar stack.\n\nOur Goblin avatars are already in production. Improve audio–motion sync, temporal coherence, and expressiveness, while cutting latency and cost so they run smoothly at 100k+ student scale.\n\n- Extend continuous diagnostics to high-stakes like the SAT and ACT.\n\nWe track mastery against state standards with our spin on IRT. Extend this to SAT/ACT-style exams: infer score distributions from behavior, validate on real data, and compute minimal targeted practice that reliably moves predicted scores.\n\n- Design uncheatable problem formats.\n\nGenerative AI can solve most traditional math problems and show fake work. Build formats where copying is harder than thinking: dynamic graphs, constructive proofs, counterexample generation, debugging flawed solutions, multi-step conceptual checks. Make them auto-gradable, resistant to copy-paste, and stable at scale.\n\n- Build real-time instructional agents.\n\nDetect underlying student misconceptions from their work and have an agent \"drop in\" only when needed. It should generate short, visual, 3blue1brown-style explanations tailored to the specific misunderstanding, and create diagrams, animations, and interactive examples that adapt as the student responds.\n\nThe role is based in our Williamsburg, Brooklyn office in NYC (on-site only). You'll join our tight-knit founding engineering team of 3—myself (the CTO) and two founding engineers with collective experience from Stanford, Stripe, Amazon, and X1.\n\nAs our third founding engineer, you'll have full ownership of critical projects and ship production systems that impact thousands of students and teachers in real classrooms within your first few weeks.\n\nIf this sounds fun, and you want to help inspire 1 billion kids to love to learn, email alp@goblinsapp.com :)",
+      "roles": [
+        {
+          "company_name": "Goblins",
+          "role_title": "Founding Engineer #3",
+          "employment_type": null,
+          "remote_policy": "onsite",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "New York",
+              "region": "NY",
+              "country_code": "US"
+            }
+          ],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": {
+            "min": 100000,
+            "max": 200000,
+            "currency": "USD",
+            "period": "year"
+          },
+          "visa_sponsorship": null,
+          "apply_url": "https://goblinsapp.com",
+          "apply_email": "alp@goblinsapp.com",
+          "description": "Goblins is building America's favorite teacher, starting with K-12 math, and is seeking a third founding engineer to join the on-site team in Williamsburg, New York."
+        }
+      ]
+    },
+    {
+      "id": 46110698,
+      "status": "reviewed",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [
+        "Not a job posting (meta/reply). Expected roles: []."
+      ],
+      "text": "> Please only post if you are actively filling a position and are committed to responding to applicants.",
+      "roles": []
+    },
+    {
+      "id": 46111186,
+      "status": "reviewed",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [],
+      "text": "Stellar (https://stellarcs.ai) | Founding Software Engineers | Amsterdam, the Netherlands | Full-time | No Visa Sponsorship\n\nStellar is building the go-to AI voice agent platform for customer support, enabling incredibly human-like customer service over the phone. We're a young and rapidly growing startup that has already proven traction, with a number of well-known companies among our initial customers.\n\nTo see some of our AI voice agents in action, see https://www.stellarcs.ai/demo-showcase\n\nWe're  looking for founding software engineers to help us scale Stellar's platform globally. As one of the first members of our engineering team, you’ll play a key role in Stellar's journey and have the opportunity to help shape our architecture, engineering culture and product and engineering roadmap.\n\nTech stack: Go, Node.js, Typescript, React, Next.js, Encore Cloud, GCP\n\nWhat you’ll do:\n\n- Build performant APIs and backend services in Go and Typescript (Node.js)\n\n- Develop Stellar's frontend in React, TypeScript and NextJS, to allow companies to effectively design, test, deploy and monitor their AI voice agents\n\n- Design a scalable, fault-tolerant system architecture that can handle large volumes of concurrent real-time audio conversations & agent interactions while maintaining low latency\n\n- Work on Stellar's AI agent framework, at the intersection of software engineering and AI engineering\n\n- Design and implement a platform that meets enterprise standards in terms of security, compliance, resilience and data privacy\n\n- Build API integrations with external systems to enhance the capabilities of Stellar's agents\n\n- Help shape the early engineering culture as one of the first hires of a young and growing tech startup\n\nWhy join: you'll be joining at a pivotal time in our growth, in a role with a high degree of ownership and strong growth potential. Join a small but talented team, coming from high growth startups and scale-ups such Framer, MessageBird and Adyen.\n\nMore details about the role here: https://www.stellarcs.ai/careers/software-engineer\n\nApply: Send us an email at info@stellarcs.ai, and mention you came from HN. Note that we do not provide visa sponsorship, and will only proceed with candidates who are able to work from our office in Amsterdam (~4 days in-office per week)",
+      "roles": [
+        {
+          "company_name": "Stellar",
+          "role_title": "Founding Software Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "hybrid",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "Amsterdam",
+              "region": null,
+              "country_code": "NL"
+            }
+          ],
+          "seniority": null,
+          "tech_stack": [
+            "go",
+            "node",
+            "typescript",
+            "react",
+            "nextjs",
+            "encore cloud",
+            "gcp"
+          ],
+          "salary": null,
+          "visa_sponsorship": false,
+          "apply_url": "https://www.stellarcs.ai/careers/software-engineer",
+          "apply_email": "info@stellarcs.ai",
+          "description": "Stellar is building the go-to AI voice agent platform for customer support and is looking for founding software engineers to help scale the platform globally from the Amsterdam office."
+        }
+      ]
+    },
+    {
+      "id": 46111725,
+      "status": "reviewed",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [],
+      "text": "BuildBetter | Senior Engineer (Backend, Full-stack) | Full-Time | Remote (US) | 170-200k base + equity | Visa Sponsorship not provided\n\nBuildBetter is the product operations platform for customer-led teams. We've built an AI-first product that lets our customers, like Rappi, n8n, Posthog, and Brex automate the operations work that lets them provide their customers with world-class product experiences.\n\nWe're looking for two senior engineers to join the team; our headcount has remained small while growing revenue, and we're now bottlenecked by development speed in a way that will make you invaluable. You'll have real ownership over your code from product ideation to customer support, and we'll be making substantive product updates weekly. We're looking for team players who are as fun to work with as they are productive, and are willing to compensate these two rolls commensurately - our aim is to be in the 95th percentile of equity compensation, and we expect that in exchange we'll have value-aligned employees who will help us grow the business.\n\nJoining us will mean solving hard problems at the frontier of AI adoption, including:\n\n- maintaining performance at scale\n\n- building and maintaining rich frontend user experiences that maintain the standards of usability and delight that our customers know us for.\n\n- building agent and workflow systems that automate real work for customers\n\n- playing around with the latest models to figure out new experiences that we can offer our customers as cutting-edge models get released monthly\n\n- building automation that's grounded in supporting product teams rather than automating them - our bet is that this is the likelier outcome out of the current generation of AI systems\n\nStack: Postgres / TS (Nest + React) / Hasura / EKS / S3 / LLM APIs / Python\n\nBenefits:\n\n- unlimited PTO\n\n- $100/mo education stipend\n\n- flexible hours: we measure productivity in terms of outcomes, not time, so as long as you're able to stay aligned, productive, and in regular communication, we don't really care what hours you work\n\n- health insurance\n\nPlease reach out to: nikhil (at) buildbetter (dot) app",
+      "roles": [
+        {
+          "company_name": "BuildBetter",
+          "role_title": "Senior Engineer (Backend)",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [
+            "US"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": "senior",
+          "tech_stack": [
+            "postgres",
+            "typescript",
+            "nest",
+            "react",
+            "hasura",
+            "eks",
+            "s3",
+            "python"
+          ],
+          "salary": {
+            "min": 170000,
+            "max": 200000,
+            "currency": "USD",
+            "period": "year"
+          },
+          "visa_sponsorship": false,
+          "apply_url": null,
+          "apply_email": "nikhil@buildbetter.app",
+          "description": "BuildBetter is an AI-first product operations platform seeking a Senior Backend Engineer to join their small, high-growth team and own code from ideation to customer support."
+        },
+        {
+          "company_name": "BuildBetter",
+          "role_title": "Senior Engineer (Full-stack)",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [
+            "US"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": "senior",
+          "tech_stack": [
+            "postgres",
+            "typescript",
+            "nest",
+            "react",
+            "hasura",
+            "eks",
+            "s3",
+            "python"
+          ],
+          "salary": {
+            "min": 170000,
+            "max": 200000,
+            "currency": "USD",
+            "period": "year"
+          },
+          "visa_sponsorship": false,
+          "apply_url": null,
+          "apply_email": "nikhil@buildbetter.app",
+          "description": "BuildBetter is an AI-first product operations platform seeking a Senior Full-stack Engineer to build rich frontend user experiences and agent systems."
+        }
+      ]
+    },
+    {
+      "id": 46111769,
+      "status": "reviewed",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [
+        "Hourly contract salary $60-120/hour verified correct."
+      ],
+      "text": "Mulligan Post, Inc - On-Site near Millbrae BART/CalTrain Station in Burlingame - $60-120/hour Contract  - Mechanical Design Engineer / Mechatronics / Industrial Automation.\n\nSoftware hacker seeking hardware hacker to make custom robots for Magic: The Gathering automated storage and retrieval system to power an online e-commerce store (think CardKingdom competitor or eventual TCGPlayer competitor.)  In terms of scale, the eventual target is >100k different _skus_, million items in inventory, tens of thousands picks per day. The industry is large; eBay bought TCGPlayer for $300M about 3 years ago.\n\nI am looking for a mechanical/electrical/hardware generalist to complement my software expertise. Someone who knows how to integrate off the shelf parts into custom automation to solve problems. If fast iterations, direct connection with the project in use, autonomy and minimal bullshit overhead appeals to you then this could be a great fit. You are: someone who makes stuff and solves problems, is a clear communicator and fast study. You know how to challenge a requirement, source an off-the-shelf-part or design custom manufacturable part and when to do each. I don't really care where or when or what your degree is in if you have demonstrated driving things to completion and we vibe well enough.\n\nWe will use OnShape (license/seat will be provided) for collaboration and document management reasons. Much of what we need to build is integrating FUYU linear rails, Clearpath motors, pneumatics with some custom Send Cut Send / Xometry parts, 8020 frames, etc.\n\nPros: Small team / minimal overhead and wide scope. Clear guidance on what to build. Flexible-ish schedule (core hours 9-5 in office, flexibility for school breaks, etc.) Real problem with established market.\n\nWhile I'm primarily looking for a contractor for now, I am open to the possibility of bringing the right person on full-time with equity if they are interested and invested in the space, but that is not a requirement and it probably makes sense to establish that after working together for a bit.\n\nNo recruiters or third parties, not able to sponsor at this time. Compensation dependent on experience.\n\nHiring process: resume/project review, vc chat < 1 hour, then paid 1-day work trial where we see if we fit.\n\nIf you're interested, send me an email - hiring@mulliganpost.com",
+      "roles": [
+        {
+          "company_name": "Mulligan Post, Inc",
+          "role_title": "Mechanical Design Engineer / Mechatronics / Industrial Automation",
+          "employment_type": "contract",
+          "remote_policy": "onsite",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "Burlingame",
+              "region": "CA",
+              "country_code": "US"
+            }
+          ],
+          "seniority": null,
+          "tech_stack": [
+            "onshape",
+            "fuyu",
+            "clearpath"
+          ],
+          "salary": {
+            "min": 60,
+            "max": 120,
+            "currency": "USD",
+            "period": "hour"
+          },
+          "visa_sponsorship": false,
+          "apply_url": null,
+          "apply_email": "hiring@mulliganpost.com",
+          "description": "Mulligan Post, Inc is seeking a mechanical/electrical/hardware generalist to build custom robots for a Magic: The Gathering automated storage and retrieval system. You will work on-site near the Millbrae BART/CalTrain Station in Burlingame to integrate off-the-shelf parts and custom automation for an e-commerce inventory system."
+        }
+      ]
+    },
+    {
+      "id": 46112227,
+      "status": "reviewed",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [
+        "FIXED (v4): \"Software Engineer\" seniority mid -> null; no level stated (the Junior role is separate).",
+        "FIXED (v4): \"100% REMOTE (Global)\" -> remote_regions=['GLOBAL'], timezones=[] (LABELING.md: timezones are not regions; \"Global\" -> GLOBAL)."
+      ],
+      "text": "MixRank (YC S11) | Software Engineers | 100% REMOTE (Global) | Full-Time\nMixRank processes petabytes of data every month from web crawling. We have hundreds of customers using our data products including Google, Amazon, Facebook, Intel, and Adobe, across industries including Finance, Recruiting, Sales, Marketing, and Security.\n\nWe’re a fully-remote company with a global footprint in over 20 countries. We're growing, profitable, employee-owned, no dependence on outside funding. Applicants from all geographies and backgrounds are welcome.\n\nWe are looking for passionate individuals for whom programming is not just a job but it’s something they love to do. We're obsessed with computers, programming, big data, databases, compilers, hardware, math, data science, and the internet. Does this sound like you? Please apply to join our team.\n\nOur code base is very friendly to new contributors. You'll have a fully-functional development environment within hours (fully automated) and be pushing commits on your first day. Deployments to production happen multiple times per day and finish in less than 2 minutes. Effectively all of our codebase is written in Python, Rust, SQL, Javascript/TypeScript, and Nix. The core technologies you'll need familiarity with to be productive are Python, PostgreSQL, Linux, and Git.\n\nWe operate at a larger scale than typical startups. We operate two datacenters with high performance servers we've built that are capable of dealing with the volumes of data we process. We've implemented our own distributed file system. We do full-scale web crawls. We download and perform static analysis on the entire universe of Android APKs and iOS IPAs that are published. Unlike a typical startup where you'll spend half of your time in meetings, and the other half fixing bugs from Jira tickets— at MixRank you'll get to challenge yourself with difficult technical problems that will help you to grow as an individual.\n\nWe're hiring continuously for the positions below— they aren't singular positions that will close once filled. Our philosophy on hiring is that the candidate is more important than the position. For each new member of the team, we design a custom role and responsibilities that are specialized to their interests. Other companies will come up with a long list of specific requirements for a position with the expectation that you'll exactly replace someone from the team, or that you'll be the perfect tetris piece that satisfies the job requirements decided by a committee. MixRank is more pragmatic: we'll first get excited about having a unique individual on the team, then we'll figure out the best way to accommodate their specific talents.\n\n--\nJunior Software Engineer - Remote (Global), Full-Time\n\nWe're looking for remote junior engineers that have 0-3 years of professional experience in software, and 5+ years of curiosity exploring computers, programming, and technical hobby projects. This is an open-ended entry role with mentorship and diverse opportunities to work on all areas of our product: databases, distributed systems, infrastructure and tooling, data analysis, machine learning, frontend/backend web development, APIs, data mining, data modeling, and more. To stand out, please highlight what makes you unique: passion for computing, curiosity and side projects, work ethic, niche research, etc.\n\nIdeally you've already graduated, but if you still have one or more years left of school, please feel free to apply anyway, and if you're the right fit for the team we'll figure out a way to accommodate your schedule.\n\nhttps://www.ycombinator.com/companies/mixrank/jobs/Fnwsojk-j... --\n\nSoftware Engineer - Remote (Global), Full-Time\n\nWe're hiring generalist software engineers to work on web applications, data mining, machine learning/data science, data transformation/ETL, data modeling, database scaling, infrastructure, devops, and more. We'll cater the role to whatever subset of these areas match your interests.\n\nBeneficial experience includes PostgreSQL, Python, Rust, Linux, TypeScript, Nix, frontend/backend web development, and data mining.\n\nhttps://www.ycombinator.com/companies/mixrank/jobs/RXQspen-s...\n\n--\n\nI’m Kiran, Chief of Staff (CoS) at MixRank, a fully remote data startup building go-to-market intelligence. We’re US-incorporated but hire globally, and we’re bringing on new teammates to join a fast-moving team with real ownership and impact.",
+      "roles": [
+        {
+          "company_name": "MixRank",
+          "role_title": "Junior Software Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [
+            "GLOBAL"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": "junior",
+          "tech_stack": [
+            "python",
+            "rust",
+            "sql",
+            "javascript",
+            "typescript",
+            "nix",
+            "postgres",
+            "linux",
+            "git"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://www.ycombinator.com/companies/mixrank/jobs/Fnwsojk-j...",
+          "apply_email": null,
+          "description": "MixRank is a fully-remote data startup building go-to-market intelligence, processing petabytes of data from web crawling. They are seeking a Junior Software Engineer with 0-3 years of professional experience for an open-ended entry role with mentorship."
+        },
+        {
+          "company_name": "MixRank",
+          "role_title": "Software Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [
+            "GLOBAL"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [
+            "python",
+            "rust",
+            "sql",
+            "javascript",
+            "typescript",
+            "nix",
+            "postgres",
+            "linux",
+            "git"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://www.ycombinator.com/companies/mixrank/jobs/RXQspen-s...",
+          "apply_email": null,
+          "description": "MixRank is hiring generalist software engineers to work on web applications, data mining, machine learning, ETL, database scaling, and infrastructure at a global scale."
+        }
+      ]
+    },
+    {
+      "id": 46112597,
+      "status": "draft",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [
+        "SCHEMA: part-time AND contract (\"Comp: contract, €60–€120/hour, 8–16h/week\") - single employment_type loses one. Salary verified correct."
+      ],
+      "text": "Hiring: MouseMux | Remote (EU-friendly) | Part-time (8-16h/week) | Community + Outreach + Content\n\nI’m the solo developer behind MouseMux (mousemux.com) - a Windows tool that enables multiple users / multiple cursors on one desktop (local + remote). It’s used in trading / multi-monitor setups, simulator & control-room (SCADA-ish) environments, classrooms, and other collaborative workflows. MouseMux is at a turning point: a wave of major new functionality is landing, especially around remote multi-user collaboration. The product is becoming significantly more capable, and I need someone who can translate that to the world - clearly and genuinely, in the niches where it shines. You’ll be the “spider in the web”:\n\n* Talk to existing customers, capture use cases, keep relationships warm * Create simple content (short screen-recorded videos, posts, case snippets) * Find look-alike companies/institutions and do human, non-spammy outreach * Coordinate with relevant creators (YouTube/bloggers) for deep-dives * Occasionally post in relevant communities (Reddit/Discord/forums) transparently and helpfully\nNo coding required, but you should be comfortable with technical users and Windows tooling. I’m optimizing for someone autonomous who can run with outreach + content.\n\nComp: contract, €60–€120/hour depending on fit, 8–16h/week. Start with a small paid test project. Bonus possible for meaningful outcomes (pilots/case studies/revenue growth).\n\nEmail: info@mousemux.com with (1) short intro, (2) 1–2 examples of content/outreach, (3) why MouseMux.",
+      "roles": [
+        {
+          "company_name": "MouseMux",
+          "role_title": "Community + Outreach + Content",
+          "employment_type": "contract",
+          "remote_policy": "remote",
+          "remote_regions": [
+            "EU"
+          ],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [
+            "windows"
+          ],
+          "salary": {
+            "min": 60,
+            "max": 120,
+            "currency": "EUR",
+            "period": "hour"
+          },
+          "visa_sponsorship": null,
+          "apply_url": "https://mousemux.com",
+          "apply_email": "info@mousemux.com",
+          "description": "MouseMux is seeking a part-time, autonomous contractor for community management, outreach, and content creation to help scale a Windows multi-cursor software tool."
+        }
+      ]
+    },
+    {
+      "id": 46112673,
+      "status": "reviewed",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [],
+      "text": "NeuroVRD | Quality Assurance Engineer | Remote | Contractor + Equity\nWe're building the Sentinel AI-IONM system: an AI-driven system that monitors neurovascular integrity in real time during high-risk surgery. This role is for someone who wants genuine ownership of a hybrid hardware/software QMS and wants to be close to the regulatory and engineering core of an AI SaMD company.\n\nYou'll own and operate our Quality Management System across multiple devices (SaMD + hardware) and be directly responsible for FDA/ISO-aligned documentation, design controls, supplier quality, clinical-quality support, and software validation oversight. You'll work directly with the COO/CPO (me), CTO, and our Director of Clinical Research.\n\nPlease email Joan at jmeo@neurovrd.com with a resume & cover letter about why this work matters to you.",
+      "roles": [
+        {
+          "company_name": "NeuroVRD",
+          "role_title": "Quality Assurance Engineer",
+          "employment_type": "contract",
+          "remote_policy": "remote",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": "jmeo@neurovrd.com",
+          "description": "NeuroVRD is building the Sentinel AI-IONM system, an AI-driven system that monitors neurovascular integrity in real time during high-risk surgery. We are seeking a Quality Assurance Engineer to own and operate our Quality Management System across multiple devices."
+        }
+      ]
+    },
+    {
+      "id": 46113013,
+      "status": "draft",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [],
+      "text": "MaFi Games | Senior ASP.NET (full-stack) | Contract | Remote\n\nHi, I'm the co-founder of MaFi Games, the indie studio behind Captain of Industry. We're looking for an experienced full-stack ASP.NET engineer to help us grow our community website, including features like a modding database, blog, and forum.\n\nSome reasons you'd enjoy working with us:\n\n- A multicultural, collaborative, and innovative work environment where your voice is heard.\n\n- Fully remote job with flexible working hours and vacation schedule.\n\n- High quality C# code base, code reviews, tests.\n\n- High work satisfaction, work with a talented team on a popular video game with a wonderful community.\n\nIf interested, please see the detailed info, requirements, and application instructions at https://www.captain-of-industry.com/jobs-swe-hn, thanks!\n\nNote: We are also looking for Senior Game devs, 2D artists, and SFX artists.",
+      "roles": [
+        {
+          "company_name": "MaFi Games",
+          "role_title": "Senior ASP.NET (full-stack)",
+          "employment_type": "contract",
+          "remote_policy": "remote",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": "senior",
+          "tech_stack": [
+            "asp.net",
+            "c#"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": "https://www.captain-of-industry.com/jobs-swe-hn",
+          "apply_email": null,
+          "description": "MaFi Games, the indie studio behind Captain of Industry, is looking for an experienced full-stack ASP.NET engineer to help grow their community website featuring a modding database, blog, and forum."
+        },
+        {
+          "company_name": "MaFi Games",
+          "role_title": "Senior Game dev",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": "senior",
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": null,
+          "description": "MaFi Games is looking for a Senior Game dev."
+        },
+        {
+          "company_name": "MaFi Games",
+          "role_title": "2D artist",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": null,
+          "description": "MaFi Games is looking for a 2D artist."
+        },
+        {
+          "company_name": "MaFi Games",
+          "role_title": "SFX artist",
+          "employment_type": null,
+          "remote_policy": null,
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [],
+          "seniority": null,
+          "tech_stack": [],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": null,
+          "description": "MaFi Games is looking for an SFX artist."
+        }
+      ]
+    },
+    {
+      "id": 46117858,
+      "status": "reviewed",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [
+        "SCHEMA: \"Full-time or Part-time\" cannot be represented by a single employment_type.",
+        "v4: \"Full-time or Part-time\" -> first listed (full-time) per LABELING.md.",
+        "FIXED (v4): \"Remote (US-friendly timezones)\" -> remote_regions=[], timezones=['US-friendly timezones'] (LABELING.md: timezones are not regions; \"Global\" -> GLOBAL)."
+      ],
+      "text": "Twing.AI | AI/Full-Stack Engineer & Forward Deployed Engineer | Remote (US-friendly timezones) or NYC | Full-time or Part-time\n\nWe’re a lean (4 people, 3 of which are engineers), bootstrapped team building a private-equity automation platform (deal analysis, document processing, chat, investment theme research). Shipping fast, learning daily, and looking for hands-on engineers who want outsized impact.\n\n- Stack: React Router 7/React 19, shadcn/Tailwind v4, Node/TypeScript (strict), PostgreSQL + Prisma + pgvector, S3; AI workflows with embeddings & LLMs.\n\n- Why join: small team with direct ownership of core product, zero bureaucracy, Greenfield decisions and ability to learn extremely quickly, you’ll ship to paying users weekly.\n\nAI / Full-Stack Engineer\n\n- Own features end-to-end: data ingestion → AI pipelines → UI.\n- Design and tune LLM/embedding flows; keep latency/cost in check.\n- Requirements: strong TypeScript/Node, modern React, SQL + data modeling; comfort evaluating/using AI models; bias to ship.\n\nForward Deployed Engineer\n\n- Work directly with customers (PE analysts/partners) to turn messy workflows into productized features.\n- Rapidly prototype, measure impact, harden for production.\n- Requirements: full-stack chops, great product sense, calm under ambiguity, willing to jump between code, data, and customer calls.\n\nHappy to also talk to the self-taught. We care more about ability than credentials and value slope over intercept.\n\nHow to apply: Email jobs@twing.ai with “HN – [Role]” in the subject, a short note on something you’ve shipped, and any links (GitHub/portfolio). No recruiters.",
+      "roles": [
+        {
+          "company_name": "Twing.AI",
+          "role_title": "AI / Full-Stack Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [],
+          "timezones": [
+            "US-friendly timezones"
+          ],
+          "locations": [
+            {
+              "city": "New York",
+              "region": "NY",
+              "country_code": "US"
+            }
+          ],
+          "seniority": null,
+          "tech_stack": [
+            "react router",
+            "react",
+            "shadcn",
+            "tailwind",
+            "node",
+            "typescript",
+            "postgres",
+            "prisma",
+            "pgvector",
+            "s3"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": "jobs@twing.ai",
+          "description": "Twing.AI is a lean, bootstrapped team building a private-equity automation platform. You will own features end-to-end, design LLM/embedding flows, and work with modern web and AI stacks."
+        },
+        {
+          "company_name": "Twing.AI",
+          "role_title": "Forward Deployed Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "remote",
+          "remote_regions": [],
+          "timezones": [
+            "US-friendly timezones"
+          ],
+          "locations": [
+            {
+              "city": "New York",
+              "region": "NY",
+              "country_code": "US"
+            }
+          ],
+          "seniority": null,
+          "tech_stack": [
+            "react router",
+            "react",
+            "shadcn",
+            "tailwind",
+            "node",
+            "typescript",
+            "postgres",
+            "prisma",
+            "pgvector",
+            "s3"
+          ],
+          "salary": null,
+          "visa_sponsorship": null,
+          "apply_url": null,
+          "apply_email": "jobs@twing.ai",
+          "description": "Twing.AI is seeking a Forward Deployed Engineer to work directly with customers to turn messy workflows into productized features, rapidly prototype, and harden systems for production."
+        }
+      ]
+    },
+    {
+      "id": 46136484,
+      "status": "draft",
+      "seeded_from": "google-genai:gemini-3.5-flash-lite@prompt-v3",
+      "notes": [
+        "OPEN: header \"Full-time | INTERNS\" -> likely 2 roles (full-time engineer + internship). Extracted as 1 role with full-time + seniority=intern, which is contradictory."
+      ],
+      "text": "ChainSecurity | Blockchain Security Engineer | Full-time | INTERNS , HYBRID/REMOTE, Zurich, Switzerland | VISA possible | https://chainsecurity.com/\n\nChainSecurity is a young and innovative cybersecurity company that operates in the blockchain and cryptocurrency space. Our mission is to make the blockchain space secure and trustworthy for people, companies, and governments alike. We are proud of our security experts from the renowned universities ETH Zurich, EPFL Lausanne and others. We are trusted by 100+ blockchain companies and established corporations with security audits and services. We have secured complex systems for top blockchain clients, such as decentralized finance (DeFi) projects, and multinational organizations, such as banks and industrial consortia.\n\nA ChainSecurity Auditor will review the most complex blockchain projects to find vulnerabilities which no-one else can. By using state of the art tools, expert knowledge and a deep understanding of the fundamentals, we secure projects handling billions, often forming the foundation in the new paradigm of an open financial system.\n\nYour Responsibilities:\n\n* Work directly with the developers of the most successful teams in the blockchain industry to audit their code and secure their products\n\n* Contribute to our security tools and create new ones in collaboration with our internal research team\n\n* Conduct security research and publish your findings\n\nRequirements:\n\n* Strong background in software engineering, focused on security relevant areas and most importantly being able to reason about complex code\n\n* Experience with penetration testing, vulnerability scanning, threat modeling or similar is a plus\n\n* Good knowledge of cryptography\n\n* Proficiency with Linux and Git\n\n* Good written communication skills\n\n* Fluent in OOP programming language\n\nBonus Points:\n\n* Formal Verification, White Box, Vulnerability Scanning\n\n* Solid Blockchain Knowledge\n\n* Consensus Algorithms\n\nJoin us here: https://www.chainsecurity.com/jobs/blockchain-security-engineer\n\nQuestions about the role? Contact: jobs@chainsecurity.com",
+      "roles": [
+        {
+          "company_name": "ChainSecurity",
+          "role_title": "Blockchain Security Engineer",
+          "employment_type": "full-time",
+          "remote_policy": "hybrid",
+          "remote_regions": [],
+          "timezones": [],
+          "locations": [
+            {
+              "city": "Zurich",
+              "region": null,
+              "country_code": "CH"
+            }
+          ],
+          "seniority": "intern",
+          "tech_stack": [
+            "linux",
+            "git"
+          ],
+          "salary": null,
+          "visa_sponsorship": true,
+          "apply_url": "https://www.chainsecurity.com/jobs/blockchain-security-engineer",
+          "apply_email": "jobs@chainsecurity.com",
+          "description": "ChainSecurity is a cybersecurity company in the blockchain and cryptocurrency space seeking a Blockchain Security Engineer to review complex projects, find vulnerabilities, and conduct security research."
+        }
+      ]
+    }
+  ],
+  "schema_version": 4
+}
