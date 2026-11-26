@@ -25,10 +25,10 @@ for both model output and gold. Labels don't need to get spelling right, only me
 
 ## Inheritance in multi-role posts
 
-| Fact | Applies to every role? |
-|---|---|
-| `company_name`, company tech stack, header-level `remote_policy` / `employment_type` / regions | **Yes** |
-| `salary`, `seniority`, `visa_sponsorship` | **Only roles it is written next to**, unless the post says it covers all (e.g. a header-level salary for "Multiple roles") |
+| Fact                                                                                           | Applies to every role?                                                                                                     |
+| ---------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `company_name`, company tech stack, header-level `remote_policy` / `employment_type` / regions | **Yes**                                                                                                                    |
+| `salary`, `seniority`, `visa_sponsorship`                                                      | **Only roles it is written next to**, unless the post says it covers all (e.g. a header-level salary for "Multiple roles") |
 
 ## Fields
 
@@ -48,11 +48,13 @@ unless the title states a level ("Senior Product Manager" → `senior`).
 
 **tech_stack**: named technologies only: languages, frameworks, libraries, databases, cloud services,
 tools, operating systems. Lowercase.
+
 - No versions: `react 19` → `react`, `tailwind v4` → `tailwind` (normalized in code).
 - No concepts, domains or protocols: not `ai`, `llms`, `saas`, `rest apis`, `http`, `iot`.
 - Products the role builds on count (`openzfs`, `onshape`); generic categories don't.
 
 **locations**: office locations as `{city, region, country_code}`.
+
 - `country_code`: ISO 3166-1 alpha-2 (`US`, `GB`, `NL`, `IN`).
 - `region`: US state / CA province code when relevant (`NY`, `CA`), else `null`.
 - `city` as written, abbreviations expanded (`NYC` → `New York`, `SF` → `San Francisco`).
@@ -62,6 +64,7 @@ tools, operating systems. Lowercase.
 
 **remote_regions**: where remote hires may live, as codes: ISO alpha-2 countries or one of
 `EUROPE`, `EMEA`, `LATAM`, `APAC`, `AMERICAS`, `GLOBAL`.
+
 - "Remote (EU)" / "Europe" → `EUROPE`. "North America" → `US`, `CA`. "Worldwide" → `GLOBAL`.
 - Empty if not remote or unrestricted-and-unstated.
 

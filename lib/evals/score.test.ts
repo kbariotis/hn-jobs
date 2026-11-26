@@ -19,17 +19,25 @@ const role = (over: Partial<Role>): Role => ({
   apply_email: null,
   description: "",
   ...over,
-
 });
 
 test("aligns same-title roles by location", () => {
-  const gold = [role({ role_title: "Engineering Manager", locations: [{ city: "Bangalore", region: null, country_code: "IN" }] }), role({ role_title: "Engineering Manager", remote_regions: ["SG"] })];
+  const gold = [
+    role({ role_title: "Engineering Manager", locations: [{ city: "Bangalore", region: null, country_code: "IN" }] }),
+    role({ role_title: "Engineering Manager", remote_regions: ["SG"] }),
+  ];
   const pred = [gold[1], gold[0]];
-  assert.deepEqual(alignRoles(pred, gold).sort(), [[0, 1], [1, 0]]);
+  assert.deepEqual(alignRoles(pred, gold).sort(), [
+    [0, 1],
+    [1, 0],
+  ]);
 });
 
 test("does not align unrelated titles", () => {
-  assert.deepEqual(alignRoles([role({ role_title: "Product Designer" })], [role({ role_title: "Backend Engineer" })]), []);
+  assert.deepEqual(
+    alignRoles([role({ role_title: "Product Designer" })], [role({ role_title: "Backend Engineer" })]),
+    [],
+  );
   // single leftover pair with partial title overlap is the same role, reworded
   assert.deepEqual(alignRoles([role({ role_title: "Intern" })], [role({ role_title: "Intern/Co-op" })]), [[0, 0]]);
 });
@@ -40,7 +48,10 @@ test("perfect prediction scores 100 everywhere", () => {
   card.add(1, [role({ tech_stack: ["Go"], apply_url: "http://www.acme.io/jobs/" })], gold);
   const s = card.summary();
   assert.equal(s.role_recall, 100);
-  assert.ok(Object.values(s.fields).every((v) => v === 100), JSON.stringify(s.fields));
+  assert.ok(
+    Object.values(s.fields).every((v) => v === 100),
+    JSON.stringify(s.fields),
+  );
   assert.equal(card.mismatches.length, 0);
 });
 
@@ -72,8 +83,24 @@ test("plural titles align and list items ignore separators", () => {
 });
 
 test("canonicalizes both sides: aliases, versions, region names, city abbreviations", () => {
-  const gold = [role({ tech_stack: ["go", "react"], remote_regions: ["US"], locations: [{ city: "New York", region: "NY", country_code: "US" }] })];
+  const gold = [
+    role({
+      tech_stack: ["go", "react"],
+      remote_regions: ["US"],
+      locations: [{ city: "New York", region: "NY", country_code: "US" }],
+    }),
+  ];
   const card = new Scorecard();
-  card.add(1, [role({ tech_stack: ["golang", "react 19", "ai"], remote_regions: ["USA"], locations: [{ city: "NYC", region: null, country_code: "us" }] })], gold);
+  card.add(
+    1,
+    [
+      role({
+        tech_stack: ["golang", "react 19", "ai"],
+        remote_regions: ["USA"],
+        locations: [{ city: "NYC", region: null, country_code: "us" }],
+      }),
+    ],
+    gold,
+  );
   assert.equal(card.mismatches.length, 0, JSON.stringify(card.mismatches));
 });

@@ -20,7 +20,7 @@ Rules (mirrors LABELING.md):
 - "timezones": timezone constraints as written ("CET", "US Pacific hours"). Never put timezones in remote_regions.
 - "salary": only if figures are stated. "$165k-$210k" -> {min: 165000, max: 210000, currency: "USD", period: "year"}. Equity alone is not salary.
 - "apply_url": a URL that appears in the comment, copied character-for-character. Prefer the job or careers link over the homepage. Never construct, complete or extend a URL. null if none.
-- "apply_email": decode obfuscated addresses ("jane at acme dot com" -> "jane@acme.com").`
+- "apply_email": decode obfuscated addresses ("jane at acme dot com" -> "jane@acme.com").`,
 );
 
 export default prompt;

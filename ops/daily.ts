@@ -1,4 +1,4 @@
-require("dotenv").config();
+import "dotenv/config";
 
 import fs from "fs/promises";
 import { latestHiringThread, loadThread, toPostings } from "../lib/extraction/hn";
@@ -30,8 +30,8 @@ async function acquireLock(): Promise<boolean> {
   try {
     await fs.writeFile(LOCK, String(process.pid), { flag: "wx" });
     return true;
-  } catch (e: any) {
-    if (e.code !== "EEXIST") throw e;
+  } catch (e) {
+    if ((e as NodeJS.ErrnoException).code !== "EEXIST") throw e;
     const { mtimeMs } = await fs.stat(LOCK);
     if (Date.now() - mtimeMs < STALE_LOCK_MS) return false;
     console.warn("⚠ Removing stale lock from a crashed run");
@@ -47,7 +47,9 @@ async function main() {
   }
   const started = Date.now();
   try {
-    const target = arg("thread") ? { id: Number(arg("thread")), title: `thread ${arg("thread")}` } : await latestHiringThread();
+    const target = arg("thread")
+      ? { id: Number(arg("thread")), title: `thread ${arg("thread")}` }
+      : await latestHiringThread();
     console.log(`→ ${target.title} (${target.id})`);
 
     const postings = toPostings(await loadThread(target.id, { refresh: true }));
@@ -62,7 +64,7 @@ async function main() {
     console.log(
       `✓ ${postings.length} postings | ${ex.ok} extracted, ${ex.skipped} unchanged, ${ex.failed} failed, ${ex.deferred} deferred` +
         ` | index: ${idx.roles} roles, ${idx.embedded} embedded, ${idx.pruned} pruned` +
-        ` | coverage ${(coverage * 100).toFixed(1)}% | ${Math.round((Date.now() - started) / 1000)}s`
+        ` | coverage ${(coverage * 100).toFixed(1)}% | ${Math.round((Date.now() - started) / 1000)}s`,
     );
     if (ex.failedIds.length) console.log(`  still failing (retried next run): ${ex.failedIds.join(", ")}`);
     if (coverage < MIN_COVERAGE) process.exitCode = 1;

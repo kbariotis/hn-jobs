@@ -8,7 +8,12 @@ import { canonicalizeRoles } from "../canonical";
  * `description` is free text and deliberately not scored.
  */
 
-const norm = (s: string) => s.toLowerCase().normalize("NFKD").replace(/[^a-z0-9+#]+/g, " ").trim();
+const norm = (s: string) =>
+  s
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[^a-z0-9+#]+/g, " ")
+    .trim();
 // Crude plural folding so "Engineers" aligns with "Engineer".
 const stem = (t: string) => (t.length > 3 && t.endsWith("s") && !t.endsWith("ss") ? t.slice(0, -1) : t);
 const tokens = (s: string) => new Set(norm(s).split(" ").filter(Boolean).map(stem));
@@ -29,7 +34,7 @@ function roleSimilarity(pred: Role, gold: Role): number {
   const title = jaccard(tokens(pred.role_title), tokens(gold.role_title));
   const where = jaccard(
     new Set([...pred.locations.map(locKey), ...pred.remote_regions]),
-    new Set([...gold.locations.map(locKey), ...gold.remote_regions])
+    new Set([...gold.locations.map(locKey), ...gold.remote_regions]),
   );
   return 0.85 * title + 0.15 * where;
 }
@@ -44,7 +49,7 @@ export function alignRoles(pred: Role[], gold: Role[]): Array<[number, number]> 
     gold.forEach((g, j) => {
       const s = roleSimilarity(p, g);
       if (s >= MATCH_THRESHOLD) candidates.push([s, i, j]);
-    })
+    }),
   );
   candidates.sort((a, b) => b[0] - a[0]);
   const usedP = new Set<number>();
@@ -74,8 +79,7 @@ const SET_KEYS = {
   timezones: (r: Role) => r.timezones.map(itemKey),
 } as const;
 
-const salaryKey = (s: Role["salary"]) =>
-  s ? `${s.min}|${s.max}|${s.currency?.toUpperCase()}|${s.period}` : null;
+const salaryKey = (s: Role["salary"]) => (s ? `${s.min}|${s.max}|${s.currency?.toUpperCase()}|${s.period}` : null);
 
 // Comparators per exact-match field. Normalization is part of the metric definition.
 const EXACT: Record<string, (r: Role) => Scalar> = {
@@ -113,8 +117,28 @@ export class Scorecard {
     // Unmatched roles are recorded so missing/extra roles show up in the error list.
     const matchedP = new Set(pairs.map(([i]) => i));
     const matchedG = new Set(pairs.map(([, j]) => j));
-    pred.forEach((p, i) => !matchedP.has(i) && this.mismatches.push({ posting_id: postingId, role: p.role_title, field: "role(extra)", pred: p.role_title, gold: null }));
-    gold.forEach((g, j) => !matchedG.has(j) && this.mismatches.push({ posting_id: postingId, role: g.role_title, field: "role(missing)", pred: null, gold: g.role_title }));
+    pred.forEach(
+      (p, i) =>
+        !matchedP.has(i) &&
+        this.mismatches.push({
+          posting_id: postingId,
+          role: p.role_title,
+          field: "role(extra)",
+          pred: p.role_title,
+          gold: null,
+        }),
+    );
+    gold.forEach(
+      (g, j) =>
+        !matchedG.has(j) &&
+        this.mismatches.push({
+          posting_id: postingId,
+          role: g.role_title,
+          field: "role(missing)",
+          pred: null,
+          gold: g.role_title,
+        }),
+    );
 
     for (const [i, j] of pairs) {
       const p = pred[i];
@@ -123,7 +147,14 @@ export class Scorecard {
         const e = (this.exact[field] ??= { ok: 0, n: 0 });
         e.n++;
         if (key(p) === key(g)) e.ok++;
-        else this.mismatches.push({ posting_id: postingId, role: g.role_title, field, pred: (p as any)[field], gold: (g as any)[field] });
+        else
+          this.mismatches.push({
+            posting_id: postingId,
+            role: g.role_title,
+            field,
+            pred: (p as Record<string, unknown>)[field],
+            gold: (g as Record<string, unknown>)[field],
+          });
       }
       for (const [field, keys] of Object.entries(SET_KEYS)) {
         const s = (this.sets[field] ??= { tp: 0, fp: 0, fn: 0, exact: 0, n: 0 });
@@ -136,7 +167,14 @@ export class Scorecard {
         s.fn += gs.size - tp;
         s.n++;
         if (tp === ps.size && tp === gs.size) s.exact++;
-        else this.mismatches.push({ posting_id: postingId, role: g.role_title, field, pred: p[field as keyof Role], gold: g[field as keyof Role] });
+        else
+          this.mismatches.push({
+            posting_id: postingId,
+            role: g.role_title,
+            field,
+            pred: p[field as keyof Role],
+            gold: g[field as keyof Role],
+          });
       }
     }
   }
@@ -158,7 +196,7 @@ export class Scorecard {
             const r = s.tp / (s.tp + s.fn || 1);
             const f1 = p + r === 0 ? (s.tp + s.fp + s.fn === 0 ? 1 : 0) : (2 * p * r) / (p + r);
             return [f, Math.round(1000 * f1) / 10];
-          })
+          }),
         ),
       } as Record<string, number | null>,
     };

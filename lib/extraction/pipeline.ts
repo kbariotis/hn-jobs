@@ -1,10 +1,24 @@
 import fs from "fs/promises";
 import { RateLimiter, isRateLimited } from "../util/rate";
 import type { Posting } from "./hn";
-import { buildExtractor, extractPosting, extractedPath, isFresh, readExtractions, type ExtractionRecord } from "./extract";
+import {
+  buildExtractor,
+  extractPosting,
+  extractedPath,
+  isFresh,
+  readExtractions,
+  type ExtractionRecord,
+} from "./extract";
 import { extractModelId } from "../../models/extract";
 
-export type ExtractSummary = { total: number; skipped: number; ok: number; failed: number; failedIds: number[]; deferred: number };
+export type ExtractSummary = {
+  total: number;
+  skipped: number;
+  ok: number;
+  failed: number;
+  failedIds: number[];
+  deferred: number;
+};
 
 // After this many rate-limited failures in a row (each already retried with backoff), the quota
 // is gone for now: stop and leave the rest for the next run instead of burning minutes per posting.
@@ -17,7 +31,12 @@ const BREAKER_THRESHOLD = 3;
 export async function extractPostings(
   threadId: string | number,
   postings: Posting[],
-  { concurrency = 4, rpm = 60, modelId = extractModelId(), log = console.log }: { concurrency?: number; rpm?: number; modelId?: string; log?: (m: string) => void } = {}
+  {
+    concurrency = 4,
+    rpm = 60,
+    modelId = extractModelId(),
+    log = console.log,
+  }: { concurrency?: number; rpm?: number; modelId?: string; log?: (m: string) => void } = {},
 ): Promise<ExtractSummary> {
   const out = extractedPath(threadId, modelId);
   const existing = new Map((await readExtractions(out)).map((r) => [r.id, r]));
@@ -25,8 +44,17 @@ export async function extractPostings(
     const r = existing.get(p.id);
     return !r || !isFresh(r, p.text);
   });
-  const summary: ExtractSummary = { total: postings.length, skipped: postings.length - todo.length, ok: 0, failed: 0, failedIds: [], deferred: 0 };
-  log(`${modelId} | thread ${threadId} | ${rpm} rpm | ${postings.length} postings, ${summary.skipped} up to date, ${todo.length} to extract`);
+  const summary: ExtractSummary = {
+    total: postings.length,
+    skipped: postings.length - todo.length,
+    ok: 0,
+    failed: 0,
+    failedIds: [],
+    deferred: 0,
+  };
+  log(
+    `${modelId} | thread ${threadId} | ${rpm} rpm | ${postings.length} postings, ${summary.skipped} up to date, ${todo.length} to extract`,
+  );
   if (todo.length === 0) return summary;
 
   await fs.mkdir("data/extracted", { recursive: true });

@@ -4,20 +4,41 @@ import { withBackoff, isRateLimited, RateLimiter, KeyedTokenBucket } from "./rat
 
 test("backoff retries 429s, then succeeds", async () => {
   let calls = 0;
-  const out = await withBackoff(async () => {
-    if (++calls < 3) throw new Error("[429 Too Many Requests] Your project is temporarily rate-limited");
-    return "ok";
-  }, { baseMs: 1 });
+  const out = await withBackoff(
+    async () => {
+      if (++calls < 3) throw new Error("[429 Too Many Requests] Your project is temporarily rate-limited");
+      return "ok";
+    },
+    { baseMs: 1 },
+  );
   assert.equal(out, "ok");
   assert.equal(calls, 3);
 });
 
 test("backoff does not retry other errors, and gives up after `retries`", async () => {
   let calls = 0;
-  await assert.rejects(withBackoff(async () => { calls++; throw new Error("400 bad schema"); }, { baseMs: 1 }), /400/);
+  await assert.rejects(
+    withBackoff(
+      async () => {
+        calls++;
+        throw new Error("400 bad schema");
+      },
+      { baseMs: 1 },
+    ),
+    /400/,
+  );
   assert.equal(calls, 1);
   calls = 0;
-  await assert.rejects(withBackoff(async () => { calls++; throw new Error("429"); }, { baseMs: 1, retries: 2 }), /429/);
+  await assert.rejects(
+    withBackoff(
+      async () => {
+        calls++;
+        throw new Error("429");
+      },
+      { baseMs: 1, retries: 2 },
+    ),
+    /429/,
+  );
   assert.equal(calls, 3);
   assert.ok(isRateLimited(new Error("RESOURCE_EXHAUSTED")));
 });

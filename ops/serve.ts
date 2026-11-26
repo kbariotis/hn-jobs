@@ -1,4 +1,4 @@
-require("dotenv").config();
+import "dotenv/config";
 
 import http from "http";
 import fs from "fs/promises";
@@ -39,7 +39,11 @@ const STATIC: Record<string, string> = {
   "/app.js": "app.js",
   "/style.css": "style.css",
 };
-const TYPES: Record<string, string> = { ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8" };
+const TYPES: Record<string, string> = {
+  ".html": "text/html; charset=utf-8",
+  ".js": "text/javascript; charset=utf-8",
+  ".css": "text/css; charset=utf-8",
+};
 
 const SECURITY_HEADERS = {
   // No inline script/style, no third-party anything: post content can't execute even if it slips through.
@@ -51,13 +55,20 @@ const SECURITY_HEADERS = {
 };
 
 function send(res: http.ServerResponse, status: number, body: unknown, headers: Record<string, string> = {}) {
-  res.writeHead(status, { ...SECURITY_HEADERS, "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store", ...headers });
+  res.writeHead(status, {
+    ...SECURITY_HEADERS,
+    "Content-Type": "application/json; charset=utf-8",
+    "Cache-Control": "no-store",
+    ...headers,
+  });
   res.end(JSON.stringify(body));
 }
 
 function clientKey(req: http.IncomingMessage): string {
   if (TRUST_PROXY) {
-    const xff = String(req.headers["x-forwarded-for"] ?? "").split(",")[0].trim();
+    const xff = String(req.headers["x-forwarded-for"] ?? "")
+      .split(",")[0]
+      .trim();
     if (xff) return xff;
   }
   return req.socket.remoteAddress ?? "unknown";
@@ -73,7 +84,13 @@ async function getThreadId(): Promise<number> {
 
 async function handleSearch(req: http.IncomingMessage, res: http.ServerResponse, url: URL) {
   const key = clientKey(req);
-  if (!perClient.take(key)) return send(res, 429, { error: "Too many searches. Try again shortly." }, { "Retry-After": String(perClient.retryAfter(key)) });
+  if (!perClient.take(key))
+    return send(
+      res,
+      429,
+      { error: "Too many searches. Try again shortly." },
+      { "Retry-After": String(perClient.retryAfter(key)) },
+    );
 
   const q = cleanQuery(url.searchParams.get("q"));
   if (!q) return send(res, 400, { error: "Enter a search between 2 and 200 characters." });
@@ -86,7 +103,8 @@ async function handleSearch(req: http.IncomingMessage, res: http.ServerResponse,
   let pending = inflight.get(cacheKey);
   if (!pending) {
     // Spend guard: misses are the only requests that cost money.
-    if (!misses.take("global")) return send(res, 503, { error: "Search is busy right now. Try again in a minute." }, { "Retry-After": "30" });
+    if (!misses.take("global"))
+      return send(res, 503, { error: "Search is busy right now. Try again in a minute." }, { "Retry-After": "30" });
     pending = searchJobs(q, { threadId }).finally(() => inflight.delete(cacheKey));
     inflight.set(cacheKey, pending);
   }
@@ -97,7 +115,8 @@ async function handleSearch(req: http.IncomingMessage, res: http.ServerResponse,
 
 const server = http.createServer(async (req, res) => {
   try {
-    if (req.method !== "GET" && req.method !== "HEAD") return send(res, 405, { error: "Method not allowed" }, { Allow: "GET, HEAD" });
+    if (req.method !== "GET" && req.method !== "HEAD")
+      return send(res, 405, { error: "Method not allowed" }, { Allow: "GET, HEAD" });
     const url = new URL(req.url ?? "/", "http://localhost");
     if (url.pathname === "/api/search") return await handleSearch(req, res, url);
     if (url.pathname === "/healthz") return send(res, 200, { ok: true });

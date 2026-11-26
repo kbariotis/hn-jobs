@@ -1,571 +1,1486 @@
 <!doctype html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Gold Review</title>
-<style>
-  :root {
-    --bg: #f7f7f5; --panel: #ffffff; --ink: #1d1d1b; --muted: #6b6b66; --line: #e3e2dd;
-    --accent: #c2410c; --accent-soft: #fff1e8; --ok: #15803d; --ok-soft: #e8f6ec;
-    --warn: #b45309; --warn-soft: #fef6e4; --bad: #b91c1c; --bad-soft: #fdeceb;
-    --tech: #dbeafe; --loc: #dcfce7; --url: #f3e8ff; --focus: #2563eb;
-    --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #151514; --panel: #1e1e1c; --ink: #ecebe6; --muted: #9b9a93; --line: #34332f;
-      --accent: #fb923c; --accent-soft: #3a2416; --ok: #4ade80; --ok-soft: #14301d;
-      --warn: #fbbf24; --warn-soft: #3a2c10; --bad: #f87171; --bad-soft: #3b1717;
-      --tech: #1e3a5f; --loc: #173d26; --url: #3b2552; --focus: #60a5fa;
-    }
-  }
-  * { box-sizing: border-box; }
-  html, body { margin: 0; height: 100%; }
-  body { background: var(--bg); color: var(--ink); font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; display: grid; grid-template-rows: auto 1fr; }
-  button, input, select, textarea { font: inherit; color: inherit; }
-  button { cursor: pointer; border: 1px solid var(--line); background: var(--panel); border-radius: 6px; padding: 5px 10px; }
-  button:hover { border-color: var(--muted); }
-  button.primary { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
-  button.ghost { border-color: transparent; background: transparent; color: var(--muted); padding: 3px 6px; }
-  button.ghost:hover { color: var(--ink); background: var(--bg); }
-  :focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
-  kbd { font: 11px var(--mono); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px; padding: 0 4px; background: var(--panel); }
-
-  header { display: flex; align-items: center; gap: 16px; padding: 10px 16px; border-bottom: 1px solid var(--line); background: var(--panel); flex-wrap: wrap; }
-  header h1 { font-size: 15px; margin: 0; font-weight: 650; }
-  .progress { display: flex; align-items: center; gap: 8px; color: var(--muted); font-variant-numeric: tabular-nums; }
-  .bar { width: 160px; height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; }
-  .bar > i { display: block; height: 100%; background: var(--ok); transition: width .2s; }
-  header .spacer { flex: 1; }
-  .hint { color: var(--muted); font-size: 12px; }
-
-  .layout { display: grid; grid-template-columns: 250px minmax(0, 1fr) minmax(0, 1.25fr); min-height: 0; }
-  aside { border-right: 1px solid var(--line); overflow: auto; background: var(--panel); }
-  .filters { position: sticky; top: 0; background: var(--panel); padding: 10px; border-bottom: 1px solid var(--line); display: grid; gap: 6px; z-index: 1; }
-  .filters select, .filters input { width: 100%; padding: 5px 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); }
-  .item { display: grid; grid-template-columns: 10px 1fr auto; gap: 8px; align-items: center; padding: 8px 10px; border-bottom: 1px solid var(--line); cursor: pointer; }
-  .item:hover { background: var(--bg); }
-  .item.active { background: var(--accent-soft); box-shadow: inset 3px 0 var(--accent); }
-  .item .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--warn); }
-  .item .dot.reviewed { background: var(--ok); }
-  .item .name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .item .sub { color: var(--muted); font-size: 12px; }
-  .badge { font-size: 11px; font-variant-numeric: tabular-nums; padding: 1px 6px; border-radius: 10px; background: var(--warn-soft); color: var(--warn); }
-  .badge.zero { background: transparent; color: var(--muted); }
-
-  section { overflow: auto; min-height: 0; padding: 16px; }
-  .source { border-right: 1px solid var(--line); }
-  .panel-head { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
-  .panel-head h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin: 0; }
-  .text { white-space: pre-wrap; word-break: break-word; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 14px; line-height: 1.55; }
-  mark { color: inherit; border-radius: 3px; padding: 0 1px; }
-  mark.tech { background: var(--tech); } mark.loc { background: var(--loc); } mark.url { background: var(--url); }
-  .legend { display: flex; gap: 8px; font-size: 12px; color: var(--muted); }
-  .legend span::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 4px; vertical-align: -1px; background: var(--c); }
-
-  .status { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 10px; }
-  .status.draft { background: var(--warn-soft); color: var(--warn); }
-  .status.reviewed { background: var(--ok-soft); color: var(--ok); }
-  .dirty { color: var(--accent); font-size: 12px; font-weight: 600; }
-  .actions { display: flex; gap: 8px; margin-left: auto; flex-wrap: wrap; }
-
-  .banner { padding: 10px 12px; border-radius: 8px; margin-bottom: 12px; display: flex; gap: 10px; align-items: center; }
-  .banner.err { background: var(--bad-soft); color: var(--bad); }
-  .banner.info { background: var(--warn-soft); color: var(--warn); }
-
-  .notes { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 10px; margin-bottom: 14px; }
-  .notes h3, .role h3 { font-size: 13px; margin: 0 0 8px; }
-  .note { display: flex; gap: 6px; margin-bottom: 6px; }
-  .note textarea { flex: 1; min-height: 34px; resize: vertical; }
-
-  .role { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 12px; margin-bottom: 12px; }
-  .role.has-diff { border-color: var(--warn); }
-  .role-head { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; }
-  .role-head input { flex: 1; font-weight: 600; font-size: 15px; }
-  .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 14px; }
-  .field { display: grid; gap: 3px; min-width: 0; }
-  .field.wide { grid-column: 1 / -1; }
-  .field > label { font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); display: flex; gap: 6px; align-items: center; }
-  .field.diff > label { color: var(--warn); font-weight: 600; }
-  input[type=text], input[type=number], select, textarea { width: 100%; padding: 5px 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); min-width: 0; }
-  input.ungrounded { border-color: var(--bad); background: var(--bad-soft); }
-  .salary { display: grid; grid-template-columns: 1fr 1fr 70px 90px; gap: 6px; }
-  .chips { display: flex; flex-wrap: wrap; gap: 4px; min-height: 0; }
-  .chip { font-size: 12px; padding: 1px 7px; border-radius: 10px; background: var(--bg); border: 1px solid var(--line); }
-  .chip.bad { border-color: var(--bad); color: var(--bad); background: var(--bad-soft); }
-  .alts { display: flex; flex-wrap: wrap; gap: 4px; }
-  .alt { font-size: 12px; padding: 1px 8px; border-radius: 10px; border: 1px dashed var(--warn); background: var(--warn-soft); color: var(--ink); text-align: left; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .alt b { color: var(--warn); font-weight: 600; margin-right: 4px; }
-  .extra-roles { background: var(--warn-soft); border: 1px dashed var(--warn); border-radius: 8px; padding: 10px; margin-bottom: 12px; font-size: 13px; }
-  .extra-roles button { margin: 4px 4px 0 0; }
-
-  .toast { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 8px 14px; border-radius: 8px; opacity: 0; transition: opacity .2s; pointer-events: none; }
-  .toast.show { opacity: 1; }
-  dialog { border: 1px solid var(--line); border-radius: 10px; background: var(--panel); color: var(--ink); max-width: 420px; }
-  dialog table { border-collapse: collapse; } dialog td { padding: 4px 10px 4px 0; }
-
-  @media (max-width: 1100px) {
-    body { height: auto; }
-    .layout { grid-template-columns: 1fr; }
-    aside { max-height: 40vh; border-right: 0; border-bottom: 1px solid var(--line); }
-    .source { border-right: 0; border-bottom: 1px solid var(--line); }
-    .grid { grid-template-columns: 1fr; }
-  }
-</style>
-</head>
-<body>
-<header>
-  <h1>Gold Review</h1>
-  <div class="progress"><div class="bar"><i id="bar"></i></div><span id="progress-text">–</span></div>
-  <span class="hint" id="models-hint"></span>
-  <span class="spacer"></span>
-  <span class="hint"><kbd>j</kbd>/<kbd>k</kbd> navigate · <kbd>⌘S</kbd> save · <kbd>⌘↵</kbd> mark reviewed &amp; next · <button class="ghost" id="help-btn">?</button></span>
-</header>
-
-<div class="layout">
-  <aside>
-    <div class="filters">
-      <select id="filter" aria-label="Filter postings">
-        <option value="todo">To review (drafts)</option>
-        <option value="diff">Models disagree</option>
-        <option value="reviewed">Reviewed</option>
-        <option value="all">All</option>
-      </select>
-      <input id="search" type="text" placeholder="Search text…" aria-label="Search postings">
-    </div>
-    <div id="list"></div>
-  </aside>
-
-  <section class="source">
-    <div class="panel-head">
-      <h2>Source</h2>
-      <span class="hint" id="posting-id"></span>
-      <span class="spacer" style="flex:1"></span>
-      <div class="legend"><span style="--c:var(--tech)">tech</span><span style="--c:var(--loc)">location</span><span style="--c:var(--url)">url/email</span></div>
-    </div>
-    <div class="text" id="text"></div>
-  </section>
-
-  <section>
-    <div id="banner"></div>
-    <div class="panel-head">
-      <h2>Labels</h2>
-      <span class="status" id="status"></span>
-      <span class="dirty" id="dirty" hidden>● unsaved</span>
-      <div class="actions">
-        <button id="revert">Revert</button>
-        <button id="save" title="Save without changing status">Save</button>
-        <button id="review" class="primary">Mark reviewed &amp; next</button>
-      </div>
-    </div>
-    <div class="notes">
-      <h3>Notes <span class="hint">labelling decisions, open questions</span></h3>
-      <div id="notes"></div>
-      <button class="ghost" id="add-note">+ note</button>
-    </div>
-    <div id="extra"></div>
-    <div id="roles"></div>
-    <button id="add-role">+ Add role</button>
-  </section>
-</div>
-
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
-<dialog id="help">
-  <h3 style="margin-top:0">Reviewing</h3>
-  <table>
-    <tr><td><kbd>j</kbd> / <kbd>k</kbd></td><td>next / previous posting</td></tr>
-    <tr><td><kbd>⌘S</kbd></td><td>save (keeps status)</td></tr>
-    <tr><td><kbd>⌘↵</kbd></td><td>mark reviewed, go to next draft</td></tr>
-  </table>
-  <p class="hint">Amber pills show what <em>other</em> models extracted when it differs from the label. Click one to adopt it. Red chips/inputs are values not found in the source text.</p>
-  <p class="hint">Lists are comma-separated. Leave a select on “—” for null.</p>
-  <form method="dialog"><button>Close</button></form>
-</dialog>
-
-<script>
-"use strict";
-const ENUMS = {
-  employment_type: ["full-time", "part-time", "contract", "internship"],
-  remote_policy: ["remote", "hybrid", "onsite"],
-  seniority: ["intern", "junior", "mid", "senior", "staff", "principal", "lead", "manager", "director", "executive"],
-};
-const LISTS = ["tech_stack", "remote_regions", "timezones"]; // string lists; locations are objects
-const FIELDS = ["company_name", "employment_type", "remote_policy", "seniority", "remote_regions", "timezones", "locations", "tech_stack", "salary", "visa_sponsorship", "apply_url", "apply_email", "description"];
-const BLANK_ROLE = () => ({ company_name: "", role_title: "", employment_type: null, remote_policy: null, remote_regions: [], timezones: [], locations: [], seniority: null, tech_stack: [], salary: null, visa_sponsorship: null, apply_url: null, apply_email: null, description: "" });
-const MACROS = ["EUROPE", "EMEA", "LATAM", "APAC", "AMERICAS", "GLOBAL"];
-const validRegion = (c) => /^[A-Z]{2}$/.test(c) || MACROS.includes(c);
-// Locations edit as "City, REGION, CC; City, CC; CC" (see LABELING.md).
-const locText = (l) => [l.city, l.region, l.country_code].filter(Boolean).join(", ");
-function parseLocs(str) {
-  return str.split(";").map((x) => x.trim()).filter(Boolean).map((x) => {
-    const parts = x.split(",").map((y) => y.trim());
-    const cc = (s) => (s ? s.toUpperCase() : null);
-    if (parts.length >= 3) return { city: parts[0] || null, region: parts[1] ? parts[1].toUpperCase() : null, country_code: cc(parts[2]) };
-    if (parts.length === 2) return { city: parts[0] || null, region: null, country_code: cc(parts[1]) };
-    return /^[A-Za-z]{2}$/.test(parts[0]) ? { city: null, region: null, country_code: cc(parts[0]) } : { city: parts[0], region: null, country_code: null };
-  });
-}
-const locKey = (l) => `${norm(l.city || "").replace(/ /g, "")}|${l.country_code || ""}`;
-
-const $ = (id) => document.getElementById(id);
-const el = (tag, props = {}, ...kids) => {
-  const n = document.createElement(tag);
-  for (const [k, v] of Object.entries(props)) {
-    if (k === "class") n.className = v;
-    else if (k.startsWith("on")) n.addEventListener(k.slice(2), v);
-    else if (v !== undefined && v !== null && v !== false) n.setAttribute(k, v === true ? "" : v);
-  }
-  for (const kid of kids.flat()) if (kid != null) n.append(kid instanceof Node ? kid : document.createTextNode(String(kid)));
-  return n;
-};
-const clone = (x) => JSON.parse(JSON.stringify(x));
-
-// ---------- normalization (mirrors lib/score.ts so pills agree with the eval) ----------
-const norm = (s) => String(s ?? "").toLowerCase().normalize("NFKD").replace(/[^a-z0-9+#]+/g, " ").trim();
-const normUrl = (u) => u ? u.trim().toLowerCase().replace(/^[a-z]+:\/\//, "").replace(/^www\./, "").replace(/[)\].,;:!?'"]+$/, "").replace(/\/+$/, "") : null;
-const keyOf = (field, v) => {
-  if (LISTS.includes(field)) return JSON.stringify([...new Set((v || []).map((x) => norm(x).replace(/ /g, "")))].sort());
-  if (field === "locations") return JSON.stringify([...new Set((v || []).map(locKey))].sort());
-  if (field === "salary") return v ? `${v.min}|${v.max}|${(v.currency || "").toUpperCase()}|${v.period}` : "null";
-  if (field === "apply_url") return String(normUrl(v));
-  if (field === "description") return "skip";
-  if (typeof v === "string") return norm(v);
-  return JSON.stringify(v ?? null);
-};
-const stem = (t) => (t.length > 3 && t.endsWith("s") && !t.endsWith("ss") ? t.slice(0, -1) : t);
-const tokens = (s) => new Set(norm(s).split(" ").filter(Boolean).map(stem));
-function jaccard(a, b) { if (!a.size && !b.size) return 1; let i = 0; for (const t of a) if (b.has(t)) i++; return i / (a.size + b.size - i); }
-function align(pred, gold) {
-  const c = [];
-  pred.forEach((p, i) => gold.forEach((g, j) => {
-    const s = 0.85 * jaccard(tokens(p.role_title), tokens(g.role_title)) +
-      0.15 * jaccard(new Set([...p.locations.map(locKey), ...p.remote_regions]), new Set([...g.locations.map(locKey), ...g.remote_regions]));
-    if (s >= 0.5) c.push([s, i, j]);
-  }));
-  c.sort((a, b) => b[0] - a[0]);
-  const up = new Set(), ug = new Set(), map = new Map();
-  for (const [, i, j] of c) { if (up.has(i) || ug.has(j)) continue; up.add(i); ug.add(j); map.set(j, i); }
-  return map; // gold index -> pred index
-}
-
-// ---------- grounding hints ----------
-function grounded(term, text) {
-  const t = norm(term); if (!t) return true;
-  return (" " + norm(text) + " ").includes(" " + t + " ") || norm(text).replace(/ /g, "").includes(t.replace(/ /g, ""));
-}
-const urlGrounded = (u, text) => !u || norm(text).replace(/ /g, "").includes(norm(normUrl(u)).replace(/ /g, ""));
-
-// ---------- state ----------
-let data = null, etag = null, currentId = null, work = null, dirty = false;
-const shortModel = (m) => m.replace(/^[a-z-]+:/, "");
-const current = () => data.postings.find((p) => p.id === currentId);
-// All models, including the seed: once a label is corrected, what the seed said is useful context.
-const otherModels = () => Object.keys(data.extractions);
-const titleOf = (p) => (p.text.split("\n")[0] || "").split(/[|–—-]/)[0].trim().slice(0, 60) || `#${p.id}`;
-
-function diffCount(p, roles = p.roles) {
-  let n = 0;
-  for (const m of Object.keys(data.extractions)) {
-    const pred = data.extractions[m][p.id]; if (!pred) continue;
-    if (pred.length !== roles.length) n++;
-    const map = align(pred, roles);
-    roles.forEach((g, j) => {
-      if (!map.has(j)) return;
-      const r = pred[map.get(j)];
-      for (const f of FIELDS) if (f !== "description" && keyOf(f, r[f]) !== keyOf(f, g[f])) n++;
-    });
-  }
-  return n;
-}
-
-// ---------- rendering ----------
-function renderProgress() {
-  const r = data.postings.filter((p) => p.status === "reviewed").length;
-  $("bar").style.width = `${(100 * r) / data.postings.length}%`;
-  $("progress-text").textContent = `${r} / ${data.postings.length} reviewed`;
-}
-
-function visiblePostings() {
-  const f = $("filter").value, q = $("search").value.trim().toLowerCase();
-  return data.postings.filter((p) =>
-    (f === "all" || (f === "todo" && p.status === "draft") || (f === "reviewed" && p.status === "reviewed") || (f === "diff" && p._diff > 0)) &&
-    (!q || p.text.toLowerCase().includes(q)));
-}
-
-function renderList() {
-  const list = $("list"); list.replaceChildren();
-  const vis = visiblePostings();
-  if (!vis.length) list.append(el("p", { class: "hint", style: "padding:10px" }, "Nothing here."));
-  for (const p of vis) {
-    list.append(el("div", { class: "item" + (p.id === currentId ? " active" : ""), onclick: () => go(p.id), role: "button", tabindex: "0" },
-      el("span", { class: "dot" + (p.status === "reviewed" ? " reviewed" : ""), title: p.status }),
-      el("div", { style: "min-width:0" }, el("div", { class: "name" }, titleOf(p)), el("div", { class: "sub" }, `${p.roles.length} role(s) · #${p.id}`)),
-      el("span", { class: "badge" + (p._diff ? "" : " zero"), title: "fields where other models disagree" }, p._diff || "✓")));
-  }
-}
-
-function renderText() {
-  const p = current(), text = p.text, terms = [];
-  for (const r of work.roles) {
-    r.tech_stack.forEach((t) => terms.push([t, "tech"]));
-    r.locations.forEach((l) => l.city && terms.push([l.city, "loc"]));
-    r.timezones.forEach((t) => terms.push([t, "loc"]));
-    [r.apply_url, r.apply_email].forEach((t) => t && terms.push([t.replace(/^[a-z]+:\/\//i, "").replace(/^www\./i, ""), "url"]));
-  }
-  const ranges = [];
-  for (const [term, cls] of terms) {
-    if (!term || term.length < 1) continue;
-    const esc = term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    const re = new RegExp(term.length <= 3 ? `(?<![A-Za-z0-9])${esc}(?![A-Za-z0-9])` : esc, "gi");
-    let m; while ((m = re.exec(text))) { ranges.push([m.index, m.index + m[0].length, cls]); if (!m[0].length) re.lastIndex++; }
-  }
-  ranges.sort((a, b) => a[0] - b[0] || b[1] - a[1]);
-  const box = $("text"); box.replaceChildren();
-  let pos = 0;
-  for (const [s, e, cls] of ranges) {
-    if (s < pos) continue; // overlapping highlight: first wins
-    box.append(document.createTextNode(text.slice(pos, s)), el("mark", { class: cls }, text.slice(s, e)));
-    pos = e;
-  }
-  box.append(document.createTextNode(text.slice(pos)));
-  $("posting-id").textContent = `#${p.id} · seeded from ${shortModel(p.seeded_from)}`;
-}
-
-function renderHeader() {
-  const s = $("status"); s.className = "status " + work.status; s.textContent = work.status;
-  $("dirty").hidden = !dirty;
-}
-
-function markDirty() { dirty = true; $("dirty").hidden = false; }
-
-function renderNotes() {
-  const box = $("notes"); box.replaceChildren();
-  work.notes.forEach((n, i) => box.append(el("div", { class: "note" },
-    el("textarea", { "aria-label": `Note ${i + 1}`, oninput: (e) => { work.notes[i] = e.target.value; markDirty(); } }, n),
-    el("button", { class: "ghost", title: "Remove note", onclick: () => { work.notes.splice(i, 1); markDirty(); renderNotes(); } }, "✕"))));
-}
-
-// Value -> display string for pills.
-const show = (f, v) => {
-  if (v === null || v === undefined || (Array.isArray(v) && !v.length)) return "∅";
-  if (f === "locations") return v.map(locText).join("; ");
-  if (f === "salary") return `${v.min ?? "?"}–${v.max ?? "?"} ${v.currency ?? ""}/${v.period ?? "?"}`;
-  return Array.isArray(v) ? v.join(", ") : String(v);
-};
-
-function renderRoles() {
-  const p = current(), box = $("roles"); box.replaceChildren();
-  // Per model: gold index -> that model's aligned role.
-  const aligned = otherModels(p).map((m) => {
-    const pred = data.extractions[m][p.id] || [];
-    return { m, pred, map: align(pred, work.roles) };
-  });
-  renderExtraRoles(aligned);
-
-  work.roles.forEach((role, ri) => {
-    const card = el("div", { class: "role" });
-    const fieldEls = [];
-    const field = (name, control, opts = {}) => {
-      const f = el("div", { class: "field" + (opts.wide ? " wide" : "") }, el("label", {}, name.replace(/_/g, " ")), control);
-      const decor = el("div", {}); f.append(decor);
-      const refresh = () => {
-        decor.replaceChildren();
-        // Chip check: free-text values must appear in the post; region codes must be valid codes.
-        const chip = (label, ok, why) => el("span", { class: "chip" + (ok ? "" : " bad"), title: ok ? "" : why }, label);
-        if (name === "tech_stack" || name === "timezones") decor.append(el("div", { class: "chips" }, role[name].map((t) => chip(t, grounded(t, p.text), "not found in source"))));
-        if (name === "remote_regions") decor.append(el("div", { class: "chips" }, role[name].map((t) => chip(t, validRegion(t), "use an ISO alpha-2 code or " + MACROS.join("/")))));
-        if (name === "locations") decor.append(el("div", { class: "chips" }, role.locations.map((l) => chip(locText(l) || "?", !!l.country_code && (!l.city || grounded(l.city, p.text) || l.city === "New York" || l.city === "San Francisco"), !l.country_code ? "missing country code" : "city not found in source"))));
-        let differs = false;
-        const alts = el("div", { class: "alts" });
-        const seen = new Set();
-        for (const { m, pred, map } of aligned) {
-          if (!map.has(ri)) continue;
-          const v = pred[map.get(ri)][name];
-          if (name === "description" || keyOf(name, v) === keyOf(name, role[name])) continue;
-          differs = true;
-          const k = keyOf(name, v); if (seen.has(k)) continue; seen.add(k);
-          alts.append(el("button", { class: "alt", title: `Use ${shortModel(m)}'s value`, onclick: () => { role[name] = clone(v); markDirty(); renderRoles(); renderText(); refreshCurrentBadge(); } },
-            el("b", {}, shortModel(m)), show(name, v)));
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gold Review</title>
+    <style>
+      :root {
+        --bg: #f7f7f5;
+        --panel: #ffffff;
+        --ink: #1d1d1b;
+        --muted: #6b6b66;
+        --line: #e3e2dd;
+        --accent: #c2410c;
+        --accent-soft: #fff1e8;
+        --ok: #15803d;
+        --ok-soft: #e8f6ec;
+        --warn: #b45309;
+        --warn-soft: #fef6e4;
+        --bad: #b91c1c;
+        --bad-soft: #fdeceb;
+        --tech: #dbeafe;
+        --loc: #dcfce7;
+        --url: #f3e8ff;
+        --focus: #2563eb;
+        --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg: #151514;
+          --panel: #1e1e1c;
+          --ink: #ecebe6;
+          --muted: #9b9a93;
+          --line: #34332f;
+          --accent: #fb923c;
+          --accent-soft: #3a2416;
+          --ok: #4ade80;
+          --ok-soft: #14301d;
+          --warn: #fbbf24;
+          --warn-soft: #3a2c10;
+          --bad: #f87171;
+          --bad-soft: #3b1717;
+          --tech: #1e3a5f;
+          --loc: #173d26;
+          --url: #3b2552;
+          --focus: #60a5fa;
         }
-        if (differs) decor.append(alts);
-        f.classList.toggle("diff", differs);
-        return differs;
-      };
-      fieldEls.push(refresh);
-      return f;
-    };
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+      }
+      body {
+        background: var(--bg);
+        color: var(--ink);
+        font:
+          14px/1.45 system-ui,
+          -apple-system,
+          "Segoe UI",
+          sans-serif;
+        display: grid;
+        grid-template-rows: auto 1fr;
+      }
+      button,
+      input,
+      select,
+      textarea {
+        font: inherit;
+        color: inherit;
+      }
+      button {
+        cursor: pointer;
+        border: 1px solid var(--line);
+        background: var(--panel);
+        border-radius: 6px;
+        padding: 5px 10px;
+      }
+      button:hover {
+        border-color: var(--muted);
+      }
+      button.primary {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #fff;
+        font-weight: 600;
+      }
+      button.ghost {
+        border-color: transparent;
+        background: transparent;
+        color: var(--muted);
+        padding: 3px 6px;
+      }
+      button.ghost:hover {
+        color: var(--ink);
+        background: var(--bg);
+      }
+      :focus-visible {
+        outline: 2px solid var(--focus);
+        outline-offset: 1px;
+      }
+      kbd {
+        font: 11px var(--mono);
+        border: 1px solid var(--line);
+        border-bottom-width: 2px;
+        border-radius: 4px;
+        padding: 0 4px;
+        background: var(--panel);
+      }
 
-    const text = (name, nullable) => el("input", {
-      type: "text", value: role[name] ?? "", "aria-label": name,
-      class: name === "apply_url" && role[name] && !urlGrounded(role[name], p.text) ? "ungrounded" : undefined,
-      oninput: (e) => { role[name] = nullable && !e.target.value.trim() ? null : e.target.value; markDirty(); },
-      onchange: (e) => { if (name === "apply_url") e.target.classList.toggle("ungrounded", !!role[name] && !urlGrounded(role[name], p.text)); refreshAll(); },
-    });
-    const select = (name, options) => {
-      const s = el("select", { "aria-label": name, onchange: (e) => {
-        const v = e.target.value; role[name] = v === "" ? null : v === "true" ? true : v === "false" ? false : v; markDirty(); refreshAll(); } },
-        el("option", { value: "" }, "—"), options.map((o) => el("option", { value: String(o) }, String(o))));
-      s.value = role[name] === null ? "" : String(role[name]);
-      return s;
-    };
-    const list = (name) => el("input", {
-      type: "text", value: role[name].join(", "), "aria-label": `${name} (comma-separated)`,
-      oninput: (e) => { role[name] = [...new Set(e.target.value.split(",").map((x) => (name === "remote_regions" ? x.trim().toUpperCase() : x.trim())).filter(Boolean))]; markDirty(); },
-      onchange: () => { refreshAll(); renderText(); },
-    });
-    const salary = () => {
-      const s = role.salary || { min: null, max: null, currency: null, period: null };
-      const set = (k, v) => {
-        const next = { ...(role.salary || { min: null, max: null, currency: null, period: null }), [k]: v };
-        role.salary = Object.values(next).every((x) => x === null || x === "") ? null : next;
+      header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 10px 16px;
+        border-bottom: 1px solid var(--line);
+        background: var(--panel);
+        flex-wrap: wrap;
+      }
+      header h1 {
+        font-size: 15px;
+        margin: 0;
+        font-weight: 650;
+      }
+      .progress {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--muted);
+        font-variant-numeric: tabular-nums;
+      }
+      .bar {
+        width: 160px;
+        height: 6px;
+        background: var(--line);
+        border-radius: 3px;
+        overflow: hidden;
+      }
+      .bar > i {
+        display: block;
+        height: 100%;
+        background: var(--ok);
+        transition: width 0.2s;
+      }
+      header .spacer {
+        flex: 1;
+      }
+      .hint {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: 250px minmax(0, 1fr) minmax(0, 1.25fr);
+        min-height: 0;
+      }
+      aside {
+        border-right: 1px solid var(--line);
+        overflow: auto;
+        background: var(--panel);
+      }
+      .filters {
+        position: sticky;
+        top: 0;
+        background: var(--panel);
+        padding: 10px;
+        border-bottom: 1px solid var(--line);
+        display: grid;
+        gap: 6px;
+        z-index: 1;
+      }
+      .filters select,
+      .filters input {
+        width: 100%;
+        padding: 5px 8px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: var(--bg);
+      }
+      .item {
+        display: grid;
+        grid-template-columns: 10px 1fr auto;
+        gap: 8px;
+        align-items: center;
+        padding: 8px 10px;
+        border-bottom: 1px solid var(--line);
+        cursor: pointer;
+      }
+      .item:hover {
+        background: var(--bg);
+      }
+      .item.active {
+        background: var(--accent-soft);
+        box-shadow: inset 3px 0 var(--accent);
+      }
+      .item .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--warn);
+      }
+      .item .dot.reviewed {
+        background: var(--ok);
+      }
+      .item .name {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .item .sub {
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .badge {
+        font-size: 11px;
+        font-variant-numeric: tabular-nums;
+        padding: 1px 6px;
+        border-radius: 10px;
+        background: var(--warn-soft);
+        color: var(--warn);
+      }
+      .badge.zero {
+        background: transparent;
+        color: var(--muted);
+      }
+
+      section {
+        overflow: auto;
+        min-height: 0;
+        padding: 16px;
+      }
+      .source {
+        border-right: 1px solid var(--line);
+      }
+      .panel-head {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+      }
+      .panel-head h2 {
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--muted);
+        margin: 0;
+      }
+      .text {
+        white-space: pre-wrap;
+        word-break: break-word;
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 14px;
+        line-height: 1.55;
+      }
+      mark {
+        color: inherit;
+        border-radius: 3px;
+        padding: 0 1px;
+      }
+      mark.tech {
+        background: var(--tech);
+      }
+      mark.loc {
+        background: var(--loc);
+      }
+      mark.url {
+        background: var(--url);
+      }
+      .legend {
+        display: flex;
+        gap: 8px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .legend span::before {
+        content: "";
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 2px;
+        margin-right: 4px;
+        vertical-align: -1px;
+        background: var(--c);
+      }
+
+      .status {
+        font-size: 12px;
+        font-weight: 600;
+        padding: 2px 8px;
+        border-radius: 10px;
+      }
+      .status.draft {
+        background: var(--warn-soft);
+        color: var(--warn);
+      }
+      .status.reviewed {
+        background: var(--ok-soft);
+        color: var(--ok);
+      }
+      .dirty {
+        color: var(--accent);
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .actions {
+        display: flex;
+        gap: 8px;
+        margin-left: auto;
+        flex-wrap: wrap;
+      }
+
+      .banner {
+        padding: 10px 12px;
+        border-radius: 8px;
+        margin-bottom: 12px;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      .banner.err {
+        background: var(--bad-soft);
+        color: var(--bad);
+      }
+      .banner.info {
+        background: var(--warn-soft);
+        color: var(--warn);
+      }
+
+      .notes {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 10px;
+        margin-bottom: 14px;
+      }
+      .notes h3,
+      .role h3 {
+        font-size: 13px;
+        margin: 0 0 8px;
+      }
+      .note {
+        display: flex;
+        gap: 6px;
+        margin-bottom: 6px;
+      }
+      .note textarea {
+        flex: 1;
+        min-height: 34px;
+        resize: vertical;
+      }
+
+      .role {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 12px;
+        margin-bottom: 12px;
+      }
+      .role.has-diff {
+        border-color: var(--warn);
+      }
+      .role-head {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+      .role-head input {
+        flex: 1;
+        font-weight: 600;
+        font-size: 15px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px 14px;
+      }
+      .field {
+        display: grid;
+        gap: 3px;
+        min-width: 0;
+      }
+      .field.wide {
+        grid-column: 1 / -1;
+      }
+      .field > label {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--muted);
+        display: flex;
+        gap: 6px;
+        align-items: center;
+      }
+      .field.diff > label {
+        color: var(--warn);
+        font-weight: 600;
+      }
+      input[type="text"],
+      input[type="number"],
+      select,
+      textarea {
+        width: 100%;
+        padding: 5px 8px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: var(--bg);
+        min-width: 0;
+      }
+      input.ungrounded {
+        border-color: var(--bad);
+        background: var(--bad-soft);
+      }
+      .salary {
+        display: grid;
+        grid-template-columns: 1fr 1fr 70px 90px;
+        gap: 6px;
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        min-height: 0;
+      }
+      .chip {
+        font-size: 12px;
+        padding: 1px 7px;
+        border-radius: 10px;
+        background: var(--bg);
+        border: 1px solid var(--line);
+      }
+      .chip.bad {
+        border-color: var(--bad);
+        color: var(--bad);
+        background: var(--bad-soft);
+      }
+      .alts {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+      }
+      .alt {
+        font-size: 12px;
+        padding: 1px 8px;
+        border-radius: 10px;
+        border: 1px dashed var(--warn);
+        background: var(--warn-soft);
+        color: var(--ink);
+        text-align: left;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .alt b {
+        color: var(--warn);
+        font-weight: 600;
+        margin-right: 4px;
+      }
+      .extra-roles {
+        background: var(--warn-soft);
+        border: 1px dashed var(--warn);
+        border-radius: 8px;
+        padding: 10px;
+        margin-bottom: 12px;
+        font-size: 13px;
+      }
+      .extra-roles button {
+        margin: 4px 4px 0 0;
+      }
+
+      .toast {
+        position: fixed;
+        bottom: 16px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--ink);
+        color: var(--bg);
+        padding: 8px 14px;
+        border-radius: 8px;
+        opacity: 0;
+        transition: opacity 0.2s;
+        pointer-events: none;
+      }
+      .toast.show {
+        opacity: 1;
+      }
+      dialog {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: var(--panel);
+        color: var(--ink);
+        max-width: 420px;
+      }
+      dialog table {
+        border-collapse: collapse;
+      }
+      dialog td {
+        padding: 4px 10px 4px 0;
+      }
+
+      @media (max-width: 1100px) {
+        body {
+          height: auto;
+        }
+        .layout {
+          grid-template-columns: 1fr;
+        }
+        aside {
+          max-height: 40vh;
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+        }
+        .source {
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+        }
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Gold Review</h1>
+      <div class="progress">
+        <div class="bar"><i id="bar"></i></div>
+        <span id="progress-text">–</span>
+      </div>
+      <span class="hint" id="models-hint"></span>
+      <span class="spacer"></span>
+      <span class="hint"
+        ><kbd>j</kbd>/<kbd>k</kbd> navigate · <kbd>⌘S</kbd> save · <kbd>⌘↵</kbd> mark reviewed &amp; next ·
+        <button class="ghost" id="help-btn">?</button></span
+      >
+    </header>
+
+    <div class="layout">
+      <aside>
+        <div class="filters">
+          <select id="filter" aria-label="Filter postings">
+            <option value="todo">To review (drafts)</option>
+            <option value="diff">Models disagree</option>
+            <option value="reviewed">Reviewed</option>
+            <option value="all">All</option>
+          </select>
+          <input id="search" type="text" placeholder="Search text…" aria-label="Search postings" />
+        </div>
+        <div id="list"></div>
+      </aside>
+
+      <section class="source">
+        <div class="panel-head">
+          <h2>Source</h2>
+          <span class="hint" id="posting-id"></span>
+          <span class="spacer" style="flex: 1"></span>
+          <div class="legend">
+            <span style="--c: var(--tech)">tech</span><span style="--c: var(--loc)">location</span
+            ><span style="--c: var(--url)">url/email</span>
+          </div>
+        </div>
+        <div class="text" id="text"></div>
+      </section>
+
+      <section>
+        <div id="banner"></div>
+        <div class="panel-head">
+          <h2>Labels</h2>
+          <span class="status" id="status"></span>
+          <span class="dirty" id="dirty" hidden>● unsaved</span>
+          <div class="actions">
+            <button id="revert">Revert</button>
+            <button id="save" title="Save without changing status">Save</button>
+            <button id="review" class="primary">Mark reviewed &amp; next</button>
+          </div>
+        </div>
+        <div class="notes">
+          <h3>Notes <span class="hint">labelling decisions, open questions</span></h3>
+          <div id="notes"></div>
+          <button class="ghost" id="add-note">+ note</button>
+        </div>
+        <div id="extra"></div>
+        <div id="roles"></div>
+        <button id="add-role">+ Add role</button>
+      </section>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <dialog id="help">
+      <h3 style="margin-top: 0">Reviewing</h3>
+      <table>
+        <tr>
+          <td><kbd>j</kbd> / <kbd>k</kbd></td>
+          <td>next / previous posting</td>
+        </tr>
+        <tr>
+          <td><kbd>⌘S</kbd></td>
+          <td>save (keeps status)</td>
+        </tr>
+        <tr>
+          <td><kbd>⌘↵</kbd></td>
+          <td>mark reviewed, go to next draft</td>
+        </tr>
+      </table>
+      <p class="hint">
+        Amber pills show what <em>other</em> models extracted when it differs from the label. Click one to adopt it. Red
+        chips/inputs are values not found in the source text.
+      </p>
+      <p class="hint">Lists are comma-separated. Leave a select on “—” for null.</p>
+      <form method="dialog"><button>Close</button></form>
+    </dialog>
+
+    <script>
+      "use strict";
+      const ENUMS = {
+        employment_type: ["full-time", "part-time", "contract", "internship"],
+        remote_policy: ["remote", "hybrid", "onsite"],
+        seniority: [
+          "intern",
+          "junior",
+          "mid",
+          "senior",
+          "staff",
+          "principal",
+          "lead",
+          "manager",
+          "director",
+          "executive",
+        ],
+      };
+      const LISTS = ["tech_stack", "remote_regions", "timezones"]; // string lists; locations are objects
+      const FIELDS = [
+        "company_name",
+        "employment_type",
+        "remote_policy",
+        "seniority",
+        "remote_regions",
+        "timezones",
+        "locations",
+        "tech_stack",
+        "salary",
+        "visa_sponsorship",
+        "apply_url",
+        "apply_email",
+        "description",
+      ];
+      const BLANK_ROLE = () => ({
+        company_name: "",
+        role_title: "",
+        employment_type: null,
+        remote_policy: null,
+        remote_regions: [],
+        timezones: [],
+        locations: [],
+        seniority: null,
+        tech_stack: [],
+        salary: null,
+        visa_sponsorship: null,
+        apply_url: null,
+        apply_email: null,
+        description: "",
+      });
+      const MACROS = ["EUROPE", "EMEA", "LATAM", "APAC", "AMERICAS", "GLOBAL"];
+      const validRegion = (c) => /^[A-Z]{2}$/.test(c) || MACROS.includes(c);
+      // Locations edit as "City, REGION, CC; City, CC; CC" (see LABELING.md).
+      const locText = (l) => [l.city, l.region, l.country_code].filter(Boolean).join(", ");
+      function parseLocs(str) {
+        return str
+          .split(";")
+          .map((x) => x.trim())
+          .filter(Boolean)
+          .map((x) => {
+            const parts = x.split(",").map((y) => y.trim());
+            const cc = (s) => (s ? s.toUpperCase() : null);
+            if (parts.length >= 3)
+              return {
+                city: parts[0] || null,
+                region: parts[1] ? parts[1].toUpperCase() : null,
+                country_code: cc(parts[2]),
+              };
+            if (parts.length === 2) return { city: parts[0] || null, region: null, country_code: cc(parts[1]) };
+            return /^[A-Za-z]{2}$/.test(parts[0])
+              ? { city: null, region: null, country_code: cc(parts[0]) }
+              : { city: parts[0], region: null, country_code: null };
+          });
+      }
+      const locKey = (l) => `${norm(l.city || "").replace(/ /g, "")}|${l.country_code || ""}`;
+
+      const $ = (id) => document.getElementById(id);
+      const el = (tag, props = {}, ...kids) => {
+        const n = document.createElement(tag);
+        for (const [k, v] of Object.entries(props)) {
+          if (k === "class") n.className = v;
+          else if (k.startsWith("on")) n.addEventListener(k.slice(2), v);
+          else if (v !== undefined && v !== null && v !== false) n.setAttribute(k, v === true ? "" : v);
+        }
+        for (const kid of kids.flat())
+          if (kid != null) n.append(kid instanceof Node ? kid : document.createTextNode(String(kid)));
+        return n;
+      };
+      const clone = (x) => JSON.parse(JSON.stringify(x));
+
+      // ---------- normalization (mirrors lib/score.ts so pills agree with the eval) ----------
+      const norm = (s) =>
+        String(s ?? "")
+          .toLowerCase()
+          .normalize("NFKD")
+          .replace(/[^a-z0-9+#]+/g, " ")
+          .trim();
+      const normUrl = (u) =>
+        u
+          ? u
+              .trim()
+              .toLowerCase()
+              .replace(/^[a-z]+:\/\//, "")
+              .replace(/^www\./, "")
+              .replace(/[)\].,;:!?'"]+$/, "")
+              .replace(/\/+$/, "")
+          : null;
+      const keyOf = (field, v) => {
+        if (LISTS.includes(field))
+          return JSON.stringify([...new Set((v || []).map((x) => norm(x).replace(/ /g, "")))].sort());
+        if (field === "locations") return JSON.stringify([...new Set((v || []).map(locKey))].sort());
+        if (field === "salary") return v ? `${v.min}|${v.max}|${(v.currency || "").toUpperCase()}|${v.period}` : "null";
+        if (field === "apply_url") return String(normUrl(v));
+        if (field === "description") return "skip";
+        if (typeof v === "string") return norm(v);
+        return JSON.stringify(v ?? null);
+      };
+      const stem = (t) => (t.length > 3 && t.endsWith("s") && !t.endsWith("ss") ? t.slice(0, -1) : t);
+      const tokens = (s) => new Set(norm(s).split(" ").filter(Boolean).map(stem));
+      function jaccard(a, b) {
+        if (!a.size && !b.size) return 1;
+        let i = 0;
+        for (const t of a) if (b.has(t)) i++;
+        return i / (a.size + b.size - i);
+      }
+      function align(pred, gold) {
+        const c = [];
+        pred.forEach((p, i) =>
+          gold.forEach((g, j) => {
+            const s =
+              0.85 * jaccard(tokens(p.role_title), tokens(g.role_title)) +
+              0.15 *
+                jaccard(
+                  new Set([...p.locations.map(locKey), ...p.remote_regions]),
+                  new Set([...g.locations.map(locKey), ...g.remote_regions]),
+                );
+            if (s >= 0.5) c.push([s, i, j]);
+          }),
+        );
+        c.sort((a, b) => b[0] - a[0]);
+        const up = new Set(),
+          ug = new Set(),
+          map = new Map();
+        for (const [, i, j] of c) {
+          if (up.has(i) || ug.has(j)) continue;
+          up.add(i);
+          ug.add(j);
+          map.set(j, i);
+        }
+        return map; // gold index -> pred index
+      }
+
+      // ---------- grounding hints ----------
+      function grounded(term, text) {
+        const t = norm(term);
+        if (!t) return true;
+        return (
+          (" " + norm(text) + " ").includes(" " + t + " ") || norm(text).replace(/ /g, "").includes(t.replace(/ /g, ""))
+        );
+      }
+      const urlGrounded = (u, text) =>
+        !u ||
+        norm(text)
+          .replace(/ /g, "")
+          .includes(norm(normUrl(u)).replace(/ /g, ""));
+
+      // ---------- state ----------
+      let data = null,
+        etag = null,
+        currentId = null,
+        work = null,
+        dirty = false;
+      const shortModel = (m) => m.replace(/^[a-z-]+:/, "");
+      const current = () => data.postings.find((p) => p.id === currentId);
+      // All models, including the seed: once a label is corrected, what the seed said is useful context.
+      const otherModels = () => Object.keys(data.extractions);
+      const titleOf = (p) =>
+        (p.text.split("\n")[0] || "")
+          .split(/[|–—-]/)[0]
+          .trim()
+          .slice(0, 60) || `#${p.id}`;
+
+      function diffCount(p, roles = p.roles) {
+        let n = 0;
+        for (const m of Object.keys(data.extractions)) {
+          const pred = data.extractions[m][p.id];
+          if (!pred) continue;
+          if (pred.length !== roles.length) n++;
+          const map = align(pred, roles);
+          roles.forEach((g, j) => {
+            if (!map.has(j)) return;
+            const r = pred[map.get(j)];
+            for (const f of FIELDS) if (f !== "description" && keyOf(f, r[f]) !== keyOf(f, g[f])) n++;
+          });
+        }
+        return n;
+      }
+
+      // ---------- rendering ----------
+      function renderProgress() {
+        const r = data.postings.filter((p) => p.status === "reviewed").length;
+        $("bar").style.width = `${(100 * r) / data.postings.length}%`;
+        $("progress-text").textContent = `${r} / ${data.postings.length} reviewed`;
+      }
+
+      function visiblePostings() {
+        const f = $("filter").value,
+          q = $("search").value.trim().toLowerCase();
+        return data.postings.filter(
+          (p) =>
+            (f === "all" ||
+              (f === "todo" && p.status === "draft") ||
+              (f === "reviewed" && p.status === "reviewed") ||
+              (f === "diff" && p._diff > 0)) &&
+            (!q || p.text.toLowerCase().includes(q)),
+        );
+      }
+
+      function renderList() {
+        const list = $("list");
+        list.replaceChildren();
+        const vis = visiblePostings();
+        if (!vis.length) list.append(el("p", { class: "hint", style: "padding:10px" }, "Nothing here."));
+        for (const p of vis) {
+          list.append(
+            el(
+              "div",
+              {
+                class: "item" + (p.id === currentId ? " active" : ""),
+                onclick: () => go(p.id),
+                role: "button",
+                tabindex: "0",
+              },
+              el("span", { class: "dot" + (p.status === "reviewed" ? " reviewed" : ""), title: p.status }),
+              el(
+                "div",
+                { style: "min-width:0" },
+                el("div", { class: "name" }, titleOf(p)),
+                el("div", { class: "sub" }, `${p.roles.length} role(s) · #${p.id}`),
+              ),
+              el(
+                "span",
+                { class: "badge" + (p._diff ? "" : " zero"), title: "fields where other models disagree" },
+                p._diff || "✓",
+              ),
+            ),
+          );
+        }
+      }
+
+      function renderText() {
+        const p = current(),
+          text = p.text,
+          terms = [];
+        for (const r of work.roles) {
+          r.tech_stack.forEach((t) => terms.push([t, "tech"]));
+          r.locations.forEach((l) => l.city && terms.push([l.city, "loc"]));
+          r.timezones.forEach((t) => terms.push([t, "loc"]));
+          [r.apply_url, r.apply_email].forEach(
+            (t) => t && terms.push([t.replace(/^[a-z]+:\/\//i, "").replace(/^www\./i, ""), "url"]),
+          );
+        }
+        const ranges = [];
+        for (const [term, cls] of terms) {
+          if (!term || term.length < 1) continue;
+          const esc = term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+          const re = new RegExp(term.length <= 3 ? `(?<![A-Za-z0-9])${esc}(?![A-Za-z0-9])` : esc, "gi");
+          let m;
+          while ((m = re.exec(text))) {
+            ranges.push([m.index, m.index + m[0].length, cls]);
+            if (!m[0].length) re.lastIndex++;
+          }
+        }
+        ranges.sort((a, b) => a[0] - b[0] || b[1] - a[1]);
+        const box = $("text");
+        box.replaceChildren();
+        let pos = 0;
+        for (const [s, e, cls] of ranges) {
+          if (s < pos) continue; // overlapping highlight: first wins
+          box.append(document.createTextNode(text.slice(pos, s)), el("mark", { class: cls }, text.slice(s, e)));
+          pos = e;
+        }
+        box.append(document.createTextNode(text.slice(pos)));
+        $("posting-id").textContent = `#${p.id} · seeded from ${shortModel(p.seeded_from)}`;
+      }
+
+      function renderHeader() {
+        const s = $("status");
+        s.className = "status " + work.status;
+        s.textContent = work.status;
+        $("dirty").hidden = !dirty;
+      }
+
+      function markDirty() {
+        dirty = true;
+        $("dirty").hidden = false;
+      }
+
+      function renderNotes() {
+        const box = $("notes");
+        box.replaceChildren();
+        work.notes.forEach((n, i) =>
+          box.append(
+            el(
+              "div",
+              { class: "note" },
+              el(
+                "textarea",
+                {
+                  "aria-label": `Note ${i + 1}`,
+                  oninput: (e) => {
+                    work.notes[i] = e.target.value;
+                    markDirty();
+                  },
+                },
+                n,
+              ),
+              el(
+                "button",
+                {
+                  class: "ghost",
+                  title: "Remove note",
+                  onclick: () => {
+                    work.notes.splice(i, 1);
+                    markDirty();
+                    renderNotes();
+                  },
+                },
+                "✕",
+              ),
+            ),
+          ),
+        );
+      }
+
+      // Value -> display string for pills.
+      const show = (f, v) => {
+        if (v === null || v === undefined || (Array.isArray(v) && !v.length)) return "∅";
+        if (f === "locations") return v.map(locText).join("; ");
+        if (f === "salary") return `${v.min ?? "?"}–${v.max ?? "?"} ${v.currency ?? ""}/${v.period ?? "?"}`;
+        return Array.isArray(v) ? v.join(", ") : String(v);
+      };
+
+      function renderRoles() {
+        const p = current(),
+          box = $("roles");
+        box.replaceChildren();
+        // Per model: gold index -> that model's aligned role.
+        const aligned = otherModels(p).map((m) => {
+          const pred = data.extractions[m][p.id] || [];
+          return { m, pred, map: align(pred, work.roles) };
+        });
+        renderExtraRoles(aligned);
+
+        work.roles.forEach((role, ri) => {
+          const card = el("div", { class: "role" });
+          const fieldEls = [];
+          const field = (name, control, opts = {}) => {
+            const f = el(
+              "div",
+              { class: "field" + (opts.wide ? " wide" : "") },
+              el("label", {}, name.replace(/_/g, " ")),
+              control,
+            );
+            const decor = el("div", {});
+            f.append(decor);
+            const refresh = () => {
+              decor.replaceChildren();
+              // Chip check: free-text values must appear in the post; region codes must be valid codes.
+              const chip = (label, ok, why) =>
+                el("span", { class: "chip" + (ok ? "" : " bad"), title: ok ? "" : why }, label);
+              if (name === "tech_stack" || name === "timezones")
+                decor.append(
+                  el(
+                    "div",
+                    { class: "chips" },
+                    role[name].map((t) => chip(t, grounded(t, p.text), "not found in source")),
+                  ),
+                );
+              if (name === "remote_regions")
+                decor.append(
+                  el(
+                    "div",
+                    { class: "chips" },
+                    role[name].map((t) => chip(t, validRegion(t), "use an ISO alpha-2 code or " + MACROS.join("/"))),
+                  ),
+                );
+              if (name === "locations")
+                decor.append(
+                  el(
+                    "div",
+                    { class: "chips" },
+                    role.locations.map((l) =>
+                      chip(
+                        locText(l) || "?",
+                        !!l.country_code &&
+                          (!l.city || grounded(l.city, p.text) || l.city === "New York" || l.city === "San Francisco"),
+                        !l.country_code ? "missing country code" : "city not found in source",
+                      ),
+                    ),
+                  ),
+                );
+              let differs = false;
+              const alts = el("div", { class: "alts" });
+              const seen = new Set();
+              for (const { m, pred, map } of aligned) {
+                if (!map.has(ri)) continue;
+                const v = pred[map.get(ri)][name];
+                if (name === "description" || keyOf(name, v) === keyOf(name, role[name])) continue;
+                differs = true;
+                const k = keyOf(name, v);
+                if (seen.has(k)) continue;
+                seen.add(k);
+                alts.append(
+                  el(
+                    "button",
+                    {
+                      class: "alt",
+                      title: `Use ${shortModel(m)}'s value`,
+                      onclick: () => {
+                        role[name] = clone(v);
+                        markDirty();
+                        renderRoles();
+                        renderText();
+                        refreshCurrentBadge();
+                      },
+                    },
+                    el("b", {}, shortModel(m)),
+                    show(name, v),
+                  ),
+                );
+              }
+              if (differs) decor.append(alts);
+              f.classList.toggle("diff", differs);
+              return differs;
+            };
+            fieldEls.push(refresh);
+            return f;
+          };
+
+          const text = (name, nullable) =>
+            el("input", {
+              type: "text",
+              value: role[name] ?? "",
+              "aria-label": name,
+              class: name === "apply_url" && role[name] && !urlGrounded(role[name], p.text) ? "ungrounded" : undefined,
+              oninput: (e) => {
+                role[name] = nullable && !e.target.value.trim() ? null : e.target.value;
+                markDirty();
+              },
+              onchange: (e) => {
+                if (name === "apply_url")
+                  e.target.classList.toggle("ungrounded", !!role[name] && !urlGrounded(role[name], p.text));
+                refreshAll();
+              },
+            });
+          const select = (name, options) => {
+            const s = el(
+              "select",
+              {
+                "aria-label": name,
+                onchange: (e) => {
+                  const v = e.target.value;
+                  role[name] = v === "" ? null : v === "true" ? true : v === "false" ? false : v;
+                  markDirty();
+                  refreshAll();
+                },
+              },
+              el("option", { value: "" }, "—"),
+              options.map((o) => el("option", { value: String(o) }, String(o))),
+            );
+            s.value = role[name] === null ? "" : String(role[name]);
+            return s;
+          };
+          const list = (name) =>
+            el("input", {
+              type: "text",
+              value: role[name].join(", "),
+              "aria-label": `${name} (comma-separated)`,
+              oninput: (e) => {
+                role[name] = [
+                  ...new Set(
+                    e.target.value
+                      .split(",")
+                      .map((x) => (name === "remote_regions" ? x.trim().toUpperCase() : x.trim()))
+                      .filter(Boolean),
+                  ),
+                ];
+                markDirty();
+              },
+              onchange: () => {
+                refreshAll();
+                renderText();
+              },
+            });
+          const salary = () => {
+            const s = role.salary || { min: null, max: null, currency: null, period: null };
+            const set = (k, v) => {
+              const next = { ...(role.salary || { min: null, max: null, currency: null, period: null }), [k]: v };
+              role.salary = Object.values(next).every((x) => x === null || x === "") ? null : next;
+              markDirty();
+            };
+            const num = (k) =>
+              el("input", {
+                type: "number",
+                value: s[k] ?? "",
+                placeholder: k,
+                "aria-label": `salary ${k}`,
+                oninput: (e) => set(k, e.target.value === "" ? null : Number(e.target.value)),
+                onchange: refreshAll,
+              });
+            const period = el(
+              "select",
+              {
+                "aria-label": "salary period",
+                onchange: (e) => {
+                  set("period", e.target.value || null);
+                  refreshAll();
+                },
+              },
+              el("option", { value: "" }, "—"),
+              ["year", "month", "hour"].map((o) => el("option", { value: o }, o)),
+            );
+            period.value = s.period ?? "";
+            return el(
+              "div",
+              { class: "salary" },
+              num("min"),
+              num("max"),
+              el("input", {
+                type: "text",
+                value: s.currency ?? "",
+                placeholder: "USD",
+                "aria-label": "salary currency",
+                oninput: (e) => set("currency", e.target.value.trim().toUpperCase() || null),
+                onchange: refreshAll,
+              }),
+              period,
+            );
+          };
+          const refreshAll = () => {
+            const any = fieldEls.map((r) => r()).some(Boolean);
+            card.classList.toggle("has-diff", any);
+            refreshCurrentBadge();
+          };
+
+          card.append(
+            el(
+              "div",
+              { class: "role-head" },
+              el("input", {
+                type: "text",
+                value: role.role_title,
+                "aria-label": "role title",
+                placeholder: "Role title",
+                oninput: (e) => {
+                  role.role_title = e.target.value;
+                  markDirty();
+                },
+                onchange: () => renderRoles(),
+              }),
+              el(
+                "button",
+                {
+                  class: "ghost",
+                  title: "Duplicate role",
+                  onclick: () => {
+                    work.roles.splice(ri + 1, 0, clone(role));
+                    markDirty();
+                    renderRoles();
+                  },
+                },
+                "⧉",
+              ),
+              el(
+                "button",
+                {
+                  class: "ghost",
+                  title: "Delete role",
+                  onclick: () => {
+                    if (confirm(`Delete "${role.role_title}"?`)) {
+                      work.roles.splice(ri, 1);
+                      markDirty();
+                      renderRoles();
+                      renderText();
+                      refreshCurrentBadge();
+                    }
+                  },
+                },
+                "✕",
+              ),
+            ),
+            el(
+              "div",
+              { class: "grid" },
+              field("company_name", text("company_name")),
+              field("seniority", select("seniority", ENUMS.seniority)),
+              field("employment_type", select("employment_type", ENUMS.employment_type)),
+              field("remote_policy", select("remote_policy", ENUMS.remote_policy)),
+              field("remote_regions", list("remote_regions")),
+              field("timezones", list("timezones")),
+              field(
+                "locations",
+                el("input", {
+                  type: "text",
+                  value: role.locations.map(locText).join("; "),
+                  placeholder: "City, REGION, CC; City, CC",
+                  "aria-label": "locations (City, REGION, CC; …)",
+                  oninput: (e) => {
+                    role.locations = parseLocs(e.target.value);
+                    markDirty();
+                  },
+                  onchange: () => {
+                    refreshAll();
+                    renderText();
+                  },
+                }),
+                { wide: true },
+              ),
+              field("tech_stack", list("tech_stack"), { wide: true }),
+              field("salary", salary(), { wide: true }),
+              field("visa_sponsorship", select("visa_sponsorship", [true, false])),
+              field("apply_url", text("apply_url", true)),
+              field("apply_email", text("apply_email", true)),
+              field(
+                "description",
+                el(
+                  "textarea",
+                  {
+                    rows: 2,
+                    "aria-label": "description",
+                    oninput: (e) => {
+                      role.description = e.target.value;
+                      markDirty();
+                    },
+                  },
+                  role.description,
+                ),
+                { wide: true },
+              ),
+            ),
+          );
+          box.append(card);
+          refreshAll();
+        });
+        if (!work.roles.length)
+          box.append(el("p", { class: "hint" }, "No roles: this is labelled as not a job posting."));
+      }
+
+      // Roles another model found that no label matches: likely missed roles (or model over-splitting).
+      function renderExtraRoles(aligned) {
+        const box = $("extra");
+        box.replaceChildren();
+        const extras = [];
+        for (const { m, pred, map } of aligned) {
+          const used = new Set(map.values());
+          pred.forEach((r, i) => {
+            if (!used.has(i)) extras.push({ m, r });
+          });
+        }
+        if (!extras.length) return;
+        box.append(
+          el(
+            "div",
+            { class: "extra-roles" },
+            el("strong", {}, "Roles other models found that aren't labelled: "),
+            el(
+              "div",
+              {},
+              extras.map(({ m, r }) =>
+                el(
+                  "button",
+                  {
+                    class: "alt",
+                    title: "Add this role to the labels",
+                    onclick: () => {
+                      work.roles.push(clone(r));
+                      markDirty();
+                      renderRoles();
+                      renderText();
+                      refreshCurrentBadge();
+                    },
+                  },
+                  el("b", {}, shortModel(m)),
+                  "+ " + r.role_title,
+                ),
+              ),
+            ),
+          ),
+        );
+      }
+
+      function refreshCurrentBadge() {
+        const p = current();
+        if (!p) return;
+        p._diff = diffCount(p, work.roles);
+        const active = document.querySelector(".item.active .badge");
+        if (active) {
+          active.textContent = p._diff || "✓";
+          active.classList.toggle("zero", !p._diff);
+        }
+      }
+
+      function renderAll() {
+        renderProgress();
+        renderHeader();
+        renderText();
+        renderNotes();
+        renderRoles();
+        renderList();
+      }
+
+      // ---------- navigation ----------
+      function go(id) {
+        if (id === currentId) return;
+        if (dirty && !confirm("Discard unsaved changes?")) return;
+        const p = data.postings.find((x) => x.id === id);
+        if (!p) return;
+        currentId = id;
+        work = clone({ status: p.status, notes: p.notes, roles: p.roles });
+        dirty = false;
+        $("banner").replaceChildren();
+        renderAll();
+        document.querySelector(".item.active")?.scrollIntoView({ block: "nearest" });
+      }
+      function step(delta) {
+        const vis = visiblePostings();
+        if (!vis.length) return;
+        const i = vis.findIndex((p) => p.id === currentId);
+        go(vis[(i + delta + vis.length) % vis.length].id);
+      }
+
+      // ---------- persistence ----------
+      function toast(msg) {
+        const t = $("toast");
+        t.textContent = msg;
+        t.classList.add("show");
+        clearTimeout(toast._t);
+        toast._t = setTimeout(() => t.classList.remove("show"), 1800);
+      }
+      function banner(kind, msg, action) {
+        $("banner").replaceChildren(
+          el("div", { class: "banner " + kind }, el("span", { style: "flex:1" }, msg), action || null),
+        );
+      }
+
+      async function save(status) {
+        const p = current();
+        const body = { etag, status: status ?? work.status, notes: work.notes, roles: work.roles };
+        let res;
+        try {
+          res = await fetch(`/api/postings/${p.id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+          });
+        } catch {
+          banner("err", "Server unreachable. Is `npm run review` still running?");
+          return false;
+        }
+        const out = await res.json().catch(() => ({}));
+        if (res.status === 409) {
+          banner("err", out.error || "Conflict.", el("button", { onclick: () => load(true) }, "Reload"));
+          return false;
+        }
+        if (!res.ok) {
+          banner("err", `Not saved: ${out.error || res.status}`);
+          return false;
+        }
+        etag = out.etag;
+        Object.assign(p, clone(body));
+        delete p.etag;
+        p._diff = diffCount(p);
+        work.status = p.status;
+        dirty = false;
+        $("banner").replaceChildren();
+        renderProgress();
+        renderHeader();
+        renderList();
+        toast(`Saved #${p.id} · ${out.reviewed}/${out.total} reviewed`);
+        return true;
+      }
+
+      async function markReviewedAndNext() {
+        if (!(await save("reviewed"))) return;
+        const next =
+          data.postings.find((x) => x.status === "draft" && x.id > currentId) ||
+          data.postings.find((x) => x.status === "draft");
+        if (next) go(next.id);
+        else {
+          renderAll();
+          toast("All postings reviewed 🎉");
+        }
+      }
+
+      async function load(keepCurrent) {
+        const res = await fetch("/api/data");
+        if (!res.ok) {
+          banner("err", "Could not load gold data.");
+          return;
+        }
+        data = await res.json();
+        etag = data.etag;
+        data.postings.forEach((p) => (p._diff = diffCount(p)));
+        const models = Object.keys(data.extractions).map(shortModel);
+        $("models-hint").textContent = models.length
+          ? `comparing: ${models.join(", ")} · prompt v${data.prompt_version}`
+          : "no model extractions found";
+        const keep = keepCurrent && currentId;
+        currentId = null;
+        dirty = false;
+        const first =
+          (keep && data.postings.find((p) => p.id === keep)) ||
+          data.postings.find((p) => p.status === "draft") ||
+          data.postings[0];
+        if (first) go(first.id);
+      }
+
+      // ---------- wiring ----------
+      $("filter").addEventListener("change", renderList);
+      $("search").addEventListener("input", renderList);
+      $("save").addEventListener("click", () => save());
+      $("review").addEventListener("click", markReviewedAndNext);
+      $("revert").addEventListener("click", () => {
+        const id = currentId;
+        dirty = false;
+        currentId = null;
+        go(id);
+      });
+      $("add-note").addEventListener("click", () => {
+        work.notes.push("");
         markDirty();
-      };
-      const num = (k) => el("input", { type: "number", value: s[k] ?? "", placeholder: k, "aria-label": `salary ${k}`, oninput: (e) => set(k, e.target.value === "" ? null : Number(e.target.value)), onchange: refreshAll });
-      const period = el("select", { "aria-label": "salary period", onchange: (e) => { set("period", e.target.value || null); refreshAll(); } },
-        el("option", { value: "" }, "—"), ["year", "month", "hour"].map((o) => el("option", { value: o }, o)));
-      period.value = s.period ?? "";
-      return el("div", { class: "salary" }, num("min"), num("max"),
-        el("input", { type: "text", value: s.currency ?? "", placeholder: "USD", "aria-label": "salary currency", oninput: (e) => set("currency", e.target.value.trim().toUpperCase() || null), onchange: refreshAll }), period);
-    };
-    const refreshAll = () => { const any = fieldEls.map((r) => r()).some(Boolean); card.classList.toggle("has-diff", any); refreshCurrentBadge(); };
+        renderNotes();
+        document.querySelector("#notes .note:last-child textarea")?.focus();
+      });
+      $("add-role").addEventListener("click", () => {
+        work.roles.push(BLANK_ROLE());
+        markDirty();
+        renderRoles();
+      });
+      $("help-btn").addEventListener("click", () => $("help").showModal());
+      window.addEventListener("beforeunload", (e) => {
+        if (dirty) e.preventDefault();
+      });
+      document.addEventListener("keydown", (e) => {
+        const mod = e.metaKey || e.ctrlKey;
+        if (mod && e.key === "s") {
+          e.preventDefault();
+          save();
+          return;
+        }
+        if (mod && e.key === "Enter") {
+          e.preventDefault();
+          markReviewedAndNext();
+          return;
+        }
+        if (e.target.closest("input, textarea, select")) return;
+        if (e.key === "j") step(1);
+        else if (e.key === "k") step(-1);
+        else if (e.key === "?") $("help").showModal();
+      });
 
-    card.append(
-      el("div", { class: "role-head" },
-        el("input", { type: "text", value: role.role_title, "aria-label": "role title", placeholder: "Role title", oninput: (e) => { role.role_title = e.target.value; markDirty(); }, onchange: () => renderRoles() }),
-        el("button", { class: "ghost", title: "Duplicate role", onclick: () => { work.roles.splice(ri + 1, 0, clone(role)); markDirty(); renderRoles(); } }, "⧉"),
-        el("button", { class: "ghost", title: "Delete role", onclick: () => { if (confirm(`Delete "${role.role_title}"?`)) { work.roles.splice(ri, 1); markDirty(); renderRoles(); renderText(); refreshCurrentBadge(); } } }, "✕")),
-      el("div", { class: "grid" },
-        field("company_name", text("company_name")),
-        field("seniority", select("seniority", ENUMS.seniority)),
-        field("employment_type", select("employment_type", ENUMS.employment_type)),
-        field("remote_policy", select("remote_policy", ENUMS.remote_policy)),
-        field("remote_regions", list("remote_regions")),
-        field("timezones", list("timezones")),
-        field("locations", el("input", { type: "text", value: role.locations.map(locText).join("; "), placeholder: "City, REGION, CC; City, CC", "aria-label": "locations (City, REGION, CC; …)",
-          oninput: (e) => { role.locations = parseLocs(e.target.value); markDirty(); }, onchange: () => { refreshAll(); renderText(); } }), { wide: true }),
-        field("tech_stack", list("tech_stack"), { wide: true }),
-        field("salary", salary(), { wide: true }),
-        field("visa_sponsorship", select("visa_sponsorship", [true, false])),
-        field("apply_url", text("apply_url", true)),
-        field("apply_email", text("apply_email", true)),
-        field("description", el("textarea", { rows: 2, "aria-label": "description", oninput: (e) => { role.description = e.target.value; markDirty(); } }, role.description), { wide: true })));
-    box.append(card);
-    refreshAll();
-  });
-  if (!work.roles.length) box.append(el("p", { class: "hint" }, "No roles: this is labelled as not a job posting."));
-}
-
-// Roles another model found that no label matches: likely missed roles (or model over-splitting).
-function renderExtraRoles(aligned) {
-  const box = $("extra"); box.replaceChildren();
-  const extras = [];
-  for (const { m, pred, map } of aligned) {
-    const used = new Set(map.values());
-    pred.forEach((r, i) => { if (!used.has(i)) extras.push({ m, r }); });
-  }
-  if (!extras.length) return;
-  box.append(el("div", { class: "extra-roles" },
-    el("strong", {}, "Roles other models found that aren't labelled: "),
-    el("div", {}, extras.map(({ m, r }) => el("button", { class: "alt", title: "Add this role to the labels", onclick: () => { work.roles.push(clone(r)); markDirty(); renderRoles(); renderText(); refreshCurrentBadge(); } },
-      el("b", {}, shortModel(m)), "+ " + r.role_title)))));
-}
-
-function refreshCurrentBadge() {
-  const p = current(); if (!p) return;
-  p._diff = diffCount(p, work.roles);
-  const active = document.querySelector(".item.active .badge");
-  if (active) { active.textContent = p._diff || "✓"; active.classList.toggle("zero", !p._diff); }
-}
-
-function renderAll() {
-  renderProgress(); renderHeader(); renderText(); renderNotes(); renderRoles(); renderList();
-}
-
-// ---------- navigation ----------
-function go(id) {
-  if (id === currentId) return;
-  if (dirty && !confirm("Discard unsaved changes?")) return;
-  const p = data.postings.find((x) => x.id === id); if (!p) return;
-  currentId = id; work = clone({ status: p.status, notes: p.notes, roles: p.roles }); dirty = false;
-  $("banner").replaceChildren();
-  renderAll();
-  document.querySelector(".item.active")?.scrollIntoView({ block: "nearest" });
-}
-function step(delta) {
-  const vis = visiblePostings(); if (!vis.length) return;
-  const i = vis.findIndex((p) => p.id === currentId);
-  go(vis[(i + delta + vis.length) % vis.length].id);
-}
-
-// ---------- persistence ----------
-function toast(msg) { const t = $("toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove("show"), 1800); }
-function banner(kind, msg, action) {
-  $("banner").replaceChildren(el("div", { class: "banner " + kind }, el("span", { style: "flex:1" }, msg), action || null));
-}
-
-async function save(status) {
-  const p = current();
-  const body = { etag, status: status ?? work.status, notes: work.notes, roles: work.roles };
-  let res;
-  try {
-    res = await fetch(`/api/postings/${p.id}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
-  } catch {
-    banner("err", "Server unreachable. Is `npm run review` still running?"); return false;
-  }
-  const out = await res.json().catch(() => ({}));
-  if (res.status === 409) { banner("err", out.error || "Conflict.", el("button", { onclick: () => load(true) }, "Reload")); return false; }
-  if (!res.ok) { banner("err", `Not saved: ${out.error || res.status}`); return false; }
-  etag = out.etag;
-  Object.assign(p, clone(body)); delete p.etag;
-  p._diff = diffCount(p);
-  work.status = p.status; dirty = false;
-  $("banner").replaceChildren();
-  renderProgress(); renderHeader(); renderList();
-  toast(`Saved #${p.id} · ${out.reviewed}/${out.total} reviewed`);
-  return true;
-}
-
-async function markReviewedAndNext() {
-  if (!(await save("reviewed"))) return;
-  const next = data.postings.find((x) => x.status === "draft" && x.id > currentId) || data.postings.find((x) => x.status === "draft");
-  if (next) go(next.id); else { renderAll(); toast("All postings reviewed 🎉"); }
-}
-
-async function load(keepCurrent) {
-  const res = await fetch("/api/data");
-  if (!res.ok) { banner("err", "Could not load gold data."); return; }
-  data = await res.json(); etag = data.etag;
-  data.postings.forEach((p) => (p._diff = diffCount(p)));
-  const models = Object.keys(data.extractions).map(shortModel);
-  $("models-hint").textContent = models.length ? `comparing: ${models.join(", ")} · prompt v${data.prompt_version}` : "no model extractions found";
-  const keep = keepCurrent && currentId;
-  currentId = null; dirty = false;
-  const first = (keep && data.postings.find((p) => p.id === keep)) || data.postings.find((p) => p.status === "draft") || data.postings[0];
-  if (first) go(first.id);
-}
-
-// ---------- wiring ----------
-$("filter").addEventListener("change", renderList);
-$("search").addEventListener("input", renderList);
-$("save").addEventListener("click", () => save());
-$("review").addEventListener("click", markReviewedAndNext);
-$("revert").addEventListener("click", () => { const id = currentId; dirty = false; currentId = null; go(id); });
-$("add-note").addEventListener("click", () => { work.notes.push(""); markDirty(); renderNotes(); document.querySelector("#notes .note:last-child textarea")?.focus(); });
-$("add-role").addEventListener("click", () => { work.roles.push(BLANK_ROLE()); markDirty(); renderRoles(); });
-$("help-btn").addEventListener("click", () => $("help").showModal());
-window.addEventListener("beforeunload", (e) => { if (dirty) e.preventDefault(); });
-document.addEventListener("keydown", (e) => {
-  const mod = e.metaKey || e.ctrlKey;
-  if (mod && e.key === "s") { e.preventDefault(); save(); return; }
-  if (mod && e.key === "Enter") { e.preventDefault(); markReviewedAndNext(); return; }
-  if (e.target.closest("input, textarea, select")) return;
-  if (e.key === "j") step(1);
-  else if (e.key === "k") step(-1);
-  else if (e.key === "?") $("help").showModal();
-});
-
-load();
-</script>
-</body>
+      load();
+    </script>
+  </body>
 </html>

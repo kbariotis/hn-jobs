@@ -26,8 +26,7 @@ function sourceUrls(text: string): string[] {
 // Same URL, or the same URL minus its query/fragment (dropping ?utm=… still works;
 // cutting a path short does not).
 const sameUrl = (source: string, target: string) =>
-  source === target ||
-  (source.startsWith(target) && "?#".includes(source[target.length]) && !target.endsWith("/"));
+  source === target || (source.startsWith(target) && "?#".includes(source[target.length]) && !target.endsWith("/"));
 
 export function isUrlGrounded(url: string, text: string): boolean {
   const target = normalizeUrl(url);
@@ -51,10 +50,7 @@ export function isEmailGrounded(email: string, text: string): boolean {
 export type GroundingWarning = { role_index: number; field: string; value: string };
 
 /** Null out ungrounded fields and report what was dropped. */
-export function groundRoles(
-  roles: Role[],
-  text: string
-): { roles: Role[]; warnings: GroundingWarning[] } {
+export function groundRoles(roles: Role[], text: string): { roles: Role[]; warnings: GroundingWarning[] } {
   const warnings: GroundingWarning[] = [];
   const grounded = roles.map((role, role_index) => {
     const out = { ...role };

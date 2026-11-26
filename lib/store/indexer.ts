@@ -32,13 +32,33 @@ async function upsertPosting(client: PoolClient, rec: ExtractionRecord) {
            visa_sponsorship = EXCLUDED.visa_sponsorship, apply_url = EXCLUDED.apply_url,
            apply_email = EXCLUDED.apply_email, data = EXCLUDED.data, doc = EXCLUDED.doc`,
         [
-          `${rec.id}-${i}`, rec.id, i, rec.thread_id, rec.time, rec.model, rec.prompt_version,
-          r.company_name, r.role_title, r.employment_type, r.remote_policy, r.seniority, r.remote_regions, r.timezones,
+          `${rec.id}-${i}`,
+          rec.id,
+          i,
+          rec.thread_id,
+          rec.time,
+          rec.model,
+          rec.prompt_version,
+          r.company_name,
+          r.role_title,
+          r.employment_type,
+          r.remote_policy,
+          r.seniority,
+          r.remote_regions,
+          r.timezones,
           [...new Set(r.locations.map((l) => l.country_code).filter(Boolean))],
           [...new Set(r.locations.map((l) => l.city).filter(Boolean))],
-          r.tech_stack, r.salary?.min ?? null, r.salary?.max ?? null, r.salary?.currency ?? null, r.salary?.period ?? null,
-          r.visa_sponsorship, r.apply_url, r.apply_email, JSON.stringify(r), roleDoc(r),
-        ]
+          r.tech_stack,
+          r.salary?.min ?? null,
+          r.salary?.max ?? null,
+          r.salary?.currency ?? null,
+          r.salary?.period ?? null,
+          r.visa_sponsorship,
+          r.apply_url,
+          r.apply_email,
+          JSON.stringify(r),
+          roleDoc(r),
+        ],
       );
     }
     // A re-extraction can yield fewer roles; drop the leftovers (embeddings cascade).
@@ -58,13 +78,18 @@ async function upsertPosting(client: PoolClient, rec: ExtractionRecord) {
  */
 export async function indexThread(
   threadId: string | number,
-  { embedModel = embedModelId(), livePostingIds, log = console.log }: { embedModel?: string; livePostingIds?: number[]; log?: (m: string) => void } = {}
+  {
+    embedModel = embedModelId(),
+    livePostingIds,
+    log = console.log,
+  }: { embedModel?: string; livePostingIds?: number[]; log?: (m: string) => void } = {},
 ): Promise<IndexSummary> {
   const path = extractedPath(threadId, extractModelId());
   const all = await readExtractions(path);
   const live = livePostingIds ? new Set(livePostingIds) : null;
   const records = all.filter((r) => !r.error && r.prompt_version === PROMPT_VERSION && (!live || live.has(r.id)));
-  if (records.length === 0) throw new Error(`No v${PROMPT_VERSION} extractions at ${path}. Run \`npm run extract\` first.`);
+  if (records.length === 0)
+    throw new Error(`No v${PROMPT_VERSION} extractions at ${path}. Run \`npm run extract\` first.`);
 
   const pool = db();
   const client = await pool.connect();
@@ -75,7 +100,10 @@ export async function indexThread(
   }
   let pruned = 0;
   if (live) {
-    const res = await pool.query("DELETE FROM roles WHERE thread_id = $1 AND NOT (posting_id = ANY($2::bigint[]))", [threadId, [...live]]);
+    const res = await pool.query("DELETE FROM roles WHERE thread_id = $1 AND NOT (posting_id = ANY($2::bigint[]))", [
+      threadId,
+      [...live],
+    ]);
     pruned = res.rowCount ?? 0;
   }
 
@@ -83,7 +111,7 @@ export async function indexThread(
     `SELECT r.role_id, r.doc FROM roles r
      LEFT JOIN role_embeddings e ON e.role_id = r.role_id AND e.embed_model = $1
      WHERE r.thread_id = $2 AND (e.doc_hash IS NULL OR e.doc_hash <> encode(sha256(convert_to(r.doc, 'UTF8')), 'hex'))`,
-    [embedModel, threadId]
+    [embedModel, threadId],
   );
   const embedder = getEmbeddings("document", embedModel);
   for (let i = 0; i < rows.length; i += EMBED_BATCH) {
@@ -94,11 +122,19 @@ export async function indexThread(
       await pool.query(
         `INSERT INTO role_embeddings (role_id, embed_model, doc_hash, embedding) VALUES ($1, $2, $3, $4::vector)
          ON CONFLICT (role_id, embed_model) DO UPDATE SET doc_hash = EXCLUDED.doc_hash, embedding = EXCLUDED.embedding`,
-        [r.role_id, embedModel, sha(r.doc), toVector(vectors[j])]
+        [r.role_id, embedModel, sha(r.doc), toVector(vectors[j])],
       );
     }
     log(`  embedded ${Math.min(i + EMBED_BATCH, rows.length)}/${rows.length}`);
   }
-  const { rows: [count] } = await pool.query<{ roles: string }>("SELECT count(*) AS roles FROM roles WHERE thread_id = $1", [threadId]);
-  return { postings: records.length, skipped: all.length - records.length, pruned, embedded: rows.length, roles: Number(count.roles) };
+  const {
+    rows: [count],
+  } = await pool.query<{ roles: string }>("SELECT count(*) AS roles FROM roles WHERE thread_id = $1", [threadId]);
+  return {
+    postings: records.length,
+    skipped: all.length - records.length,
+    pruned,
+    embedded: rows.length,
+    roles: Number(count.roles),
+  };
 }

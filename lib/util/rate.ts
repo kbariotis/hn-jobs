@@ -19,12 +19,17 @@ export class RateLimiter {
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-export const isRateLimited = (e: unknown) => /\b429\b|too many requests|resource_exhausted|rate.?limit/i.test(e instanceof Error ? e.message : String(e));
+export const isRateLimited = (e: unknown) =>
+  /\b429\b|too many requests|resource_exhausted|rate.?limit/i.test(e instanceof Error ? e.message : String(e));
 
 /** Retry only on rate limiting; other errors surface immediately (they won't fix themselves). */
 export async function withBackoff<T>(
   fn: () => Promise<T>,
-  { retries = 5, baseMs = 10_000, onRetry }: { retries?: number; baseMs?: number; onRetry?: (attempt: number, waitMs: number) => void } = {}
+  {
+    retries = 5,
+    baseMs = 10_000,
+    onRetry,
+  }: { retries?: number; baseMs?: number; onRetry?: (attempt: number, waitMs: number) => void } = {},
 ): Promise<T> {
   for (let attempt = 0; ; attempt++) {
     try {
@@ -45,7 +50,11 @@ export async function withBackoff<T>(
 export class KeyedTokenBucket {
   private buckets = new Map<string, { tokens: number; at: number }>();
   private lastSweep = Date.now();
-  constructor(private readonly perMinute: number, private readonly burst: number, private readonly maxKeys = 10_000) {}
+  constructor(
+    private readonly perMinute: number,
+    private readonly burst: number,
+    private readonly maxKeys = 10_000,
+  ) {}
 
   /** true if allowed (and consumes a token). */
   take(key: string, now = Date.now()): boolean {

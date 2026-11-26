@@ -1,4 +1,4 @@
-require("dotenv").config();
+import "dotenv/config";
 
 import fs from "fs/promises";
 import { db, closeDb } from "../lib/store/db";
@@ -35,12 +35,27 @@ const arg = (n: string) => {
 };
 const flag = (n: string) => process.argv.includes(`--${n}`);
 
-type QueryResult = { ndcg10: number; p10: number; rprec: number; relevant: number; unretrievable: number; top: string[]; filters?: unknown };
-type Baseline = { created_at: string; embed_model: string; prompt_version: string; ndcg10: Record<string, Record<string, number>> };
+type QueryResult = {
+  ndcg10: number;
+  p10: number;
+  rprec: number;
+  relevant: number;
+  unretrievable: number;
+  top: string[];
+  filters?: unknown;
+};
+type Baseline = {
+  created_at: string;
+  embed_model: string;
+  prompt_version: string;
+  ndcg10: Record<string, Record<string, number>>;
+};
 const baselinePath = (t: number) => `data/evals/baseline.retrieval.${t}.json`;
 
 async function relevanceSets(threadId: number) {
-  const extracted = (await readExtractions(extractedPath(threadId, extractModelId()))).filter((r) => !r.error && r.prompt_version === PROMPT_VERSION);
+  const extracted = (await readExtractions(extractedPath(threadId, extractModelId()))).filter(
+    (r) => !r.error && r.prompt_version === PROMPT_VERSION,
+  );
   const gold: GoldFile = JSON.parse(await fs.readFile(goldPath(threadId), "utf8"));
   const goldById = new Map(gold.postings.filter((p) => p.status === "reviewed").map((p) => [p.id, p]));
   const text = new Map(toPostings(await loadThread(threadId)).map((p) => [p.id, p.text]));
@@ -74,22 +89,28 @@ async function main() {
   const only = arg("only")?.split(",");
   const embedModel = embedModelId();
 
-  const { rows: [{ n }] } = await db().query<{ n: string }>(
+  const {
+    rows: [{ n }],
+  } = await db().query<{ n: string }>(
     "SELECT count(*) AS n FROM roles r JOIN role_embeddings e USING (role_id) WHERE r.thread_id = $1 AND e.embed_model = $2",
-    [threadId, embedModel]
+    [threadId, embedModel],
   );
-  if (Number(n) === 0) throw new Error(`Nothing indexed for thread ${threadId} with ${embedModel}. Run \`npm run index\`.`);
+  if (Number(n) === 0)
+    throw new Error(`Nothing indexed for thread ${threadId} with ${embedModel}. Run \`npm run index\`.`);
 
   const sets = (await relevanceSets(threadId)).filter((s) => !only || only.includes(s.q.id));
   // Relevance comes from the extraction file; search sees the index. If they drift (re-extracted
   // but not re-indexed), relevant roles become unfindable and scores drop for no real reason.
   const { rows: indexed } = await db().query<{ role_id: string }>(
     "SELECT r.role_id FROM roles r JOIN role_embeddings e USING (role_id) WHERE r.thread_id = $1 AND e.embed_model = $2",
-    [threadId, embedModel]
+    [threadId, embedModel],
   );
   const inIndex = new Set(indexed.map((r) => r.role_id));
   const stale = [...new Set(sets.flatMap((s) => [...s.relevant]).filter((id) => !inIndex.has(id)))];
-  if (stale.length) throw new Error(`${stale.length} relevant roles are not indexed (e.g. ${stale.slice(0, 3).join(", ")}). Run \`npm run index -- --thread ${threadId}\`.`);
+  if (stale.length)
+    throw new Error(
+      `${stale.length} relevant roles are not indexed (e.g. ${stale.slice(0, 3).join(", ")}). Run \`npm run index -- --thread ${threadId}\`.`,
+    );
   const results: Record<string, Record<string, QueryResult>> = {};
   for (const strategy of strategies) {
     results[strategy] = {};
@@ -120,7 +141,7 @@ async function main() {
         ...Object.fromEntries(strategies.map((s) => [`${s} nDCG@10`, r2(results[s][q.id].ndcg10)])),
         ...Object.fromEntries(strategies.map((s) => [`${s} P@10`, r2(results[s][q.id].p10)])),
       },
-    ])
+    ]),
   );
   console.table(table);
   const mean = (s: string, kind?: string, m: keyof QueryResult = "ndcg10") => {
@@ -129,13 +150,29 @@ async function main() {
   };
   console.table(
     Object.fromEntries(
-      strategies.map((s) => [s, { "nDCG@10": mean(s), "P@10": mean(s, undefined, "p10"), "R-prec": mean(s, undefined, "rprec"), "nDCG structured": mean(s, "structured"), "nDCG semantic": mean(s, "semantic") }])
-    )
+      strategies.map((s) => [
+        s,
+        {
+          "nDCG@10": mean(s),
+          "P@10": mean(s, undefined, "p10"),
+          "R-prec": mean(s, undefined, "rprec"),
+          "nDCG structured": mean(s, "structured"),
+          "nDCG semantic": mean(s, "semantic"),
+        },
+      ]),
+    ),
   );
 
   await fs.mkdir("data/evals", { recursive: true });
   const out = `data/evals/retrieval.${threadId}.json`;
-  await fs.writeFile(out, JSON.stringify({ at: new Date().toISOString(), embed_model: embedModel, prompt_version: PROMPT_VERSION, results }, null, 2) + "\n");
+  await fs.writeFile(
+    out,
+    JSON.stringify(
+      { at: new Date().toISOString(), embed_model: embedModel, prompt_version: PROMPT_VERSION, results },
+      null,
+      2,
+    ) + "\n",
+  );
   console.log(`Full report (incl. parsed filters and top-10 ids): ${out}`);
 
   if (flag("write-baseline")) {
@@ -144,7 +181,9 @@ async function main() {
       created_at: new Date().toISOString(),
       embed_model: embedModel,
       prompt_version: PROMPT_VERSION,
-      ndcg10: Object.fromEntries(strategies.map((s) => [s, Object.fromEntries(sets.map(({ q }) => [q.id, r2(results[s][q.id].ndcg10)]))])),
+      ndcg10: Object.fromEntries(
+        strategies.map((s) => [s, Object.fromEntries(sets.map(({ q }) => [q.id, r2(results[s][q.id].ndcg10)]))]),
+      ),
     };
     await fs.writeFile(baselinePath(threadId), JSON.stringify(baseline, null, 2) + "\n");
     console.log(`✓ Baseline written: ${baselinePath(threadId)}`);

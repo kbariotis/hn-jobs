@@ -1,5 +1,6 @@
 import * as cheerio from "cheerio";
 import fs from "fs/promises";
+import { isNotFound } from "../util/fs";
 
 export type HNComment = {
   id: number;
@@ -58,20 +59,16 @@ export function toPostings(thread: Thread): Posting[] {
     }));
 }
 
-export const threadPath = (threadId: string | number) =>
-  `data/threads/${threadId}.json`;
+export const threadPath = (threadId: string | number) => `data/threads/${threadId}.json`;
 
 /** Prefer the committed snapshot so runs/evals are reproducible; fetch + save otherwise. */
-export async function loadThread(
-  threadId: string | number,
-  { refresh = false } = {}
-): Promise<Thread> {
+export async function loadThread(threadId: string | number, { refresh = false } = {}): Promise<Thread> {
   const path = threadPath(threadId);
   if (!refresh) {
     try {
       return JSON.parse(await fs.readFile(path, "utf8"));
-    } catch (e: any) {
-      if (e.code !== "ENOENT") throw e;
+    } catch (e) {
+      if (!isNotFound(e)) throw e;
     }
   }
 
@@ -93,7 +90,9 @@ export async function latestHiringThread(): Promise<{ id: number; title: string;
   if (!res.ok) throw new Error(`HN search failed: ${res.status} ${res.statusText}`);
   const { hits } = (await res.json()) as { hits: AlgoliaHit[] };
   // The same account also posts "Who wants to be hired?" and "Freelancer?" threads.
-  const hiring = hits.filter((h) => /^Ask HN: Who is hiring\?/i.test(h.title)).sort((a, b) => b.created_at_i - a.created_at_i);
+  const hiring = hits
+    .filter((h) => /^Ask HN: Who is hiring\?/i.test(h.title))
+    .sort((a, b) => b.created_at_i - a.created_at_i);
   if (!hiring.length) throw new Error("No 'Who is hiring?' thread found");
   return { id: Number(hiring[0].objectID), title: hiring[0].title, created_at_i: hiring[0].created_at_i };
 }

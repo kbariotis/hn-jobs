@@ -5,8 +5,13 @@ import type { Mismatch } from "./score";
 
 const post = (id: number, text = `post ${id}`) => ({ id, text, roles: [] });
 
-const mm = (posting_id: number, field: string, role = "SWE"): Mismatch => ({ posting_id, role, field, pred: "x", gold: "y" });
-
+const mm = (posting_id: number, field: string, role = "SWE"): Mismatch => ({
+  posting_id,
+  role,
+  field,
+  pred: "x",
+  gold: "y",
+});
 
 function baseline(posts: ReturnType<typeof post>[], mismatches: string[]): Baseline {
   return {
@@ -15,7 +20,6 @@ function baseline(posts: ReturnType<typeof post>[], mismatches: string[]): Basel
     gold: Object.fromEntries(posts.map((p) => [String(p.id), goldHash(p)])),
     models: { m: { prompt_version: "4", fields: {}, mismatches } },
   };
-
 }
 
 test("new error on an unchanged posting is a regression; vanished one is fixed", () => {

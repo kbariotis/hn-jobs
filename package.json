@@ -15,7 +15,11 @@
     "seed-gold": "ts-node ops/seed-gold.ts",
     "eval:extract": "ts-node ops/eval-extract.ts",
     "eval:check": "ts-node ops/eval-extract.ts --check",
-    "review": "ts-node ops/review-server.ts"
+    "review": "ts-node ops/review-server.ts",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "author": "Kostas Bariotis <kostas@bariotis.com>",
   "dependencies": {
@@ -30,6 +34,12 @@
     "typescript": "^5.9.3"
   },
   "devDependencies": {
-    "@types/pg": "^8.23.1"
+    "@eslint/js": "10.0.1",
+    "@types/pg": "^8.23.1",
+    "eslint": "10.15.0",
+    "eslint-config-prettier": "10.1.8",
+    "globals": "17.14.0",
+    "prettier": "3.10.1",
+    "typescript-eslint": "8.74.0"
   }
 }

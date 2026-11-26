@@ -23,10 +23,14 @@ export const safeEmail = (raw: string | null | undefined) => (raw && EMAIL.test(
 
 export const MAX_QUERY_CHARS = 200;
 
+// C0 + DEL + C1 control characters.
+// eslint-disable-next-line no-control-regex -- matching control chars is the point
+const CONTROL_CHARS = /[\u0000-\u001f\u007f-\u009f]/g;
+
 /** Normalize a search query; null if unusable. Control characters out, whitespace collapsed. */
 export function cleanQuery(raw: string | null | undefined): string | null {
   if (!raw) return null;
-  const q = raw.replace(/[\u0000-\u001f\u007f-\u009f]/g, " ").replace(/\s+/g, " ").trim();
+  const q = raw.replace(CONTROL_CHARS, " ").replace(/\s+/g, " ").trim();
   if (q.length < 2 || q.length > MAX_QUERY_CHARS) return null;
   return q;
 }

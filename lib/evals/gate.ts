@@ -23,7 +23,10 @@ export const baselinePath = (threadId: string | number) => `data/evals/baseline.
 
 /** Labels + input text: if either changes, old results for this posting are not comparable. */
 export const goldHash = (p: Pick<GoldPosting, "text" | "roles">) =>
-  createHash("sha1").update(JSON.stringify({ text: p.text, roles: p.roles })).digest("hex").slice(0, 12);
+  createHash("sha1")
+    .update(JSON.stringify({ text: p.text, roles: p.roles }))
+    .digest("hex")
+    .slice(0, 12);
 
 // Value excluded on purpose: a different wrong value is the same error, not a new one.
 export const mismatchKey = (m: Mismatch) => `${m.posting_id}|${m.role}|${m.field}`;
@@ -41,7 +44,7 @@ export function compareToBaseline(
   baseline: Baseline,
   model: string,
   gold: Pick<GoldPosting, "id" | "text" | "roles">[],
-  mismatches: Mismatch[]
+  mismatches: Mismatch[],
 ): GateResult {
   const base = baseline.models[model];
   if (!base) throw new Error(`No baseline for ${model}. Run with --write-baseline first.`);

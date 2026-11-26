@@ -36,7 +36,9 @@
   function renderFilters(f, degraded) {
     filtersEl.replaceChildren();
     if (degraded) {
-      filtersEl.append(el("span", "note", "Couldn't read filters from your query; showing closest matches by meaning."));
+      filtersEl.append(
+        el("span", "note", "Couldn't read filters from your query; showing closest matches by meaning."),
+      );
       filtersEl.hidden = false;
       return;
     }
@@ -66,9 +68,16 @@
     head.append(el("h2", null, r.title || "Untitled role"), el("span", "company", r.company || ""));
     li.append(head);
 
-    const where = [r.remote_policy, r.remote_regions.length ? r.remote_regions.join(", ") : null, r.locations.join(" · ") || null].filter(Boolean).join(" — ");
+    const where = [
+      r.remote_policy,
+      r.remote_regions.length ? r.remote_regions.join(", ") : null,
+      r.locations.join(" · ") || null,
+    ]
+      .filter(Boolean)
+      .join(" — ");
     const meta = el("p", "meta");
-    for (const part of [where, r.seniority, r.employment_type, r.salary].filter(Boolean)) meta.append(el("span", null, part));
+    for (const part of [where, r.seniority, r.employment_type, r.salary].filter(Boolean))
+      meta.append(el("span", null, part));
     li.append(meta);
 
     if (r.tech.length) {
@@ -105,7 +114,9 @@
         return;
       }
       renderFilters(body.filters, body.degraded);
-      status.textContent = body.results.length ? `${body.results.length} roles` : "No matching roles this month. Try loosening a constraint.";
+      status.textContent = body.results.length
+        ? `${body.results.length} roles`
+        : "No matching roles this month. Try loosening a constraint.";
       results.replaceChildren(...body.results.map(renderResult));
     } catch {
       status.textContent = "Network error. Please try again.";

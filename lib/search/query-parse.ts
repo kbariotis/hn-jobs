@@ -9,7 +9,9 @@ import { getExtractModel } from "../../models/extract";
 /** Hard constraints a search query states. Anything soft stays in the vector part. */
 export const Filters = z.object({
   work_modes: z.array(RemotePolicy).describe("Only if the query restricts work mode, e.g. 'remote' -> ['remote']"),
-  regions: z.array(z.string()).describe("Where the job must be available: ISO alpha-2 or EUROPE/EMEA/LATAM/APAC/AMERICAS/GLOBAL"),
+  regions: z
+    .array(z.string())
+    .describe("Where the job must be available: ISO alpha-2 or EUROPE/EMEA/LATAM/APAC/AMERICAS/GLOBAL"),
   cities: z.array(z.string()).describe("Specific cities, full names ('NYC' -> 'New York')"),
   seniority: z.array(Seniority),
   employment_types: z.array(EmploymentType),
@@ -37,7 +39,10 @@ const cachePath = "data/evals/query-parse-cache.json";
  * (it would persist every user query to disk, unbounded); use parseQueryUncached there.
  */
 export async function parseQuery(query: string, modelId?: string): Promise<Filters> {
-  const cache: Record<string, Filters> = await fs.readFile(cachePath, "utf8").then(JSON.parse).catch(() => ({}));
+  const cache: Record<string, Filters> = await fs
+    .readFile(cachePath, "utf8")
+    .then(JSON.parse)
+    .catch(() => ({}));
   const key = `${modelId ?? "default"}|v${PARSER_VERSION}|${query}`;
   if (cache[key]) return cache[key];
   const filters = await parseQueryUncached(query, modelId);
@@ -58,14 +63,21 @@ export async function parseQueryUncached(query: string, modelId?: string): Promi
   const tech = (xs: string[]) => [...new Set(xs.map(canonicalTech).filter((t): t is string => !!t))];
   // A prompt-injected query can only produce weird filters, never SQL (all values are
   // parameters). Still cap sizes and drop anything that isn't a known code or a sane string.
-  const short = (xs: string[]) => xs.map((x) => x.trim()).filter((x) => x.length > 0 && x.length <= 60).slice(0, MAX_ITEMS);
+  const short = (xs: string[]) =>
+    xs
+      .map((x) => x.trim())
+      .filter((x) => x.length > 0 && x.length <= 60)
+      .slice(0, MAX_ITEMS);
   const salary = raw.min_salary_usd_year;
   return {
     ...raw,
-    regions: [...new Set(raw.regions.flatMap((r) => canonicalRegion(r).codes))].filter((c) => CODE.test(c)).slice(0, MAX_ITEMS),
+    regions: [...new Set(raw.regions.flatMap((r) => canonicalRegion(r).codes))]
+      .filter((c) => CODE.test(c))
+      .slice(0, MAX_ITEMS),
     cities: short(raw.cities),
     tech_all: tech(short(raw.tech_all)),
     tech_any: tech(short(raw.tech_any)),
-    min_salary_usd_year: salary !== null && Number.isFinite(salary) && salary > 0 && salary < 10_000_000 ? salary : null,
+    min_salary_usd_year:
+      salary !== null && Number.isFinite(salary) && salary > 0 && salary < 10_000_000 ? salary : null,
   };
 }

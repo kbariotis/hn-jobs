@@ -29,9 +29,21 @@ test("regions: codes, names, macros, timezones split out", () => {
 });
 
 test("locations: city abbreviations, country names, UK -> GB", () => {
-  assert.deepEqual(canonicalLocation({ city: "NYC", region: "ny", country_code: "USA" }), { city: "New York", region: "NY", country_code: "US" });
-  assert.deepEqual(canonicalLocation({ city: "London", region: null, country_code: "UK" }), { city: "London", region: null, country_code: "GB" });
-  assert.deepEqual(canonicalLocation({ city: null, region: null, country_code: "Belgium" }), { city: null, region: null, country_code: "BE" });
+  assert.deepEqual(canonicalLocation({ city: "NYC", region: "ny", country_code: "USA" }), {
+    city: "New York",
+    region: "NY",
+    country_code: "US",
+  });
+  assert.deepEqual(canonicalLocation({ city: "London", region: null, country_code: "UK" }), {
+    city: "London",
+    region: null,
+    country_code: "GB",
+  });
+  assert.deepEqual(canonicalLocation({ city: null, region: null, country_code: "Belgium" }), {
+    city: null,
+    region: null,
+    country_code: "BE",
+  });
 });
 
 test("protocols are not tech", () => {

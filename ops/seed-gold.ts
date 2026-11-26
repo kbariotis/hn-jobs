@@ -1,4 +1,4 @@
-require("dotenv").config();
+import "dotenv/config";
 
 import fs from "fs/promises";
 import { loadThread, toPostings } from "../lib/extraction/hn";
@@ -7,6 +7,7 @@ import { extractModelId } from "../models/extract";
 import type { GoldFile, GoldPosting } from "../lib/evals/gold";
 import { goldPath } from "../lib/evals/gold";
 import type { Role } from "../lib/schema";
+import { isNotFound } from "../lib/util/fs";
 
 /**
  * Seed draft gold labels from a model's extractions. Drafts are a starting point for
@@ -31,7 +32,13 @@ async function main() {
   const threadId = Number(arg("thread") ?? process.env.THREAD_ID ?? "46108941");
   const postingsList = toPostings(await loadThread(threadId));
   const sample = arg("sample");
-  const ids = sample ? sampleIds(postingsList.map((p) => p.id), Number(sample), Number(arg("seed") ?? 1)) : arg("ids")?.split(",").map(Number);
+  const ids = sample
+    ? sampleIds(
+        postingsList.map((p) => p.id),
+        Number(sample),
+        Number(arg("seed") ?? 1),
+      )
+    : arg("ids")?.split(",").map(Number);
   if (!ids?.length) throw new Error("--ids or --sample is required");
   const blank = process.argv.includes("--blank");
   const skeleton = process.argv.includes("--skeleton");
@@ -39,17 +46,15 @@ async function main() {
   const refreshDrafts = process.argv.includes("--refresh-drafts");
 
   const modelId = extractModelId();
-  const extractions = new Map(
-    (await readExtractions(extractedPath(threadId, modelId))).map((r) => [r.id, r])
-  );
+  const extractions = new Map((await readExtractions(extractedPath(threadId, modelId))).map((r) => [r.id, r]));
   const postings = new Map(postingsList.map((p) => [p.id, p]));
 
   const path = goldPath(threadId);
   let gold: GoldFile;
   try {
     gold = JSON.parse(await fs.readFile(path, "utf8"));
-  } catch (e: any) {
-    if (e.code !== "ENOENT") throw e;
+  } catch (e) {
+    if (!isNotFound(e)) throw e;
     gold = { thread_id: threadId, postings: [] };
   }
   const existing = new Map(gold.postings.map((p) => [p.id, p]));
@@ -75,7 +80,8 @@ async function main() {
       roles: blank ? [] : skeleton ? rec!.roles.map(skeletonRole) : rec!.roles,
     };
     existing.set(id, entry);
-    prev ? refreshed++ : added++;
+    if (prev) refreshed++;
+    else added++;
   }
 
   gold.postings = [...existing.values()].sort((a, b) => a.id - b.id);
@@ -83,15 +89,24 @@ async function main() {
   await fs.writeFile(path, JSON.stringify(gold, null, 2) + "\n");
 
   const reviewed = gold.postings.filter((p) => p.status === "reviewed").length;
-  console.log(
-    `${path}: +${added} new, ${refreshed} drafts refreshed | ${reviewed}/${gold.postings.length} reviewed`
-  );
+  console.log(`${path}: +${added} new, ${refreshed} drafts refreshed | ${reviewed}/${gold.postings.length} reviewed`);
 }
 
 const skeletonRole = (r: Role): Role => ({
-  company_name: r.company_name, role_title: r.role_title,
-  employment_type: null, remote_policy: null, remote_regions: [], timezones: [], locations: [], seniority: null,
-  tech_stack: [], salary: null, visa_sponsorship: null, apply_url: null, apply_email: null, description: "",
+  company_name: r.company_name,
+  role_title: r.role_title,
+  employment_type: null,
+  remote_policy: null,
+  remote_regions: [],
+  timezones: [],
+  locations: [],
+  seniority: null,
+  tech_stack: [],
+  salary: null,
+  visa_sponsorship: null,
+  apply_url: null,
+  apply_email: null,
+  description: "",
 });
 
 /** Deterministic shuffle (mulberry32) so a sample can be re-derived from its seed. */

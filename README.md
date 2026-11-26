@@ -40,7 +40,7 @@ prompts/        extraction prompt (versioned)
 ops/            CLI entry points (daily, serve, evals, review, migrate, ...)
 ```
 
-Unit tests sit next to the module they cover (`lib/**/*.test.ts`).
+Unit tests sit next to the module they cover (`lib/**/*.test.ts`). `npm test`, `npm run lint`, `npm run format:check`, `npm run typecheck`.
 
 ## Prerequisites
 
@@ -68,11 +68,11 @@ npm run index                        # (manual) load roles into Postgres and emb
 
 ## Evals
 
-| What | Command | Gate |
-|---|---|---|
-| Extraction vs gold labels | `npm run eval:extract -- --models google-genai:gemini-3.5-flash` | `npm run eval:check -- --models …` |
-| Retrieval (24 queries, vector vs filtered) | `npm run eval:retrieval` | `npm run eval:retrieval -- --check` |
-| Label review UI | `npm run review` (127.0.0.1:4777) | |
+| What                                       | Command                                                          | Gate                                |
+| ------------------------------------------ | ---------------------------------------------------------------- | ----------------------------------- |
+| Extraction vs gold labels                  | `npm run eval:extract -- --models google-genai:gemini-3.5-flash` | `npm run eval:check -- --models …`  |
+| Retrieval (24 queries, vector vs filtered) | `npm run eval:retrieval`                                         | `npm run eval:retrieval -- --check` |
+| Label review UI                            | `npm run review` (127.0.0.1:4777)                                |                                     |
 
 Baselines live in `data/evals/baseline*.json` and are committed. Re-baseline with `--write-baseline` when a change is intended, and commit it with the change. See LABELING.md for the labelling rules and review workflow.
 

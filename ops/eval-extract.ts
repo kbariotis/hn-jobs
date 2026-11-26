@@ -1,4 +1,4 @@
-require("dotenv").config();
+import "dotenv/config";
 
 import fs from "fs/promises";
 import { loadThread, toPostings } from "../lib/extraction/hn";
@@ -41,7 +41,8 @@ async function main() {
   const labels = gold.postings.filter((p) => flag("include-drafts") || p.status === "reviewed");
   const writeBaseline = flag("write-baseline");
   const check = flag("check");
-  if ((writeBaseline || check) && flag("include-drafts")) throw new Error("Baselines are reviewed-only; drop --include-drafts.");
+  if ((writeBaseline || check) && flag("include-drafts"))
+    throw new Error("Baselines are reviewed-only; drop --include-drafts.");
   if (labels.length === 0) throw new Error("No reviewed gold postings. Review some, or pass --include-drafts.");
 
   // Preprocessing drift invalidates labels silently — surface it.
@@ -77,14 +78,16 @@ async function main() {
     const latencies: number[] = [];
     for (const l of labels) {
       const rec = records.get(l.id);
-      if (!rec) failed++; // missing or failed extraction scores as "found nothing"
+      if (!rec)
+        failed++; // missing or failed extraction scores as "found nothing"
       else {
         latencies.push(rec.latency_ms);
         warnings += rec.warnings?.length ?? 0;
       }
       card.add(l.id, rec?.roles ?? [], l.roles);
     }
-    if (failed && !flag("run")) console.warn(`⚠ ${modelId}: ${failed} gold postings have no fresh extraction. Use --run.`);
+    if (failed && !flag("run"))
+      console.warn(`⚠ ${modelId}: ${failed} gold postings have no fresh extraction. Use --run.`);
 
     latencies.sort((a, b) => a - b);
     const s = card.summary();
@@ -101,20 +104,35 @@ async function main() {
     report[modelId] = { summary: s, failed, warnings, mismatches: card.mismatches };
     results[modelId] = { failed, fields: s.fields, mismatches: card.mismatches };
 
-    console.log(`\n${modelId}: ${card.mismatches.length} mismatches (showing ${Math.min(maxErrors, card.mismatches.length)})`);
+    console.log(
+      `\n${modelId}: ${card.mismatches.length} mismatches (showing ${Math.min(maxErrors, card.mismatches.length)})`,
+    );
     for (const m of card.mismatches.slice(0, maxErrors)) {
-      console.log(`  ${m.posting_id} ${m.role.slice(0, 32).padEnd(32)} ${m.field.padEnd(16)} pred=${JSON.stringify(m.pred)} gold=${JSON.stringify(m.gold)}`);
+      console.log(
+        `  ${m.posting_id} ${m.role.slice(0, 32).padEnd(32)} ${m.field.padEnd(16)} pred=${JSON.stringify(m.pred)} gold=${JSON.stringify(m.gold)}`,
+      );
     }
   }
 
-  console.log(`\nGold: ${labels.length} postings (${flag("include-drafts") ? "incl. drafts" : "reviewed only"}), prompt v${PROMPT_VERSION}`);
+  console.log(
+    `\nGold: ${labels.length} postings (${flag("include-drafts") ? "incl. drafts" : "reviewed only"}), prompt v${PROMPT_VERSION}`,
+  );
   console.table(rows);
 
   await fs.mkdir("data/evals", { recursive: true });
   const out = `data/evals/extract.${threadId}.json`;
   await fs.writeFile(
     out,
-    JSON.stringify({ at: new Date().toISOString(), prompt_version: PROMPT_VERSION, gold_postings: labels.map((l) => l.id), models: report }, null, 2) + "\n"
+    JSON.stringify(
+      {
+        at: new Date().toISOString(),
+        prompt_version: PROMPT_VERSION,
+        gold_postings: labels.map((l) => l.id),
+        models: report,
+      },
+      null,
+      2,
+    ) + "\n",
   );
   console.log(`Full report: ${out}`);
 
@@ -126,8 +144,11 @@ type Results = Record<string, { failed: number; fields: Record<string, number | 
 
 async function saveBaseline(threadId: number, labels: GoldFile["postings"], results: Results) {
   // A failed extraction would bake "found nothing" errors into the benchmark.
-  const incomplete = Object.entries(results).filter(([, r]) => r.failed > 0).map(([m]) => m);
-  if (incomplete.length) throw new Error(`Not writing baseline: missing/failed extractions for ${incomplete.join(", ")}. Use --run.`);
+  const incomplete = Object.entries(results)
+    .filter(([, r]) => r.failed > 0)
+    .map(([m]) => m);
+  if (incomplete.length)
+    throw new Error(`Not writing baseline: missing/failed extractions for ${incomplete.join(", ")}. Use --run.`);
   const baseline: Baseline = {
     thread_id: threadId,
     created_at: new Date().toISOString(),
@@ -135,12 +156,18 @@ async function saveBaseline(threadId: number, labels: GoldFile["postings"], resu
     models: Object.fromEntries(
       Object.entries(results).map(([m, r]) => [
         m,
-        { prompt_version: PROMPT_VERSION, fields: r.fields, mismatches: [...new Set(r.mismatches.map(mismatchKey))].sort() },
-      ])
+        {
+          prompt_version: PROMPT_VERSION,
+          fields: r.fields,
+          mismatches: [...new Set(r.mismatches.map(mismatchKey))].sort(),
+        },
+      ]),
     ),
   };
   await fs.writeFile(baselinePath(threadId), JSON.stringify(baseline, null, 2) + "\n");
-  console.log(`\n✓ Baseline written: ${baselinePath(threadId)} (${labels.length} postings, ${Object.keys(results).join(", ")})`);
+  console.log(
+    `\n✓ Baseline written: ${baselinePath(threadId)} (${labels.length} postings, ${Object.keys(results).join(", ")})`,
+  );
 }
 
 async function runGate(threadId: number, labels: GoldFile["postings"], results: Results): Promise<number> {
@@ -152,15 +179,23 @@ async function runGate(threadId: number, labels: GoldFile["postings"], results: 
     const g = compareToBaseline(baseline, model, labels, r.mismatches);
     const ok = g.regressions.length <= tolerance;
     failed ||= !ok;
-    console.log(`${ok ? "✓" : "✗"} ${model}: ${g.regressions.length} new error(s), ${g.fixed.length} fixed, ${g.gated} postings gated`);
+    console.log(
+      `${ok ? "✓" : "✗"} ${model}: ${g.regressions.length} new error(s), ${g.fixed.length} fixed, ${g.gated} postings gated`,
+    );
     for (const k of g.regressions) console.log(`    + ${k}`);
     for (const k of g.fixed) console.log(`    - ${k}`);
-    const ungated = [["new", g.added], ["edited", g.changed], ["removed", g.removed]] as const;
-    for (const [what, ids] of ungated) if (ids.length) console.log(`    ${ids.length} ${what} since baseline, not gated: ${ids.join(", ")}`);
+    const ungated = [
+      ["new", g.added],
+      ["edited", g.changed],
+      ["removed", g.removed],
+    ] as const;
+    for (const [what, ids] of ungated)
+      if (ids.length) console.log(`    ${ids.length} ${what} since baseline, not gated: ${ids.join(", ")}`);
     const base = baseline.models[model];
     if (base.prompt_version !== PROMPT_VERSION) console.log(`    prompt v${base.prompt_version} -> v${PROMPT_VERSION}`);
   }
-  if (failed) console.log("\nGate failed. Fix the regression, or re-baseline with --write-baseline if the change is intended.");
+  if (failed)
+    console.log("\nGate failed. Fix the regression, or re-baseline with --write-baseline if the change is intended.");
   return failed ? 1 : 0;
 }
 

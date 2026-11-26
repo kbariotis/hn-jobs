@@ -1,4 +1,4 @@
-require("dotenv").config();
+import "dotenv/config";
 
 import fs from "fs/promises";
 import path from "path";
@@ -10,8 +10,12 @@ const DIR = path.join(__dirname, "..", "db", "migrations");
 
 async function main() {
   const pool = db();
-  await pool.query("CREATE TABLE IF NOT EXISTS schema_migrations (name text PRIMARY KEY, applied_at timestamptz NOT NULL DEFAULT now())");
-  const applied = new Set((await pool.query<{ name: string }>("SELECT name FROM schema_migrations")).rows.map((r) => r.name));
+  await pool.query(
+    "CREATE TABLE IF NOT EXISTS schema_migrations (name text PRIMARY KEY, applied_at timestamptz NOT NULL DEFAULT now())",
+  );
+  const applied = new Set(
+    (await pool.query<{ name: string }>("SELECT name FROM schema_migrations")).rows.map((r) => r.name),
+  );
   const files = (await fs.readdir(DIR)).filter((f) => f.endsWith(".sql")).sort();
 
   for (const name of files.filter((f) => !applied.has(f))) {
@@ -24,7 +28,7 @@ async function main() {
       console.log(`✓ ${name}`);
     } catch (e) {
       await client.query("ROLLBACK");
-      throw new Error(`Migration ${name} failed: ${e instanceof Error ? e.message : e}`);
+      throw new Error(`Migration ${name} failed: ${e instanceof Error ? e.message : e}`, { cause: e });
     } finally {
       client.release();
     }

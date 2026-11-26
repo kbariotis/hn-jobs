@@ -1,6 +1,8 @@
 import { toJsonSchema } from "@langchain/core/utils/json_schema";
 import type { ZodTypeAny } from "zod";
 
+// Walks arbitrary JSON Schema; a precise type would just be casts everywhere.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Json = Record<string, any>;
 
 const isNull = (s: Json) => s && s.type === "null";
@@ -16,10 +18,10 @@ export function toGeminiSchema(schema: ZodTypeAny): Json {
 }
 
 function normalize(node: Json): Json {
-  if (Array.isArray(node)) return node.map(normalize) as any;
+  if (Array.isArray(node)) return node.map(normalize) as unknown as Json;
   if (!node || typeof node !== "object") return node;
 
-  const { $schema, additionalProperties, anyOf, type, ...rest } = node;
+  const { $schema: _schema, additionalProperties: _additional, anyOf, type, ...rest } = node; // dropped: Gemini rejects them
   let out: Json = { ...rest };
 
   if (Array.isArray(type)) {
@@ -40,9 +42,7 @@ function normalize(node: Json): Json {
   }
 
   if (out.properties) {
-    out.properties = Object.fromEntries(
-      Object.entries(out.properties).map(([k, v]) => [k, normalize(v as Json)])
-    );
+    out.properties = Object.fromEntries(Object.entries(out.properties).map(([k, v]) => [k, normalize(v as Json)]));
   }
   if (out.items) out.items = normalize(out.items);
   return out;

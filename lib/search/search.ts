@@ -4,7 +4,13 @@ import { parseQuery, type Filters } from "./query-parse";
 import { embedModelId, getEmbeddings } from "../../models/embeddings";
 
 export type Strategy = "vector" | "filtered";
-export type Hit = { role_id: string; posting_id: number; role_title: string | null; company_name: string | null; distance: number };
+export type Hit = {
+  role_id: string;
+  posting_id: number;
+  role_title: string | null;
+  company_name: string | null;
+  distance: number;
+};
 
 /**
  * Filters -> parameterized SQL. Every value goes through `p()`; nothing user-supplied is
@@ -20,7 +26,9 @@ export function filterSql(f: Filters, params: unknown[]): string[] {
   if (f.tech_any.length) where.push(`r.tech_stack && ${p(f.tech_any)}::text[]`);
   if (f.cities.length) where.push(`r.cities && ${p(f.cities)}::text[]`);
   if (f.min_salary_usd_year !== null)
-    where.push(`(r.salary_currency = 'USD' AND r.salary_period = 'year' AND coalesce(r.salary_max, r.salary_min) >= ${p(f.min_salary_usd_year)})`);
+    where.push(
+      `(r.salary_currency = 'USD' AND r.salary_period = 'year' AND coalesce(r.salary_max, r.salary_min) >= ${p(f.min_salary_usd_year)})`,
+    );
   if (f.visa_sponsorship === true) where.push(`r.visa_sponsorship IS TRUE`);
   if (f.regions.length) {
     // Available in ANY requested region: remote and open there, or an office there.
@@ -38,7 +46,7 @@ export function filterSql(f: Filters, params: unknown[]): string[] {
 
 export async function search(
   query: string,
-  opts: { strategy: Strategy; k?: number; threadId?: number; embedModel?: string; filters?: Filters }
+  opts: { strategy: Strategy; k?: number; threadId?: number; embedModel?: string; filters?: Filters },
 ): Promise<{ hits: Hit[]; filters?: Filters }> {
   const embedModel = opts.embedModel ?? embedModelId();
   const qvec = await getEmbeddings("query", embedModel).embedQuery(query);
@@ -57,7 +65,7 @@ export async function search(
      FROM roles r JOIN role_embeddings e ON e.role_id = r.role_id
      WHERE ${where.join(" AND ")}
      ORDER BY distance LIMIT ${limit}`,
-    params
+    params,
   );
   return { hits: rows.map((r) => ({ ...r, posting_id: Number(r.posting_id) })), filters };
 }

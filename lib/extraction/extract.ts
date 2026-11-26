@@ -1,14 +1,15 @@
-import { HumanMessage } from "langchain";
+import { HumanMessage, type BaseMessage } from "langchain";
 import fs from "fs/promises";
 import { createHash } from "crypto";
 import { Extraction, type Role } from "../schema";
 import { toGeminiSchema } from "../../models/gemini-schema";
 import { groundRoles, type GroundingWarning } from "./grounding";
 import { canonicalizeRoles } from "../canonical";
-import { RateLimiter, withBackoff } from "../util/rate";
+import { type RateLimiter, withBackoff } from "../util/rate";
 import type { Posting } from "./hn";
 import extractPrompt, { PROMPT_VERSION } from "../../prompts/extract";
 import { getExtractModel } from "../../models/extract";
+import { isNotFound } from "../util/fs";
 
 export type ExtractionRecord = {
   id: number;
@@ -24,7 +25,8 @@ export type ExtractionRecord = {
   error?: string; // set on failure; roles = [] in that case
 };
 
-type StructuredModel = { invoke: (input: any, config?: any) => Promise<unknown> };
+// Method syntax (bivariant params) so any LangChain runnable fits without importing its generics.
+type StructuredModel = { invoke(input: BaseMessage[], config?: { timeout?: number }): Promise<unknown> };
 
 export async function buildExtractor(modelId: string): Promise<StructuredModel> {
   const model = await getExtractModel(modelId);
@@ -38,7 +40,7 @@ export async function extractPosting(
   extractor: StructuredModel,
   modelId: string,
   posting: Posting,
-  { timeoutMs = 120_000, limiter }: { timeoutMs?: number; limiter?: RateLimiter } = {}
+  { timeoutMs = 120_000, limiter }: { timeoutMs?: number; limiter?: RateLimiter } = {},
 ): Promise<ExtractionRecord> {
   const base = {
     id: posting.id,
@@ -57,7 +59,7 @@ export async function extractPosting(
         await limiter?.acquire();
         return extractor.invoke([extractPrompt, new HumanMessage(posting.text)], { timeout: timeoutMs });
       },
-      { onRetry: (n, ms) => console.warn(`  ↻ ${posting.id}: rate limited, retry ${n} in ${Math.round(ms / 1000)}s`) }
+      { onRetry: (n, ms) => console.warn(`  ↻ ${posting.id}: rate limited, retry ${n} in ${Math.round(ms / 1000)}s`) },
     );
     // Providers differ in how strictly they honour the schema — validate regardless.
     const parsed = Extraction.parse(raw);
@@ -98,8 +100,8 @@ export async function readExtractions(path: string): Promise<ExtractionRecord[]>
       .split("\n")
       .filter(Boolean)
       .map((line) => JSON.parse(line));
-  } catch (e: any) {
-    if (e.code === "ENOENT") return [];
+  } catch (e) {
+    if (isNotFound(e)) return [];
     throw e;
   }
 }

@@ -20,7 +20,13 @@ export type JobResult = {
   hn_url: string;
   posted_at: string;
 };
-export type SearchResponse = { query: string; thread_id: number; filters: Filters | null; degraded: boolean; results: JobResult[] };
+export type SearchResponse = {
+  query: string;
+  thread_id: number;
+  filters: Filters | null;
+  degraded: boolean;
+  results: JobResult[];
+};
 
 /** Newest indexed thread = the current month. */
 export async function currentThreadId(): Promise<number> {
@@ -39,7 +45,10 @@ const fmtSalary = (min: string | null, max: string | null, cur: string | null, p
  * Filtered search (LLM-parsed filters → SQL → vector ranking). If parsing fails, falls
  * back to vector-only and says so: a degraded answer beats an error page.
  */
-export async function searchJobs(query: string, { threadId, k = 20 }: { threadId: number; k?: number }): Promise<SearchResponse> {
+export async function searchJobs(
+  query: string,
+  { threadId, k = 20 }: { threadId: number; k?: number },
+): Promise<SearchResponse> {
   let filters: Filters | null = null;
   let degraded = false;
   try {
@@ -58,28 +67,32 @@ export async function searchJobs(query: string, { threadId, k = 20 }: { threadId
             tech_stack, salary_min, salary_max, salary_currency, salary_period, apply_url, apply_email, posted_at,
             data->'locations' AS locations
      FROM roles WHERE role_id = ANY($1)`,
-    [hits.map((h) => h.role_id)]
+    [hits.map((h) => h.role_id)],
   );
   const byId = new Map(rows.map((r) => [r.role_id as string, r]));
   const results = hits.flatMap((h): JobResult[] => {
     const r = byId.get(h.role_id);
     if (!r) return [];
-    return [{
-      role_id: r.role_id,
-      title: r.role_title,
-      company: r.company_name,
-      remote_policy: r.remote_policy,
-      remote_regions: r.remote_regions,
-      locations: (r.locations as Location[]).map((l) => [l.city, l.region, l.country_code].filter(Boolean).join(", ")),
-      seniority: r.seniority,
-      employment_type: r.employment_type,
-      tech: (r.tech_stack as string[]).slice(0, 10),
-      salary: fmtSalary(r.salary_min, r.salary_max, r.salary_currency, r.salary_period),
-      apply_url: safeHttpUrl(r.apply_url),
-      apply_email: safeEmail(r.apply_email),
-      hn_url: `https://news.ycombinator.com/item?id=${Number(r.posting_id)}`,
-      posted_at: new Date(r.posted_at).toISOString(),
-    }];
+    return [
+      {
+        role_id: r.role_id,
+        title: r.role_title,
+        company: r.company_name,
+        remote_policy: r.remote_policy,
+        remote_regions: r.remote_regions,
+        locations: (r.locations as Location[]).map((l) =>
+          [l.city, l.region, l.country_code].filter(Boolean).join(", "),
+        ),
+        seniority: r.seniority,
+        employment_type: r.employment_type,
+        tech: (r.tech_stack as string[]).slice(0, 10),
+        salary: fmtSalary(r.salary_min, r.salary_max, r.salary_currency, r.salary_period),
+        apply_url: safeHttpUrl(r.apply_url),
+        apply_email: safeEmail(r.apply_email),
+        hn_url: `https://news.ycombinator.com/item?id=${Number(r.posting_id)}`,
+        posted_at: new Date(r.posted_at).toISOString(),
+      },
+    ];
   });
   return { query, thread_id: threadId, filters, degraded, results };
 }

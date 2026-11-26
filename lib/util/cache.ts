@@ -4,7 +4,10 @@
  */
 export class TtlCache<V> {
   private map = new Map<string, { value: V; expires: number }>();
-  constructor(private readonly maxEntries: number, private readonly ttlMs: number) {}
+  constructor(
+    private readonly maxEntries: number,
+    private readonly ttlMs: number,
+  ) {}
 
   get(key: string): V | undefined {
     const hit = this.map.get(key);

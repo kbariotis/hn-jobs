@@ -1,4 +1,4 @@
-require("dotenv").config();
+import "dotenv/config";
 
 import { loadThread, toPostings } from "../lib/extraction/hn";
 import { extractPostings } from "../lib/extraction/pipeline";

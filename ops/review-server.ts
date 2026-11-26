@@ -1,4 +1,4 @@
-require("dotenv").config();
+import "dotenv/config";
 
 import http from "http";
 import fs from "fs/promises";
@@ -62,7 +62,7 @@ const serialized = <T>(fn: () => Promise<T>): Promise<T> => {
 async function loadExtractions(ids: Set<number>) {
   const dir = "data/extracted";
   const prefix = `${THREAD_ID}.`;
-  let files: string[] = [];
+  let files: string[];
   try {
     files = (await fs.readdir(dir)).filter((f) => f.startsWith(prefix) && f.endsWith(".jsonl"));
   } catch {
@@ -99,13 +99,19 @@ async function readBody(req: http.IncomingMessage): Promise<string> {
 }
 
 class HttpError extends Error {
-  constructor(public status: number, message: string) {
+  constructor(
+    public status: number,
+    message: string,
+  ) {
     super(message);
   }
 }
 
 const zodMessage = (e: z.ZodError) =>
-  e.issues.slice(0, 5).map((i) => `${i.path.join(".") || "(root)"}: ${i.message}`).join("; ");
+  e.issues
+    .slice(0, 5)
+    .map((i) => `${i.path.join(".") || "(root)"}: ${i.message}`)
+    .join("; ");
 
 async function handle(req: http.IncomingMessage, res: http.ServerResponse) {
   if (!ALLOWED_HOSTS.has(req.headers.host ?? "")) throw new HttpError(421, "Unexpected Host header");
@@ -146,8 +152,10 @@ async function handle(req: http.IncomingMessage, res: http.ServerResponse) {
   if (req.method === "PUT" && m) {
     // Cross-origin pages can't forge this: browsers send Origin on PUT.
     const origin = req.headers.origin;
-    if (origin && !ALLOWED_HOSTS.has(origin.replace(/^http:\/\//, ""))) throw new HttpError(403, "Cross-origin write refused");
-    if (!(req.headers["content-type"] ?? "").startsWith("application/json")) throw new HttpError(415, "Expected application/json");
+    if (origin && !ALLOWED_HOSTS.has(origin.replace(/^http:\/\//, "")))
+      throw new HttpError(403, "Cross-origin write refused");
+    if (!(req.headers["content-type"] ?? "").startsWith("application/json"))
+      throw new HttpError(415, "Expected application/json");
 
     let parsed: unknown;
     try {
@@ -162,7 +170,8 @@ async function handle(req: http.IncomingMessage, res: http.ServerResponse) {
     const id = Number(m[1]);
     const result = await serialized(async () => {
       const { gold, etag } = await readGold();
-      if (etag !== body.data.etag) throw new HttpError(409, "Gold file changed on disk since you loaded it. Reload to continue.");
+      if (etag !== body.data.etag)
+        throw new HttpError(409, "Gold file changed on disk since you loaded it. Reload to continue.");
       const target = gold.postings.find((p) => p.id === id);
       if (!target) throw new HttpError(404, `Posting ${id} not in gold set`);
 

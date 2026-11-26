@@ -26,9 +26,31 @@ const TECH_ALIASES: Record<string, string> = {
 };
 
 // Concepts/domains/protocols: not technologies per LABELING.md.
-const NOT_TECH = new Set(["ai", "ml", "llm", "llms", "llm apis", "genai", "saas", "rest apis", "rest api", "apis", "http", "iot", "cloud", "web",
+const NOT_TECH = new Set([
+  "ai",
+  "ml",
+  "llm",
+  "llms",
+  "llm apis",
+  "genai",
+  "saas",
+  "rest apis",
+  "rest api",
+  "apis",
+  "http",
+  "iot",
+  "cloud",
+  "web",
   // network protocols (found in the Oct 2026 held-out thread)
-  "tcp", "udp", "tls", "quic", "dns", "ipv6", "http/2", "http/3"]);
+  "tcp",
+  "udp",
+  "tls",
+  "quic",
+  "dns",
+  "ipv6",
+  "http/2",
+  "http/3",
+]);
 
 export function canonicalTech(raw: string): string | null {
   let t = raw.trim().toLowerCase();
@@ -40,18 +62,56 @@ export function canonicalTech(raw: string): string | null {
 
 // ---------- regions ----------
 const REGION_ALIASES: Record<string, string[]> = {
-  usa: ["US"], us: ["US"], "united states": ["US"], america: ["US"],
-  canada: ["CA"], uk: ["GB"], "united kingdom": ["GB"], england: ["GB"],
-  eu: ["EUROPE"], europe: ["EUROPE"], "european union": ["EUROPE"],
-  "north america": ["US", "CA"], "latin america": ["LATAM"], latam: ["LATAM"], "south america": ["LATAM"],
-  emea: ["EMEA"], apac: ["APAC"], asia: ["APAC"], americas: ["AMERICAS"],
-  global: ["GLOBAL"], worldwide: ["GLOBAL"], anywhere: ["GLOBAL"],
+  usa: ["US"],
+  us: ["US"],
+  "united states": ["US"],
+  america: ["US"],
+  canada: ["CA"],
+  uk: ["GB"],
+  "united kingdom": ["GB"],
+  england: ["GB"],
+  eu: ["EUROPE"],
+  europe: ["EUROPE"],
+  "european union": ["EUROPE"],
+  "north america": ["US", "CA"],
+  "latin america": ["LATAM"],
+  latam: ["LATAM"],
+  "south america": ["LATAM"],
+  emea: ["EMEA"],
+  apac: ["APAC"],
+  asia: ["APAC"],
+  americas: ["AMERICAS"],
+  global: ["GLOBAL"],
+  worldwide: ["GLOBAL"],
+  anywhere: ["GLOBAL"],
 };
 const COUNTRY_NAMES: Record<string, string> = {
-  singapore: "SG", india: "IN", germany: "DE", netherlands: "NL", "the netherlands": "NL", france: "FR",
-  spain: "ES", portugal: "PT", poland: "PL", belgium: "BE", switzerland: "CH", sweden: "SE", ireland: "IE",
-  italy: "IT", israel: "IL", australia: "AU", brazil: "BR", mexico: "MX", argentina: "AR", japan: "JP",
-  austria: "AT", denmark: "DK", norway: "NO", finland: "FI", "czech republic": "CZ", greece: "GR",
+  singapore: "SG",
+  india: "IN",
+  germany: "DE",
+  netherlands: "NL",
+  "the netherlands": "NL",
+  france: "FR",
+  spain: "ES",
+  portugal: "PT",
+  poland: "PL",
+  belgium: "BE",
+  switzerland: "CH",
+  sweden: "SE",
+  ireland: "IE",
+  italy: "IT",
+  israel: "IL",
+  australia: "AU",
+  brazil: "BR",
+  mexico: "MX",
+  argentina: "AR",
+  japan: "JP",
+  austria: "AT",
+  denmark: "DK",
+  norway: "NO",
+  finland: "FI",
+  "czech republic": "CZ",
+  greece: "GR",
 };
 const TZ_HINT = /\b(time ?zones?|hours|tz|utc|gmt|[cpme][es]?t|cest|pst|est|cst|mst|bst)\b/i;
 const MACROS = new Set<string>(MACRO_REGIONS);
@@ -73,15 +133,24 @@ export function countryCode(raw: string | null): string | null {
   const s = raw.trim();
   if (/^[A-Za-z]{2}$/.test(s)) return s.toUpperCase() === "UK" ? "GB" : s.toUpperCase();
   const k = s.toLowerCase();
-  return REGION_ALIASES[k]?.length === 1 && /^[A-Z]{2}$/.test(REGION_ALIASES[k][0]) ? REGION_ALIASES[k][0] : COUNTRY_NAMES[k] ?? s;
+  return REGION_ALIASES[k]?.length === 1 && /^[A-Z]{2}$/.test(REGION_ALIASES[k][0])
+    ? REGION_ALIASES[k][0]
+    : (COUNTRY_NAMES[k] ?? s);
 }
 
-const CITY_ALIASES: Record<string, string> = { nyc: "New York", "new york city": "New York", sf: "San Francisco", "sf bay area": "San Francisco Bay Area", la: "Los Angeles", dc: "Washington" };
+const CITY_ALIASES: Record<string, string> = {
+  nyc: "New York",
+  "new york city": "New York",
+  sf: "San Francisco",
+  "sf bay area": "San Francisco Bay Area",
+  la: "Los Angeles",
+  dc: "Washington",
+};
 
 export function canonicalLocation(loc: Location): Location {
   const city = loc.city?.trim() || null;
   return {
-    city: city ? CITY_ALIASES[city.toLowerCase()] ?? city : null,
+    city: city ? (CITY_ALIASES[city.toLowerCase()] ?? city) : null,
     region: loc.region?.trim().toUpperCase() || null,
     country_code: countryCode(loc.country_code),
   };
