@@ -74,9 +74,14 @@ npm run index                        # (manual) load roles into Postgres and emb
 | Retrieval (24 queries, vector vs filtered) | `npm run eval:retrieval`                                         | `npm run eval:retrieval -- --check` |
 | Label review UI                            | `npm run review` (127.0.0.1:4777)                                |                                     |
 
-Baselines live in `data/evals/baseline*.json` and are committed. Re-baseline with `--write-baseline` when a change is intended, and commit it with the change. See LABELING.md for the labelling rules and review workflow.
+Baselines live in `data/evals/baseline*.json` and are committed. Re-baseline with `--write-baseline` when a change is intended, and commit it with the change.
 
-Current retrieval (Gemini embeddings, thread 46108941, 837 roles): filtered nDCG@10 0.97, vector-only 0.80.
+- [EVALS.md](EVALS.md): how each eval and gate works, what's in `data/`, when to run what,
+  current results and known limitations.
+- [LABELING.md](LABELING.md): labelling rules and the review workflow.
+
+Current retrieval nDCG@10 (filtered / vector-only): December 0.97 / 0.80, October (held-out)
+0.96 / 0.80.
 
 ## Author
 
