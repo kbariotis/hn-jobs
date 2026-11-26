@@ -26,7 +26,9 @@ export type ExtractionRecord = {
 };
 
 // Method syntax (bivariant params) so any LangChain runnable fits without importing its generics.
-type StructuredModel = { invoke(input: BaseMessage[], config?: { timeout?: number }): Promise<unknown> };
+type StructuredModel = {
+  invoke(input: BaseMessage[], config?: { timeout?: number }): Promise<unknown>;
+};
 
 export async function buildExtractor(modelId: string): Promise<StructuredModel> {
   const model = await getExtractModel(modelId);
@@ -53,13 +55,19 @@ export async function extractPosting(
   };
   const started = Date.now();
   try {
-    // Each attempt waits for a limiter slot; 429s back off and retry instead of failing the posting.
+    // Each attempt waits for a limiter slot.
+    // 429s back off and retry instead of failing the posting.
     const raw = await withBackoff(
       async () => {
         await limiter?.acquire();
-        return extractor.invoke([extractPrompt, new HumanMessage(posting.text)], { timeout: timeoutMs });
+        return extractor.invoke([extractPrompt, new HumanMessage(posting.text)], {
+          timeout: timeoutMs,
+        });
       },
-      { onRetry: (n, ms) => console.warn(`  ↻ ${posting.id}: rate limited, retry ${n} in ${Math.round(ms / 1000)}s`) },
+      {
+        onRetry: (n, ms) =>
+          console.warn(`  ↻ ${posting.id}: rate limited, retry ${n} in ${Math.round(ms / 1000)}s`),
+      },
     );
     // Providers differ in how strictly they honour the schema — validate regardless.
     const parsed = Extraction.parse(raw);
@@ -82,9 +90,13 @@ export async function extractPosting(
   }
 }
 
-export const textSha = (text: string) => createHash("sha256").update(text).digest("hex").slice(0, 16);
+export const textSha = (text: string) =>
+  createHash("sha256").update(text).digest("hex").slice(0, 16);
 
-/** Up to date = succeeded, same prompt version, same input text (older records lack a hash: trust them). */
+/**
+ * Up to date = succeeded, same prompt version, same input text.
+ * Older records have no text hash: trust them.
+ */
 export const isFresh = (r: ExtractionRecord, text: string) =>
   !r.error && r.prompt_version === PROMPT_VERSION && (!r.text_sha || r.text_sha === textSha(text));
 
@@ -101,7 +113,9 @@ export async function readExtractions(path: string): Promise<ExtractionRecord[]>
       .filter(Boolean)
       .map((line) => JSON.parse(line));
   } catch (e) {
-    if (isNotFound(e)) return [];
+    if (isNotFound(e)) {
+      return [];
+    }
     throw e;
   }
 }

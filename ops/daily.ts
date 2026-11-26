@@ -31,9 +31,13 @@ async function acquireLock(): Promise<boolean> {
     await fs.writeFile(LOCK, String(process.pid), { flag: "wx" });
     return true;
   } catch (e) {
-    if ((e as NodeJS.ErrnoException).code !== "EEXIST") throw e;
+    if ((e as NodeJS.ErrnoException).code !== "EEXIST") {
+      throw e;
+    }
     const { mtimeMs } = await fs.stat(LOCK);
-    if (Date.now() - mtimeMs < STALE_LOCK_MS) return false;
+    if (Date.now() - mtimeMs < STALE_LOCK_MS) {
+      return false;
+    }
     console.warn("⚠ Removing stale lock from a crashed run");
     await fs.rm(LOCK);
     return acquireLock();
@@ -58,7 +62,10 @@ async function main() {
       concurrency: Number(arg("concurrency") ?? 4),
       log: (m) => (m.startsWith("✓") ? undefined : console.log(m)), // keep the daily log short
     });
-    const idx = await indexThread(target.id, { livePostingIds: postings.map((p) => p.id), log: () => {} });
+    const idx = await indexThread(target.id, {
+      livePostingIds: postings.map((p) => p.id),
+      log: () => {},
+    });
 
     const coverage = (postings.length - ex.failed - ex.deferred) / (postings.length || 1);
     console.log(
@@ -66,8 +73,12 @@ async function main() {
         ` | index: ${idx.roles} roles, ${idx.embedded} embedded, ${idx.pruned} pruned` +
         ` | coverage ${(coverage * 100).toFixed(1)}% | ${Math.round((Date.now() - started) / 1000)}s`,
     );
-    if (ex.failedIds.length) console.log(`  still failing (retried next run): ${ex.failedIds.join(", ")}`);
-    if (coverage < MIN_COVERAGE) process.exitCode = 1;
+    if (ex.failedIds.length) {
+      console.log(`  still failing (retried next run): ${ex.failedIds.join(", ")}`);
+    }
+    if (coverage < MIN_COVERAGE) {
+      process.exitCode = 1;
+    }
   } finally {
     await fs.rm(LOCK, { force: true });
   }

@@ -9,18 +9,24 @@ export class RateLimiter {
 
   /** Resolves when this caller may start a request; slots are spaced 60s/rpm apart. */
   async acquire(): Promise<void> {
-    if (!Number.isFinite(this.rpm) || this.rpm <= 0) return;
+    if (!Number.isFinite(this.rpm) || this.rpm <= 0) {
+      return;
+    }
     const now = Date.now();
     const at = Math.max(now, this.nextAt);
     this.nextAt = at + 60_000 / this.rpm;
-    if (at > now) await sleep(at - now);
+    if (at > now) {
+      await sleep(at - now);
+    }
   }
 }
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 export const isRateLimited = (e: unknown) =>
-  /\b429\b|too many requests|resource_exhausted|rate.?limit/i.test(e instanceof Error ? e.message : String(e));
+  /\b429\b|too many requests|resource_exhausted|rate.?limit/i.test(
+    e instanceof Error ? e.message : String(e),
+  );
 
 /** Retry only on rate limiting; other errors surface immediately (they won't fix themselves). */
 export async function withBackoff<T>(
@@ -29,14 +35,21 @@ export async function withBackoff<T>(
     retries = 5,
     baseMs = 10_000,
     onRetry,
-  }: { retries?: number; baseMs?: number; onRetry?: (attempt: number, waitMs: number) => void } = {},
+  }: {
+    retries?: number;
+    baseMs?: number;
+    onRetry?: (attempt: number, waitMs: number) => void;
+  } = {},
 ): Promise<T> {
   for (let attempt = 0; ; attempt++) {
     try {
       return await fn();
     } catch (e) {
-      if (!isRateLimited(e) || attempt >= retries) throw e;
-      const wait = baseMs * 2 ** attempt * (0.75 + Math.random() / 2); // jitter avoids synchronized retries
+      if (!isRateLimited(e) || attempt >= retries) {
+        throw e;
+      }
+      // Jitter avoids synchronized retries.
+      const wait = baseMs * 2 ** attempt * (0.75 + Math.random() / 2);
       onRetry?.(attempt + 1, wait);
       await sleep(wait);
     }
@@ -63,8 +76,12 @@ export class KeyedTokenBucket {
     b.tokens = Math.min(this.burst, b.tokens + ((now - b.at) / 60_000) * this.perMinute);
     b.at = now;
     const ok = b.tokens >= 1;
-    if (ok) b.tokens -= 1;
-    if (this.buckets.size < this.maxKeys || this.buckets.has(key)) this.buckets.set(key, b);
+    if (ok) {
+      b.tokens -= 1;
+    }
+    if (this.buckets.size < this.maxKeys || this.buckets.has(key)) {
+      this.buckets.set(key, b);
+    }
     return ok;
   }
 
@@ -75,9 +92,15 @@ export class KeyedTokenBucket {
   }
 
   private sweep(now: number) {
-    if (now - this.lastSweep < 60_000) return;
+    if (now - this.lastSweep < 60_000) {
+      return;
+    }
     this.lastSweep = now;
     const fullAfter = (this.burst / this.perMinute) * 60_000;
-    for (const [k, b] of this.buckets) if (now - b.at > fullAfter) this.buckets.delete(k);
+    for (const [k, b] of this.buckets) {
+      if (now - b.at > fullAfter) {
+        this.buckets.delete(k);
+      }
+    }
   }
 }

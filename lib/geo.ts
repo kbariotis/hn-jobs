@@ -55,9 +55,14 @@ const MEMBERS: Record<string, string[]> = {
   AMERICAS: [...NORTH_AMERICA, ...LATAM],
 };
 
-/** Countries whose offices satisfy a region (a country covers itself). GLOBAL: none, since no office is "worldwide". */
+/**
+ * Countries whose offices satisfy a region (a country covers itself).
+ * GLOBAL: none, since no office is "worldwide".
+ */
 export function countriesIn(code: string): string[] {
-  if (code === "GLOBAL") return [];
+  if (code === "GLOBAL") {
+    return [];
+  }
   return MEMBERS[code] ?? [code];
 }
 
@@ -68,7 +73,9 @@ export function countriesIn(code: string): string[] {
  * "Worldwide" means explicitly open globally, so GLOBAL only matches GLOBAL.
  */
 export function compatibleRemoteRegions(code: string): string[] {
-  if (code === "GLOBAL") return ["GLOBAL"];
+  if (code === "GLOBAL") {
+    return ["GLOBAL"];
+  }
   const own = countriesIn(code);
   const macros = Object.entries(MEMBERS)
     .filter(([macro, cs]) => macro === code || own.some((c) => cs.includes(c)))
@@ -78,11 +85,17 @@ export function compatibleRemoteRegions(code: string): string[] {
 
 /** Is a role available to someone in `code`? Remote and open there, or has an office there. */
 export function availableIn(
-  role: { remote_policy: string | null; remote_regions: string[]; locations: { country_code: string | null }[] },
+  role: {
+    remote_policy: string | null;
+    remote_regions: string[];
+    locations: { country_code: string | null }[];
+  },
   code: string,
 ): boolean {
   const remoteOk = compatibleRemoteRegions(code);
-  if (role.remote_policy === "remote" && role.remote_regions.some((r) => remoteOk.includes(r))) return true;
+  if (role.remote_policy === "remote" && role.remote_regions.some((r) => remoteOk.includes(r))) {
+    return true;
+  }
   const cs = countriesIn(code);
   return role.locations.some((l) => l.country_code !== null && cs.includes(l.country_code));
 }

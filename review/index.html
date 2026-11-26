@@ -538,8 +538,8 @@
       <span class="hint" id="models-hint"></span>
       <span class="spacer"></span>
       <span class="hint"
-        ><kbd>j</kbd>/<kbd>k</kbd> navigate · <kbd>⌘S</kbd> save · <kbd>⌘↵</kbd> mark reviewed &amp; next ·
-        <button class="ghost" id="help-btn">?</button></span
+        ><kbd>j</kbd>/<kbd>k</kbd> navigate · <kbd>⌘S</kbd> save · <kbd>⌘↵</kbd> mark reviewed &amp;
+        next · <button class="ghost" id="help-btn">?</button></span
       >
     </header>
 
@@ -611,8 +611,8 @@
         </tr>
       </table>
       <p class="hint">
-        Amber pills show what <em>other</em> models extracted when it differs from the label. Click one to adopt it. Red
-        chips/inputs are values not found in the source text.
+        Amber pills show what <em>other</em> models extracted when it differs from the label. Click
+        one to adopt it. Red chips/inputs are values not found in the source text.
       </p>
       <p class="hint">Lists are comma-separated. Leave a select on “—” for null.</p>
       <form method="dialog"><button>Close</button></form>
@@ -686,7 +686,8 @@
                 region: parts[1] ? parts[1].toUpperCase() : null,
                 country_code: cc(parts[2]),
               };
-            if (parts.length === 2) return { city: parts[0] || null, region: null, country_code: cc(parts[1]) };
+            if (parts.length === 2)
+              return { city: parts[0] || null, region: null, country_code: cc(parts[1]) };
             return /^[A-Za-z]{2}$/.test(parts[0])
               ? { city: null, region: null, country_code: cc(parts[0]) }
               : { city: parts[0], region: null, country_code: null };
@@ -700,10 +701,12 @@
         for (const [k, v] of Object.entries(props)) {
           if (k === "class") n.className = v;
           else if (k.startsWith("on")) n.addEventListener(k.slice(2), v);
-          else if (v !== undefined && v !== null && v !== false) n.setAttribute(k, v === true ? "" : v);
+          else if (v !== undefined && v !== null && v !== false)
+            n.setAttribute(k, v === true ? "" : v);
         }
         for (const kid of kids.flat())
-          if (kid != null) n.append(kid instanceof Node ? kid : document.createTextNode(String(kid)));
+          if (kid != null)
+            n.append(kid instanceof Node ? kid : document.createTextNode(String(kid)));
         return n;
       };
       const clone = (x) => JSON.parse(JSON.stringify(x));
@@ -727,15 +730,20 @@
           : null;
       const keyOf = (field, v) => {
         if (LISTS.includes(field))
-          return JSON.stringify([...new Set((v || []).map((x) => norm(x).replace(/ /g, "")))].sort());
-        if (field === "locations") return JSON.stringify([...new Set((v || []).map(locKey))].sort());
-        if (field === "salary") return v ? `${v.min}|${v.max}|${(v.currency || "").toUpperCase()}|${v.period}` : "null";
+          return JSON.stringify(
+            [...new Set((v || []).map((x) => norm(x).replace(/ /g, "")))].sort(),
+          );
+        if (field === "locations")
+          return JSON.stringify([...new Set((v || []).map(locKey))].sort());
+        if (field === "salary")
+          return v ? `${v.min}|${v.max}|${(v.currency || "").toUpperCase()}|${v.period}` : "null";
         if (field === "apply_url") return String(normUrl(v));
         if (field === "description") return "skip";
         if (typeof v === "string") return norm(v);
         return JSON.stringify(v ?? null);
       };
-      const stem = (t) => (t.length > 3 && t.endsWith("s") && !t.endsWith("ss") ? t.slice(0, -1) : t);
+      const stem = (t) =>
+        t.length > 3 && t.endsWith("s") && !t.endsWith("ss") ? t.slice(0, -1) : t;
       const tokens = (s) => new Set(norm(s).split(" ").filter(Boolean).map(stem));
       function jaccard(a, b) {
         if (!a.size && !b.size) return 1;
@@ -775,7 +783,8 @@
         const t = norm(term);
         if (!t) return true;
         return (
-          (" " + norm(text) + " ").includes(" " + t + " ") || norm(text).replace(/ /g, "").includes(t.replace(/ /g, ""))
+          (" " + norm(text) + " ").includes(" " + t + " ") ||
+          norm(text).replace(/ /g, "").includes(t.replace(/ /g, ""))
         );
       }
       const urlGrounded = (u, text) =>
@@ -810,7 +819,8 @@
           roles.forEach((g, j) => {
             if (!map.has(j)) return;
             const r = pred[map.get(j)];
-            for (const f of FIELDS) if (f !== "description" && keyOf(f, r[f]) !== keyOf(f, g[f])) n++;
+            for (const f of FIELDS)
+              if (f !== "description" && keyOf(f, r[f]) !== keyOf(f, g[f])) n++;
           });
         }
         return n;
@@ -840,7 +850,8 @@
         const list = $("list");
         list.replaceChildren();
         const vis = visiblePostings();
-        if (!vis.length) list.append(el("p", { class: "hint", style: "padding:10px" }, "Nothing here."));
+        if (!vis.length)
+          list.append(el("p", { class: "hint", style: "padding:10px" }, "Nothing here."));
         for (const p of vis) {
           list.append(
             el(
@@ -851,7 +862,10 @@
                 role: "button",
                 tabindex: "0",
               },
-              el("span", { class: "dot" + (p.status === "reviewed" ? " reviewed" : ""), title: p.status }),
+              el("span", {
+                class: "dot" + (p.status === "reviewed" ? " reviewed" : ""),
+                title: p.status,
+              }),
               el(
                 "div",
                 { style: "min-width:0" },
@@ -860,7 +874,10 @@
               ),
               el(
                 "span",
-                { class: "badge" + (p._diff ? "" : " zero"), title: "fields where other models disagree" },
+                {
+                  class: "badge" + (p._diff ? "" : " zero"),
+                  title: "fields where other models disagree",
+                },
                 p._diff || "✓",
               ),
             ),
@@ -884,7 +901,10 @@
         for (const [term, cls] of terms) {
           if (!term || term.length < 1) continue;
           const esc = term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-          const re = new RegExp(term.length <= 3 ? `(?<![A-Za-z0-9])${esc}(?![A-Za-z0-9])` : esc, "gi");
+          const re = new RegExp(
+            term.length <= 3 ? `(?<![A-Za-z0-9])${esc}(?![A-Za-z0-9])` : esc,
+            "gi",
+          );
           let m;
           while ((m = re.exec(text))) {
             ranges.push([m.index, m.index + m[0].length, cls]);
@@ -897,7 +917,10 @@
         let pos = 0;
         for (const [s, e, cls] of ranges) {
           if (s < pos) continue; // overlapping highlight: first wins
-          box.append(document.createTextNode(text.slice(pos, s)), el("mark", { class: cls }, text.slice(s, e)));
+          box.append(
+            document.createTextNode(text.slice(pos, s)),
+            el("mark", { class: cls }, text.slice(s, e)),
+          );
           pos = e;
         }
         box.append(document.createTextNode(text.slice(pos)));
@@ -957,7 +980,8 @@
       const show = (f, v) => {
         if (v === null || v === undefined || (Array.isArray(v) && !v.length)) return "∅";
         if (f === "locations") return v.map(locText).join("; ");
-        if (f === "salary") return `${v.min ?? "?"}–${v.max ?? "?"} ${v.currency ?? ""}/${v.period ?? "?"}`;
+        if (f === "salary")
+          return `${v.min ?? "?"}–${v.max ?? "?"} ${v.currency ?? ""}/${v.period ?? "?"}`;
         return Array.isArray(v) ? v.join(", ") : String(v);
       };
 
@@ -1002,7 +1026,9 @@
                   el(
                     "div",
                     { class: "chips" },
-                    role[name].map((t) => chip(t, validRegion(t), "use an ISO alpha-2 code or " + MACROS.join("/"))),
+                    role[name].map((t) =>
+                      chip(t, validRegion(t), "use an ISO alpha-2 code or " + MACROS.join("/")),
+                    ),
                   ),
                 );
               if (name === "locations")
@@ -1014,7 +1040,10 @@
                       chip(
                         locText(l) || "?",
                         !!l.country_code &&
-                          (!l.city || grounded(l.city, p.text) || l.city === "New York" || l.city === "San Francisco"),
+                          (!l.city ||
+                            grounded(l.city, p.text) ||
+                            l.city === "New York" ||
+                            l.city === "San Francisco"),
                         !l.country_code ? "missing country code" : "city not found in source",
                       ),
                     ),
@@ -1063,14 +1092,20 @@
               type: "text",
               value: role[name] ?? "",
               "aria-label": name,
-              class: name === "apply_url" && role[name] && !urlGrounded(role[name], p.text) ? "ungrounded" : undefined,
+              class:
+                name === "apply_url" && role[name] && !urlGrounded(role[name], p.text)
+                  ? "ungrounded"
+                  : undefined,
               oninput: (e) => {
                 role[name] = nullable && !e.target.value.trim() ? null : e.target.value;
                 markDirty();
               },
               onchange: (e) => {
                 if (name === "apply_url")
-                  e.target.classList.toggle("ungrounded", !!role[name] && !urlGrounded(role[name], p.text));
+                  e.target.classList.toggle(
+                    "ungrounded",
+                    !!role[name] && !urlGrounded(role[name], p.text),
+                  );
                 refreshAll();
               },
             });
@@ -1116,7 +1151,10 @@
           const salary = () => {
             const s = role.salary || { min: null, max: null, currency: null, period: null };
             const set = (k, v) => {
-              const next = { ...(role.salary || { min: null, max: null, currency: null, period: null }), [k]: v };
+              const next = {
+                ...(role.salary || { min: null, max: null, currency: null, period: null }),
+                [k]: v,
+              };
               role.salary = Object.values(next).every((x) => x === null || x === "") ? null : next;
               markDirty();
             };
@@ -1264,7 +1302,9 @@
           refreshAll();
         });
         if (!work.roles.length)
-          box.append(el("p", { class: "hint" }, "No roles: this is labelled as not a job posting."));
+          box.append(
+            el("p", { class: "hint" }, "No roles: this is labelled as not a job posting."),
+          );
       }
 
       // Roles another model found that no label matches: likely missed roles (or model over-splitting).
@@ -1360,7 +1400,12 @@
       }
       function banner(kind, msg, action) {
         $("banner").replaceChildren(
-          el("div", { class: "banner " + kind }, el("span", { style: "flex:1" }, msg), action || null),
+          el(
+            "div",
+            { class: "banner " + kind },
+            el("span", { style: "flex:1" }, msg),
+            action || null,
+          ),
         );
       }
 
@@ -1380,7 +1425,11 @@
         }
         const out = await res.json().catch(() => ({}));
         if (res.status === 409) {
-          banner("err", out.error || "Conflict.", el("button", { onclick: () => load(true) }, "Reload"));
+          banner(
+            "err",
+            out.error || "Conflict.",
+            el("button", { onclick: () => load(true) }, "Reload"),
+          );
           return false;
         }
         if (!res.ok) {

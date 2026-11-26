@@ -24,7 +24,10 @@ test("regions: codes, names, macros, timezones split out", () => {
   assert.deepEqual(canonicalRegion("Singapore"), { codes: ["SG"] });
   assert.deepEqual(canonicalRegion("EU time zone"), { codes: [], timezone: "EU time zone" });
   assert.deepEqual(canonicalRegion("CET"), { codes: [], timezone: "CET" });
-  assert.deepEqual(canonicalRegion("US-friendly timezones"), { codes: [], timezone: "US-friendly timezones" });
+  assert.deepEqual(canonicalRegion("US-friendly timezones"), {
+    codes: [],
+    timezone: "US-friendly timezones",
+  });
   assert.deepEqual(canonicalRegion("Narnia"), { codes: [], unknown: "Narnia" });
 });
 
@@ -47,6 +50,8 @@ test("locations: city abbreviations, country names, UK -> GB", () => {
 });
 
 test("protocols are not tech", () => {
-  for (const t of ["TCP", "tls", "QUIC"]) assert.equal(canonicalTech(t), null);
+  for (const t of ["TCP", "tls", "QUIC"]) {
+    assert.equal(canonicalTech(t), null);
+  }
   assert.equal(canonicalTech("grpc"), "grpc"); // a framework, not a bare protocol
 });

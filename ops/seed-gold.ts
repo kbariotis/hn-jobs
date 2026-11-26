@@ -14,7 +14,8 @@ import { isNotFound } from "../lib/util/fs";
  * human review, NOT ground truth. Existing entries are left alone (drafts may hold partial
  * hand edits); --refresh-drafts replaces drafts. "reviewed" entries are never touched.
  *
- * Usage: EXTRACT_MODEL=... npm run seed-gold -- (--ids 1,2,3 | --sample 25 [--seed 1]) [--thread 46108941]
+ * Usage: EXTRACT_MODEL=... npm run seed-gold -- (--ids 1,2,3 | --sample 25 [--seed 1])
+ *          [--thread 46108941]
  *          [--refresh-drafts] [--blank]
  *   --sample N  pick N random top-level postings (reproducible with --seed); job or not, so
  *               the sample isn't filtered by the model we're evaluating
@@ -39,14 +40,20 @@ async function main() {
         Number(arg("seed") ?? 1),
       )
     : arg("ids")?.split(",").map(Number);
-  if (!ids?.length) throw new Error("--ids or --sample is required");
+  if (!ids?.length) {
+    throw new Error("--ids or --sample is required");
+  }
   const blank = process.argv.includes("--blank");
   const skeleton = process.argv.includes("--skeleton");
-  if (blank && skeleton) throw new Error("--blank and --skeleton are exclusive");
+  if (blank && skeleton) {
+    throw new Error("--blank and --skeleton are exclusive");
+  }
   const refreshDrafts = process.argv.includes("--refresh-drafts");
 
   const modelId = extractModelId();
-  const extractions = new Map((await readExtractions(extractedPath(threadId, modelId))).map((r) => [r.id, r]));
+  const extractions = new Map(
+    (await readExtractions(extractedPath(threadId, modelId))).map((r) => [r.id, r]),
+  );
   const postings = new Map(postingsList.map((p) => [p.id, p]));
 
   const path = goldPath(threadId);
@@ -54,7 +61,9 @@ async function main() {
   try {
     gold = JSON.parse(await fs.readFile(path, "utf8"));
   } catch (e) {
-    if (!isNotFound(e)) throw e;
+    if (!isNotFound(e)) {
+      throw e;
+    }
     gold = { thread_id: threadId, postings: [] };
   }
   const existing = new Map(gold.postings.map((p) => [p.id, p]));
@@ -64,24 +73,37 @@ async function main() {
   for (const id of ids) {
     const rec = extractions.get(id);
     const posting = postings.get(id);
-    if (!blank && (!rec || rec.error)) throw new Error(`No successful extraction for ${id} with ${modelId}`);
-    if (!posting) throw new Error(`${id} is not a top-level posting in thread ${threadId}`);
+    if (!blank && (!rec || rec.error)) {
+      throw new Error(`No successful extraction for ${id} with ${modelId}`);
+    }
+    if (!posting) {
+      throw new Error(`${id} is not a top-level posting in thread ${threadId}`);
+    }
 
     const prev = existing.get(id);
-    if (prev?.status === "reviewed") continue; // human labels win, always
-    if (prev && !refreshDrafts) continue;
+    if (prev?.status === "reviewed") {
+      continue;
+    } // human labels win, always
+    if (prev && !refreshDrafts) {
+      continue;
+    }
 
     const entry: GoldPosting = {
       id,
       status: "draft",
-      seeded_from: blank ? "blank" : `${skeleton ? "skeleton:" : ""}${modelId}@prompt-v${rec!.prompt_version}`,
+      seeded_from: blank
+        ? "blank"
+        : `${skeleton ? "skeleton:" : ""}${modelId}@prompt-v${rec!.prompt_version}`,
       notes: prev?.notes ?? [],
       text: posting.text,
-      roles: blank ? [] : skeleton ? rec!.roles.map(skeletonRole) : rec!.roles,
+      roles: draftRoles(rec!.roles, { blank, skeleton }),
     };
     existing.set(id, entry);
-    if (prev) refreshed++;
-    else added++;
+    if (prev) {
+      refreshed++;
+    } else {
+      added++;
+    }
   }
 
   gold.postings = [...existing.values()].sort((a, b) => a.id - b.id);
@@ -89,7 +111,9 @@ async function main() {
   await fs.writeFile(path, JSON.stringify(gold, null, 2) + "\n");
 
   const reviewed = gold.postings.filter((p) => p.status === "reviewed").length;
-  console.log(`${path}: +${added} new, ${refreshed} drafts refreshed | ${reviewed}/${gold.postings.length} reviewed`);
+  console.log(
+    `${path}: +${added} new, ${refreshed} drafts refreshed | ${reviewed}/${gold.postings.length} reviewed`,
+  );
 }
 
 const skeletonRole = (r: Role): Role => ({
@@ -108,6 +132,22 @@ const skeletonRole = (r: Role): Role => ({
   apply_email: null,
   description: "",
 });
+
+/**
+ * Starting point for a labeller:
+ * - blank: no roles (label from scratch)
+ * - skeleton: model's roles with only company + title kept
+ * - default: the model's full output
+ */
+function draftRoles(roles: Role[], { blank, skeleton }: { blank: boolean; skeleton: boolean }) {
+  if (blank) {
+    return [];
+  }
+  if (skeleton) {
+    return roles.map(skeletonRole);
+  }
+  return roles;
+}
 
 /** Deterministic shuffle (mulberry32) so a sample can be re-derived from its seed. */
 function sampleIds(ids: number[], n: number, seed: number): number[] {

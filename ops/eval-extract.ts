@@ -11,7 +11,13 @@ import {
 } from "../lib/extraction/extract";
 import { goldPath, type GoldFile } from "../lib/evals/gold";
 import { Scorecard, type Mismatch } from "../lib/evals/score";
-import { baselinePath, compareToBaseline, goldHash, mismatchKey, type Baseline } from "../lib/evals/gate";
+import {
+  baselinePath,
+  compareToBaseline,
+  goldHash,
+  mismatchKey,
+  type Baseline,
+} from "../lib/evals/gate";
 import { extractModelId } from "../models/extract";
 import { PROMPT_VERSION } from "../prompts/extract";
 
@@ -41,14 +47,19 @@ async function main() {
   const labels = gold.postings.filter((p) => flag("include-drafts") || p.status === "reviewed");
   const writeBaseline = flag("write-baseline");
   const check = flag("check");
-  if ((writeBaseline || check) && flag("include-drafts"))
+  if ((writeBaseline || check) && flag("include-drafts")) {
     throw new Error("Baselines are reviewed-only; drop --include-drafts.");
-  if (labels.length === 0) throw new Error("No reviewed gold postings. Review some, or pass --include-drafts.");
+  }
+  if (labels.length === 0) {
+    throw new Error("No reviewed gold postings. Review some, or pass --include-drafts.");
+  }
 
   // Preprocessing drift invalidates labels silently — surface it.
   const postings = new Map(toPostings(await loadThread(threadId)).map((p) => [p.id, p]));
   const drifted = labels.filter((l) => postings.get(l.id)?.text !== l.text).map((l) => l.id);
-  if (drifted.length) console.warn(`⚠ Preprocessed text differs from labelling time for: ${drifted.join(", ")}`);
+  if (drifted.length) {
+    console.warn(`⚠ Preprocessed text differs from labelling time for: ${drifted.join(", ")}`);
+  }
 
   const report: Record<string, unknown> = {};
   const rows: Record<string, Record<string, unknown>> = {};
@@ -67,7 +78,9 @@ async function main() {
       for (const l of missing) {
         const rec = await extractPosting(extractor, modelId, postings.get(l.id)!);
         await fs.appendFile(path, JSON.stringify(rec) + "\n");
-        if (rec.error) console.error(`  ✗ ${l.id}: ${rec.error.slice(0, 200)}`);
+        if (rec.error) {
+          console.error(`  ✗ ${l.id}: ${rec.error.slice(0, 200)}`);
+        }
       }
       records = new Map((await readExtractions(path)).filter(fresh).map((r) => [r.id, r]));
     }
@@ -78,16 +91,18 @@ async function main() {
     const latencies: number[] = [];
     for (const l of labels) {
       const rec = records.get(l.id);
-      if (!rec)
-        failed++; // missing or failed extraction scores as "found nothing"
+      if (!rec) {
+        failed++;
+      } // missing or failed extraction scores as "found nothing"
       else {
         latencies.push(rec.latency_ms);
         warnings += rec.warnings?.length ?? 0;
       }
       card.add(l.id, rec?.roles ?? [], l.roles);
     }
-    if (failed && !flag("run"))
+    if (failed && !flag("run")) {
       console.warn(`⚠ ${modelId}: ${failed} gold postings have no fresh extraction. Use --run.`);
+    }
 
     latencies.sort((a, b) => a - b);
     const s = card.summary();
@@ -136,19 +151,29 @@ async function main() {
   );
   console.log(`Full report: ${out}`);
 
-  if (writeBaseline) await saveBaseline(threadId, labels, results);
-  if (check) process.exitCode = await runGate(threadId, labels, results);
+  if (writeBaseline) {
+    await saveBaseline(threadId, labels, results);
+  }
+  if (check) {
+    process.exitCode = await runGate(threadId, labels, results);
+  }
 }
 
-type Results = Record<string, { failed: number; fields: Record<string, number | null>; mismatches: Mismatch[] }>;
+type Results = Record<
+  string,
+  { failed: number; fields: Record<string, number | null>; mismatches: Mismatch[] }
+>;
 
 async function saveBaseline(threadId: number, labels: GoldFile["postings"], results: Results) {
   // A failed extraction would bake "found nothing" errors into the benchmark.
   const incomplete = Object.entries(results)
     .filter(([, r]) => r.failed > 0)
     .map(([m]) => m);
-  if (incomplete.length)
-    throw new Error(`Not writing baseline: missing/failed extractions for ${incomplete.join(", ")}. Use --run.`);
+  if (incomplete.length) {
+    throw new Error(
+      `Not writing baseline: missing/failed extractions for ${incomplete.join(", ")}. Use --run.`,
+    );
+  }
   const baseline: Baseline = {
     thread_id: threadId,
     created_at: new Date().toISOString(),
@@ -170,11 +195,17 @@ async function saveBaseline(threadId: number, labels: GoldFile["postings"], resu
   );
 }
 
-async function runGate(threadId: number, labels: GoldFile["postings"], results: Results): Promise<number> {
+async function runGate(
+  threadId: number,
+  labels: GoldFile["postings"],
+  results: Results,
+): Promise<number> {
   const baseline: Baseline = JSON.parse(await fs.readFile(baselinePath(threadId), "utf8"));
   const tolerance = Number(arg("tolerance") ?? 0);
   let failed = false;
-  console.log(`\nRegression gate vs ${baselinePath(threadId)} (${baseline.created_at}), tolerance ${tolerance}`);
+  console.log(
+    `\nRegression gate vs ${baselinePath(threadId)} (${baseline.created_at}), tolerance ${tolerance}`,
+  );
   for (const [model, r] of Object.entries(results)) {
     const g = compareToBaseline(baseline, model, labels, r.mismatches);
     const ok = g.regressions.length <= tolerance;
@@ -182,20 +213,32 @@ async function runGate(threadId: number, labels: GoldFile["postings"], results: 
     console.log(
       `${ok ? "✓" : "✗"} ${model}: ${g.regressions.length} new error(s), ${g.fixed.length} fixed, ${g.gated} postings gated`,
     );
-    for (const k of g.regressions) console.log(`    + ${k}`);
-    for (const k of g.fixed) console.log(`    - ${k}`);
+    for (const k of g.regressions) {
+      console.log(`    + ${k}`);
+    }
+    for (const k of g.fixed) {
+      console.log(`    - ${k}`);
+    }
     const ungated = [
       ["new", g.added],
       ["edited", g.changed],
       ["removed", g.removed],
     ] as const;
-    for (const [what, ids] of ungated)
-      if (ids.length) console.log(`    ${ids.length} ${what} since baseline, not gated: ${ids.join(", ")}`);
+    for (const [what, ids] of ungated) {
+      if (ids.length) {
+        console.log(`    ${ids.length} ${what} since baseline, not gated: ${ids.join(", ")}`);
+      }
+    }
     const base = baseline.models[model];
-    if (base.prompt_version !== PROMPT_VERSION) console.log(`    prompt v${base.prompt_version} -> v${PROMPT_VERSION}`);
+    if (base.prompt_version !== PROMPT_VERSION) {
+      console.log(`    prompt v${base.prompt_version} -> v${PROMPT_VERSION}`);
+    }
   }
-  if (failed)
-    console.log("\nGate failed. Fix the regression, or re-baseline with --write-baseline if the change is intended.");
+  if (failed) {
+    console.log(
+      "\nGate failed. Fix the regression, or re-baseline with --write-baseline if the change is intended.",
+    );
+  }
   return failed ? 1 : 0;
 }
 

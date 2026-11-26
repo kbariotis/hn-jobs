@@ -8,9 +8,11 @@ import { availableIn } from "../geo";
  * kind:
  *  - structured: the query states constraints that exist as fields. Relevance = those fields.
  *  - semantic:   topic/domain queries with no field behind them. Relevance = a keyword
- *                regex over the posting text (a weaker "silver" judgment; read results with that in mind).
+ *                regex over the posting text (a weaker "silver" judgment; read results
+ *                with that in mind).
  *
- * Write the query the way a user would type it; write the predicate as what a correct answer must satisfy.
+ * Write the query the way a user would type it; write the predicate as what a correct
+ * answer must satisfy.
  */
 export type Ctx = { text: string };
 export type RetrievalQuery = {
@@ -25,11 +27,18 @@ const inCity = (r: Role, city: string) => r.locations.some((l) => l.city === cit
 const inCountry = (r: Role, cc: string) => r.locations.some((l) => l.country_code === cc);
 const remote = (r: Role) => r.remote_policy === "remote";
 const usdYear = (r: Role) =>
-  r.salary?.currency === "USD" && r.salary.period === "year" ? (r.salary.max ?? r.salary.min) : null;
+  r.salary?.currency === "USD" && r.salary.period === "year"
+    ? (r.salary.max ?? r.salary.min)
+    : null;
 
 export const QUERIES: RetrievalQuery[] = [
   // --- tech ---
-  { id: "remote-rust", kind: "structured", query: "remote Rust jobs", relevant: (r) => remote(r) && has(r, "rust") },
+  {
+    id: "remote-rust",
+    kind: "structured",
+    query: "remote Rust jobs",
+    relevant: (r) => remote(r) && has(r, "rust"),
+  },
   {
     id: "k8s-terraform",
     kind: "structured",
@@ -61,7 +70,12 @@ export const QUERIES: RetrievalQuery[] = [
     relevant: (r) => has(r, "postgres") && inCity(r, "Berlin"),
   },
   // --- location / work mode ---
-  { id: "london", kind: "structured", query: "jobs in London", relevant: (r) => inCity(r, "London") },
+  {
+    id: "london",
+    kind: "structured",
+    query: "jobs in London",
+    relevant: (r) => inCity(r, "London"),
+  },
   {
     id: "onsite-nyc",
     kind: "structured",
@@ -97,9 +111,15 @@ export const QUERIES: RetrievalQuery[] = [
     id: "senior-python-us",
     kind: "structured",
     query: "senior Python engineer, remote in the US",
-    relevant: (r) => remote(r) && r.seniority === "senior" && has(r, "python") && availableIn(r, "US"),
+    relevant: (r) =>
+      remote(r) && r.seniority === "senior" && has(r, "python") && availableIn(r, "US"),
   },
-  { id: "staff", kind: "structured", query: "staff engineer positions", relevant: (r) => r.seniority === "staff" },
+  {
+    id: "staff",
+    kind: "structured",
+    query: "staff engineer positions",
+    relevant: (r) => r.seniority === "staff",
+  },
   {
     id: "eng-manager-remote",
     kind: "structured",
@@ -112,7 +132,12 @@ export const QUERIES: RetrievalQuery[] = [
     query: "internships",
     relevant: (r) => r.employment_type === "internship" || r.seniority === "intern",
   },
-  { id: "contract", kind: "structured", query: "contract work", relevant: (r) => r.employment_type === "contract" },
+  {
+    id: "contract",
+    kind: "structured",
+    query: "contract work",
+    relevant: (r) => r.employment_type === "contract",
+  },
   {
     id: "visa",
     kind: "structured",
@@ -126,7 +151,12 @@ export const QUERIES: RetrievalQuery[] = [
     relevant: (r) => r.seniority === "senior" && (usdYear(r) ?? 0) >= 200_000,
   },
   // --- semantic (silver) ---
-  { id: "robotics", kind: "semantic", query: "robotics companies", relevant: (_, c) => /\brobot/i.test(c.text) },
+  {
+    id: "robotics",
+    kind: "semantic",
+    query: "robotics companies",
+    relevant: (_, c) => /\brobot/i.test(c.text),
+  },
   {
     id: "healthcare",
     kind: "semantic",
@@ -143,7 +173,8 @@ export const QUERIES: RetrievalQuery[] = [
     id: "climate",
     kind: "semantic",
     query: "climate tech and energy",
-    relevant: (_, c) => /\b(climate|decarboni[sz]|carbon|solar|batter(y|ies)|grid|energy)\b/i.test(c.text),
+    relevant: (_, c) =>
+      /\b(climate|decarboni[sz]|carbon|solar|batter(y|ies)|grid|energy)\b/i.test(c.text),
   },
   {
     id: "security",

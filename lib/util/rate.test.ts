@@ -6,7 +6,9 @@ test("backoff retries 429s, then succeeds", async () => {
   let calls = 0;
   const out = await withBackoff(
     async () => {
-      if (++calls < 3) throw new Error("[429 Too Many Requests] Your project is temporarily rate-limited");
+      if (++calls < 3) {
+        throw new Error("[429 Too Many Requests] Your project is temporarily rate-limited");
+      }
       return "ok";
     },
     { baseMs: 1 },

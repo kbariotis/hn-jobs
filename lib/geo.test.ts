@@ -13,7 +13,9 @@ test("availableIn: remote open there, or an office there; unstated regions never
   assert.ok(availableIn(role({ remote_regions: ["EUROPE"] }), "DE"));
   assert.ok(availableIn(role({ remote_regions: ["DE"] }), "EUROPE"));
   assert.ok(availableIn(role({ remote_regions: ["GLOBAL"] }), "US"));
-  assert.ok(availableIn(role({ remote_policy: "onsite", locations: [{ country_code: "GB" }] }), "EUROPE"));
+  assert.ok(
+    availableIn(role({ remote_policy: "onsite", locations: [{ country_code: "GB" }] }), "EUROPE"),
+  );
   assert.ok(!availableIn(role({ remote_regions: [] }), "US"));
   assert.ok(!availableIn(role({ remote_regions: ["US"] }), "EUROPE"));
   assert.deepEqual(compatibleRemoteRegions("GLOBAL"), ["GLOBAL"]);

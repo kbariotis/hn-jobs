@@ -116,22 +116,41 @@ const COUNTRY_NAMES: Record<string, string> = {
 const TZ_HINT = /\b(time ?zones?|hours|tz|utc|gmt|[cpme][es]?t|cest|pst|est|cst|mst|bst)\b/i;
 const MACROS = new Set<string>(MACRO_REGIONS);
 
-/** Map a remote-region string to codes. Timezones are returned separately, unknowns are reported. */
-export function canonicalRegion(raw: string): { codes: string[]; timezone?: string; unknown?: string } {
+/**
+ * Map a remote-region string to codes.
+ * Timezones are returned separately; unknowns are reported.
+ */
+export function canonicalRegion(raw: string): {
+  codes: string[];
+  timezone?: string;
+  unknown?: string;
+} {
   const s = raw.trim();
   const k = s.toLowerCase().replace(/\s+only$/, "");
   // Aliases first: "EU" and "UK" look like ISO alpha-2 codes but aren't country codes.
-  if (REGION_ALIASES[k]) return { codes: REGION_ALIASES[k] };
-  if (/^[A-Z]{2}$/.test(s) || MACROS.has(s)) return { codes: [s] };
-  if (TZ_HINT.test(s)) return { codes: [], timezone: s };
-  if (COUNTRY_NAMES[k]) return { codes: [COUNTRY_NAMES[k]] };
+  if (REGION_ALIASES[k]) {
+    return { codes: REGION_ALIASES[k] };
+  }
+  if (/^[A-Z]{2}$/.test(s) || MACROS.has(s)) {
+    return { codes: [s] };
+  }
+  if (TZ_HINT.test(s)) {
+    return { codes: [], timezone: s };
+  }
+  if (COUNTRY_NAMES[k]) {
+    return { codes: [COUNTRY_NAMES[k]] };
+  }
   return { codes: [], unknown: s };
 }
 
 export function countryCode(raw: string | null): string | null {
-  if (!raw) return null;
+  if (!raw) {
+    return null;
+  }
   const s = raw.trim();
-  if (/^[A-Za-z]{2}$/.test(s)) return s.toUpperCase() === "UK" ? "GB" : s.toUpperCase();
+  if (/^[A-Za-z]{2}$/.test(s)) {
+    return s.toUpperCase() === "UK" ? "GB" : s.toUpperCase();
+  }
   const k = s.toLowerCase();
   return REGION_ALIASES[k]?.length === 1 && /^[A-Z]{2}$/.test(REGION_ALIASES[k][0])
     ? REGION_ALIASES[k][0]
@@ -172,15 +191,22 @@ export function canonicalizeRoles(roles: Role[]): { roles: Role[]; warnings: Can
     for (const reg of r.remote_regions) {
       const c = canonicalRegion(reg);
       codes.push(...c.codes);
-      if (c.timezone) timezones.push(c.timezone);
-      if (c.unknown) warnings.push({ role_index, field: "remote_regions", value: c.unknown });
+      if (c.timezone) {
+        timezones.push(c.timezone);
+      }
+      if (c.unknown) {
+        warnings.push({ role_index, field: "remote_regions", value: c.unknown });
+      }
     }
     return {
       ...r,
       tech_stack: uniq(r.tech_stack.map(canonicalTech).filter((t): t is string => t !== null)),
       remote_regions: uniq(codes),
       timezones: uniq(timezones.map((t) => t.trim()).filter(Boolean)),
-      locations: uniq(r.locations.map(canonicalLocation), (l) => `${l.city}|${l.region}|${l.country_code}`),
+      locations: uniq(
+        r.locations.map(canonicalLocation),
+        (l) => `${l.city}|${l.region}|${l.country_code}`,
+      ),
       salary: r.salary ? { ...r.salary, currency: r.salary.currency?.toUpperCase() ?? null } : null,
     };
   });

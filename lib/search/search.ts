@@ -19,17 +19,32 @@ export type Hit = {
 export function filterSql(f: Filters, params: unknown[]): string[] {
   const p = (v: unknown) => `$${params.push(v)}`;
   const where: string[] = [];
-  if (f.work_modes.length) where.push(`r.remote_policy = ANY(${p(f.work_modes)})`);
-  if (f.seniority.length) where.push(`r.seniority = ANY(${p(f.seniority)})`);
-  if (f.employment_types.length) where.push(`r.employment_type = ANY(${p(f.employment_types)})`);
-  if (f.tech_all.length) where.push(`r.tech_stack @> ${p(f.tech_all)}::text[]`);
-  if (f.tech_any.length) where.push(`r.tech_stack && ${p(f.tech_any)}::text[]`);
-  if (f.cities.length) where.push(`r.cities && ${p(f.cities)}::text[]`);
-  if (f.min_salary_usd_year !== null)
+  if (f.work_modes.length) {
+    where.push(`r.remote_policy = ANY(${p(f.work_modes)})`);
+  }
+  if (f.seniority.length) {
+    where.push(`r.seniority = ANY(${p(f.seniority)})`);
+  }
+  if (f.employment_types.length) {
+    where.push(`r.employment_type = ANY(${p(f.employment_types)})`);
+  }
+  if (f.tech_all.length) {
+    where.push(`r.tech_stack @> ${p(f.tech_all)}::text[]`);
+  }
+  if (f.tech_any.length) {
+    where.push(`r.tech_stack && ${p(f.tech_any)}::text[]`);
+  }
+  if (f.cities.length) {
+    where.push(`r.cities && ${p(f.cities)}::text[]`);
+  }
+  if (f.min_salary_usd_year !== null) {
     where.push(
       `(r.salary_currency = 'USD' AND r.salary_period = 'year' AND coalesce(r.salary_max, r.salary_min) >= ${p(f.min_salary_usd_year)})`,
     );
-  if (f.visa_sponsorship === true) where.push(`r.visa_sponsorship IS TRUE`);
+  }
+  if (f.visa_sponsorship === true) {
+    where.push(`r.visa_sponsorship IS TRUE`);
+  }
   if (f.regions.length) {
     // Available in ANY requested region: remote and open there, or an office there.
     const ors = f.regions.map((code) => {
@@ -46,17 +61,26 @@ export function filterSql(f: Filters, params: unknown[]): string[] {
 
 export async function search(
   query: string,
-  opts: { strategy: Strategy; k?: number; threadId?: number; embedModel?: string; filters?: Filters },
+  opts: {
+    strategy: Strategy;
+    k?: number;
+    threadId?: number;
+    embedModel?: string;
+    filters?: Filters;
+  },
 ): Promise<{ hits: Hit[]; filters?: Filters }> {
   const embedModel = opts.embedModel ?? embedModelId();
   const qvec = await getEmbeddings("query", embedModel).embedQuery(query);
   const params: unknown[] = [toVector(qvec), embedModel];
   const where = ["e.embed_model = $2"];
-  if (opts.threadId !== undefined) where.push(`r.thread_id = $${params.push(opts.threadId)}`);
+  if (opts.threadId !== undefined) {
+    where.push(`r.thread_id = $${params.push(opts.threadId)}`);
+  }
 
   let filters: Filters | undefined;
   if (opts.strategy === "filtered") {
-    filters = opts.filters ?? (await parseQuery(query)); // callers may parse themselves (server: no file cache)
+    // Callers may parse themselves (the server does, to skip the file cache).
+    filters = opts.filters ?? (await parseQuery(query));
     where.push(...filterSql(filters, params));
   }
   const limit = `$${params.push(opts.k ?? 10)}`;

@@ -1,6 +1,7 @@
 import { SystemMessage } from "langchain";
 
-// Bump when the prompt, schema or post-processing changes — stale extractions are redone on the next run.
+// Bump when the prompt, schema or post-processing changes.
+// Stale extractions are redone on the next run.
 export const PROMPT_VERSION = "5";
 
 const prompt = new SystemMessage(

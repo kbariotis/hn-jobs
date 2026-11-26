@@ -23,7 +23,10 @@ const role = (over: Partial<Role>): Role => ({
 
 test("aligns same-title roles by location", () => {
   const gold = [
-    role({ role_title: "Engineering Manager", locations: [{ city: "Bangalore", region: null, country_code: "IN" }] }),
+    role({
+      role_title: "Engineering Manager",
+      locations: [{ city: "Bangalore", region: null, country_code: "IN" }],
+    }),
     role({ role_title: "Engineering Manager", remote_regions: ["SG"] }),
   ];
   const pred = [gold[1], gold[0]];
@@ -35,11 +38,17 @@ test("aligns same-title roles by location", () => {
 
 test("does not align unrelated titles", () => {
   assert.deepEqual(
-    alignRoles([role({ role_title: "Product Designer" })], [role({ role_title: "Backend Engineer" })]),
+    alignRoles(
+      [role({ role_title: "Product Designer" })],
+      [role({ role_title: "Backend Engineer" })],
+    ),
     [],
   );
   // single leftover pair with partial title overlap is the same role, reworded
-  assert.deepEqual(alignRoles([role({ role_title: "Intern" })], [role({ role_title: "Intern/Co-op" })]), [[0, 0]]);
+  assert.deepEqual(
+    alignRoles([role({ role_title: "Intern" })], [role({ role_title: "Intern/Co-op" })]),
+    [[0, 0]],
+  );
 });
 
 test("perfect prediction scores 100 everywhere", () => {
@@ -56,7 +65,10 @@ test("perfect prediction scores 100 everywhere", () => {
 });
 
 test("counts missing roles, field errors and set F1", () => {
-  const gold = [role({ seniority: "staff", tech_stack: ["go", "k8s"] }), role({ role_title: "Designer" })];
+  const gold = [
+    role({ seniority: "staff", tech_stack: ["go", "k8s"] }),
+    role({ role_title: "Designer" }),
+  ];
   const card = new Scorecard();
   card.add(1, [role({ seniority: "senior", tech_stack: ["go", "rust"] })], gold);
   const s = card.summary();
@@ -64,7 +76,11 @@ test("counts missing roles, field errors and set F1", () => {
   assert.equal(s.role_recall, 50);
   assert.equal(s.fields.seniority, 0);
   assert.equal(s.fields.tech_stack, 50); // p=1/2, r=1/2
-  assert.deepEqual(card.mismatches.map((m) => m.field).sort(), ["role(missing)", "seniority", "tech_stack"]);
+  assert.deepEqual(card.mismatches.map((m) => m.field).sort(), [
+    "role(missing)",
+    "seniority",
+    "tech_stack",
+  ]);
 });
 
 test("empty prediction for a non-job post is correct", () => {

@@ -19,21 +19,30 @@ export function normalizeUrl(url: string): string {
 
 // Every URL-ish token in the source, normalized.
 function sourceUrls(text: string): string[] {
-  const tokens = text.match(/(?:[a-z]+:\/\/|www\.)[^\s<>"]+|\b[a-z0-9-]+(?:\.[a-z0-9-]+)+\/[^\s<>"]*/gi) ?? [];
+  const tokens =
+    text.match(/(?:[a-z]+:\/\/|www\.)[^\s<>"]+|\b[a-z0-9-]+(?:\.[a-z0-9-]+)+\/[^\s<>"]*/gi) ?? [];
   return tokens.map(normalizeUrl);
 }
 
 // Same URL, or the same URL minus its query/fragment (dropping ?utm=… still works;
 // cutting a path short does not).
 const sameUrl = (source: string, target: string) =>
-  source === target || (source.startsWith(target) && "?#".includes(source[target.length]) && !target.endsWith("/"));
+  source === target ||
+  (source.startsWith(target) && "?#".includes(source[target.length]) && !target.endsWith("/"));
 
 export function isUrlGrounded(url: string, text: string): boolean {
   const target = normalizeUrl(url);
-  if (!target || !target.includes(".")) return false;
-  if (sourceUrls(text).some((s) => sameUrl(s, target))) return true;
+  if (!target || !target.includes(".")) {
+    return false;
+  }
+  if (sourceUrls(text).some((s) => sameUrl(s, target))) {
+    return true;
+  }
   // Bare domain written inline, e.g. "Apply at foo.co" (no scheme, www or path).
-  return new RegExp(`(^|[\\s(|,])${target.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?=$|[\\s),.;|])`, "i").test(text);
+  return new RegExp(
+    `(^|[\\s(|,])${target.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?=$|[\\s),.;|])`,
+    "i",
+  ).test(text);
 }
 
 // Accepts de-obfuscated emails ("simon+hn <at> archera <dot> ai" -> simon+hn@archera.ai)
@@ -41,16 +50,23 @@ export function isUrlGrounded(url: string, text: string): boolean {
 export function isEmailGrounded(email: string, text: string): boolean {
   const lower = text.toLowerCase();
   const e = email.trim().toLowerCase();
-  if (lower.includes(e)) return true;
+  if (lower.includes(e)) {
+    return true;
+  }
   const [local, domain] = e.split("@");
-  if (!local || !domain) return false;
+  if (!local || !domain) {
+    return false;
+  }
   return lower.includes(local) && domain.split(".").every((label) => lower.includes(label));
 }
 
 export type GroundingWarning = { role_index: number; field: string; value: string };
 
 /** Null out ungrounded fields and report what was dropped. */
-export function groundRoles(roles: Role[], text: string): { roles: Role[]; warnings: GroundingWarning[] } {
+export function groundRoles(
+  roles: Role[],
+  text: string,
+): { roles: Role[]; warnings: GroundingWarning[] } {
   const warnings: GroundingWarning[] = [];
   const grounded = roles.map((role, role_index) => {
     const out = { ...role };

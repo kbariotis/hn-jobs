@@ -10,7 +10,13 @@ import { PROMPT_VERSION } from "../../prompts/extract";
 const EMBED_BATCH = 50;
 const sha = (s: string) => createHash("sha256").update(s).digest("hex");
 
-export type IndexSummary = { postings: number; skipped: number; pruned: number; embedded: number; roles: number };
+export type IndexSummary = {
+  postings: number;
+  skipped: number;
+  pruned: number;
+  embedded: number;
+  roles: number;
+};
 
 async function upsertPosting(client: PoolClient, rec: ExtractionRecord) {
   await client.query("BEGIN");
@@ -62,7 +68,10 @@ async function upsertPosting(client: PoolClient, rec: ExtractionRecord) {
       );
     }
     // A re-extraction can yield fewer roles; drop the leftovers (embeddings cascade).
-    await client.query("DELETE FROM roles WHERE posting_id = $1 AND role_index >= $2", [rec.id, rec.roles.length]);
+    await client.query("DELETE FROM roles WHERE posting_id = $1 AND role_index >= $2", [
+      rec.id,
+      rec.roles.length,
+    ]);
     await client.query("COMMIT");
   } catch (e) {
     await client.query("ROLLBACK");
@@ -87,23 +96,28 @@ export async function indexThread(
   const path = extractedPath(threadId, extractModelId());
   const all = await readExtractions(path);
   const live = livePostingIds ? new Set(livePostingIds) : null;
-  const records = all.filter((r) => !r.error && r.prompt_version === PROMPT_VERSION && (!live || live.has(r.id)));
-  if (records.length === 0)
+  const records = all.filter(
+    (r) => !r.error && r.prompt_version === PROMPT_VERSION && (!live || live.has(r.id)),
+  );
+  if (records.length === 0) {
     throw new Error(`No v${PROMPT_VERSION} extractions at ${path}. Run \`npm run extract\` first.`);
+  }
 
   const pool = db();
   const client = await pool.connect();
   try {
-    for (const rec of records) await upsertPosting(client, rec);
+    for (const rec of records) {
+      await upsertPosting(client, rec);
+    }
   } finally {
     client.release();
   }
   let pruned = 0;
   if (live) {
-    const res = await pool.query("DELETE FROM roles WHERE thread_id = $1 AND NOT (posting_id = ANY($2::bigint[]))", [
-      threadId,
-      [...live],
-    ]);
+    const res = await pool.query(
+      "DELETE FROM roles WHERE thread_id = $1 AND NOT (posting_id = ANY($2::bigint[]))",
+      [threadId, [...live]],
+    );
     pruned = res.rowCount ?? 0;
   }
 
@@ -118,7 +132,9 @@ export async function indexThread(
     const batch = rows.slice(i, i + EMBED_BATCH);
     const vectors = await embedder.embedDocuments(batch.map((r) => r.doc));
     for (const [j, r] of batch.entries()) {
-      if (!vectors[j]?.length) throw new Error(`Empty embedding for ${r.role_id}`);
+      if (!vectors[j]?.length) {
+        throw new Error(`Empty embedding for ${r.role_id}`);
+      }
       await pool.query(
         `INSERT INTO role_embeddings (role_id, embed_model, doc_hash, embedding) VALUES ($1, $2, $3, $4::vector)
          ON CONFLICT (role_id, embed_model) DO UPDATE SET doc_hash = EXCLUDED.doc_hash, embedding = EXCLUDED.embedding`,
@@ -129,7 +145,10 @@ export async function indexThread(
   }
   const {
     rows: [count],
-  } = await pool.query<{ roles: string }>("SELECT count(*) AS roles FROM roles WHERE thread_id = $1", [threadId]);
+  } = await pool.query<{ roles: string }>(
+    "SELECT count(*) AS roles FROM roles WHERE thread_id = $1",
+    [threadId],
+  );
   return {
     postings: records.length,
     skipped: all.length - records.length,

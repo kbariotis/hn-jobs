@@ -16,7 +16,10 @@ export type Baseline = {
   thread_id: number;
   created_at: string;
   gold: Record<string, string>; // posting id -> hash of the labels it was scored against
-  models: Record<string, { prompt_version: string; fields: Record<string, number | null>; mismatches: string[] }>;
+  models: Record<
+    string,
+    { prompt_version: string; fields: Record<string, number | null>; mismatches: string[] }
+  >;
 };
 
 export const baselinePath = (threadId: string | number) => `data/evals/baseline.${threadId}.json`;
@@ -47,10 +50,14 @@ export function compareToBaseline(
   mismatches: Mismatch[],
 ): GateResult {
   const base = baseline.models[model];
-  if (!base) throw new Error(`No baseline for ${model}. Run with --write-baseline first.`);
+  if (!base) {
+    throw new Error(`No baseline for ${model}. Run with --write-baseline first.`);
+  }
 
   const now = new Map(gold.map((p) => [String(p.id), goldHash(p)]));
-  const comparable = new Set([...now].filter(([id, h]) => baseline.gold[id] === h).map(([id]) => id));
+  const comparable = new Set(
+    [...now].filter(([id, h]) => baseline.gold[id] === h).map(([id]) => id),
+  );
   const onComparable = (k: string) => comparable.has(k.slice(0, k.indexOf("|")));
 
   const before = new Set(base.mismatches.filter(onComparable));
@@ -62,7 +69,11 @@ export function compareToBaseline(
     fixed: [...before].filter((k) => !after.has(k)).sort(),
     gated: comparable.size,
     added: ids([...now.keys()].filter((id) => !(id in baseline.gold))),
-    changed: ids([...now].filter(([id, h]) => id in baseline.gold && baseline.gold[id] !== h).map(([id]) => id)),
+    changed: ids(
+      [...now]
+        .filter(([id, h]) => id in baseline.gold && baseline.gold[id] !== h)
+        .map(([id]) => id),
+    ),
     removed: ids(Object.keys(baseline.gold).filter((id) => !now.has(id))),
   };
 }

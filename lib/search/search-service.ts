@@ -30,13 +30,24 @@ export type SearchResponse = {
 
 /** Newest indexed thread = the current month. */
 export async function currentThreadId(): Promise<number> {
-  const { rows } = await db().query<{ id: string | null }>("SELECT max(thread_id) AS id FROM roles");
-  if (!rows[0].id) throw new Error("Nothing indexed yet. Run `npm run daily`.");
+  const { rows } = await db().query<{ id: string | null }>(
+    "SELECT max(thread_id) AS id FROM roles",
+  );
+  if (!rows[0].id) {
+    throw new Error("Nothing indexed yet. Run `npm run daily`.");
+  }
   return Number(rows[0].id);
 }
 
-const fmtSalary = (min: string | null, max: string | null, cur: string | null, period: string | null) => {
-  if (!min && !max) return null;
+const fmtSalary = (
+  min: string | null,
+  max: string | null,
+  cur: string | null,
+  period: string | null,
+) => {
+  if (!min && !max) {
+    return null;
+  }
   const n = (x: string | null) => (x ? Math.round(Number(x)).toLocaleString("en-US") : "?");
   return `${n(min)}–${n(max)} ${cur ?? ""}${period ? `/${period}` : ""}`.trim();
 };
@@ -55,12 +66,16 @@ export async function searchJobs(
     filters = await parseQueryUncached(query);
   } catch (e) {
     degraded = true;
-    console.warn(`query parse failed, falling back to vector: ${e instanceof Error ? e.message.slice(0, 200) : e}`);
+    console.warn(
+      `query parse failed, falling back to vector: ${e instanceof Error ? e.message.slice(0, 200) : e}`,
+    );
   }
   const { hits } = filters
     ? await search(query, { strategy: "filtered", threadId, k, filters })
     : await search(query, { strategy: "vector", threadId, k });
-  if (hits.length === 0) return { query, thread_id: threadId, filters, degraded, results: [] };
+  if (hits.length === 0) {
+    return { query, thread_id: threadId, filters, degraded, results: [] };
+  }
 
   const { rows } = await db().query(
     `SELECT role_id, posting_id, role_title, company_name, remote_policy, remote_regions, seniority, employment_type,
@@ -72,7 +87,9 @@ export async function searchJobs(
   const byId = new Map(rows.map((r) => [r.role_id as string, r]));
   const results = hits.flatMap((h): JobResult[] => {
     const r = byId.get(h.role_id);
-    if (!r) return [];
+    if (!r) {
+      return [];
+    }
     return [
       {
         role_id: r.role_id,

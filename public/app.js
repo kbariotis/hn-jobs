@@ -10,8 +10,12 @@
 
   const el = (tag, cls, text) => {
     const n = document.createElement(tag);
-    if (cls) n.className = cls;
-    if (text != null) n.textContent = text;
+    if (cls) {
+      n.className = cls;
+    }
+    if (text != null) {
+      n.textContent = text;
+    }
     return n;
   };
 
@@ -37,7 +41,11 @@
     filtersEl.replaceChildren();
     if (degraded) {
       filtersEl.append(
-        el("span", "note", "Couldn't read filters from your query; showing closest matches by meaning."),
+        el(
+          "span",
+          "note",
+          "Couldn't read filters from your query; showing closest matches by meaning.",
+        ),
       );
       filtersEl.hidden = false;
       return;
@@ -58,7 +66,9 @@
       return;
     }
     filtersEl.append(el("span", "label", "Filtered by:"));
-    for (const c of chips) filtersEl.append(el("span", "chip", c));
+    for (const c of chips) {
+      filtersEl.append(el("span", "chip", c));
+    }
     filtersEl.hidden = false;
   }
 
@@ -76,20 +86,24 @@
       .filter(Boolean)
       .join(" — ");
     const meta = el("p", "meta");
-    for (const part of [where, r.seniority, r.employment_type, r.salary].filter(Boolean))
+    for (const part of [where, r.seniority, r.employment_type, r.salary].filter(Boolean)) {
       meta.append(el("span", null, part));
+    }
     li.append(meta);
 
     if (r.tech.length) {
       const tech = el("p", "tech");
-      for (const t of r.tech) tech.append(el("span", "tag", t));
+      for (const t of r.tech) {
+        tech.append(el("span", "tag", t));
+      }
       li.append(tech);
     }
 
     const actions = el("p", "actions");
     const apply = r.apply_url && httpUrl(r.apply_url);
-    if (apply) actions.append(link(apply, "Apply"));
-    else if (r.apply_email) {
+    if (apply) {
+      actions.append(link(apply, "Apply"));
+    } else if (r.apply_email) {
       const a = el("a", null, r.apply_email);
       a.href = `mailto:${encodeURIComponent(r.apply_email).replace("%40", "@")}`;
       actions.append(a);
@@ -126,7 +140,9 @@
   form.addEventListener("submit", (e) => {
     e.preventDefault();
     const q = input.value.trim();
-    if (q.length >= 2) run(q);
+    if (q.length >= 2) {
+      run(q);
+    }
   });
   $("examples").addEventListener("click", (e) => {
     const q = e.target.closest("button")?.dataset.q;

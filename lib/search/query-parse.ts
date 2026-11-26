@@ -8,17 +8,24 @@ import { getExtractModel } from "../../models/extract";
 
 /** Hard constraints a search query states. Anything soft stays in the vector part. */
 export const Filters = z.object({
-  work_modes: z.array(RemotePolicy).describe("Only if the query restricts work mode, e.g. 'remote' -> ['remote']"),
+  work_modes: z
+    .array(RemotePolicy)
+    .describe("Only if the query restricts work mode, e.g. 'remote' -> ['remote']"),
   regions: z
     .array(z.string())
-    .describe("Where the job must be available: ISO alpha-2 or EUROPE/EMEA/LATAM/APAC/AMERICAS/GLOBAL"),
+    .describe(
+      "Where the job must be available: ISO alpha-2 or EUROPE/EMEA/LATAM/APAC/AMERICAS/GLOBAL",
+    ),
   cities: z.array(z.string()).describe("Specific cities, full names ('NYC' -> 'New York')"),
   seniority: z.array(Seniority),
   employment_types: z.array(EmploymentType),
   tech_all: z.array(z.string()).describe("Technologies that must all be present, lowercase"),
   tech_any: z.array(z.string()).describe("Alternatives where any one suffices ('Python or Go')"),
   min_salary_usd_year: z.number().nullable(),
-  visa_sponsorship: z.boolean().nullable().describe("true only if the query asks for visa sponsorship"),
+  visa_sponsorship: z
+    .boolean()
+    .nullable()
+    .describe("true only if the query asks for visa sponsorship"),
 });
 export type Filters = z.infer<typeof Filters>;
 
@@ -44,7 +51,9 @@ export async function parseQuery(query: string, modelId?: string): Promise<Filte
     .then(JSON.parse)
     .catch(() => ({}));
   const key = `${modelId ?? "default"}|v${PARSER_VERSION}|${query}`;
-  if (cache[key]) return cache[key];
+  if (cache[key]) {
+    return cache[key];
+  }
   const filters = await parseQueryUncached(query, modelId);
   cache[key] = filters;
   await fs.mkdir("data/evals", { recursive: true });
@@ -55,12 +64,19 @@ export async function parseQuery(query: string, modelId?: string): Promise<Filte
 const CODE = /^([A-Z]{2}|EUROPE|EMEA|LATAM|APAC|AMERICAS|GLOBAL)$/;
 const MAX_ITEMS = 10;
 
-/** Parse + canonicalize with the same normalizers as extraction. The query is untrusted: output is bounded. */
+/**
+ * Parse + canonicalize with the same normalizers as extraction.
+ * The query is untrusted, so the output is bounded.
+ */
 export async function parseQueryUncached(query: string, modelId?: string): Promise<Filters> {
   const model = await getExtractModel(modelId);
-  const structured = model.withStructuredOutput(toGeminiSchema(Filters), { name: "search_filters" });
+  const structured = model.withStructuredOutput(toGeminiSchema(Filters), {
+    name: "search_filters",
+  });
   const raw = Filters.parse(await structured.invoke([prompt, new HumanMessage(query)]));
-  const tech = (xs: string[]) => [...new Set(xs.map(canonicalTech).filter((t): t is string => !!t))];
+  const tech = (xs: string[]) => [
+    ...new Set(xs.map(canonicalTech).filter((t): t is string => !!t)),
+  ];
   // A prompt-injected query can only produce weird filters, never SQL (all values are
   // parameters). Still cap sizes and drop anything that isn't a known code or a sane string.
   const short = (xs: string[]) =>
@@ -78,6 +94,8 @@ export async function parseQueryUncached(query: string, modelId?: string): Promi
     tech_all: tech(short(raw.tech_all)),
     tech_any: tech(short(raw.tech_any)),
     min_salary_usd_year:
-      salary !== null && Number.isFinite(salary) && salary > 0 && salary < 10_000_000 ? salary : null,
+      salary !== null && Number.isFinite(salary) && salary > 0 && salary < 10_000_000
+        ? salary
+        : null,
   };
 }

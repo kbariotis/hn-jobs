@@ -18,32 +18,49 @@ export function toGeminiSchema(schema: ZodTypeAny): Json {
 }
 
 function normalize(node: Json): Json {
-  if (Array.isArray(node)) return node.map(normalize) as unknown as Json;
-  if (!node || typeof node !== "object") return node;
+  if (Array.isArray(node)) {
+    return node.map(normalize) as unknown as Json;
+  }
+  if (!node || typeof node !== "object") {
+    return node;
+  }
 
-  const { $schema: _schema, additionalProperties: _additional, anyOf, type, ...rest } = node; // dropped: Gemini rejects them
+  // $schema and additionalProperties are dropped: Gemini rejects them.
+  const { $schema: _schema, additionalProperties: _additional, anyOf, type, ...rest } = node;
   let out: Json = { ...rest };
 
   if (Array.isArray(type)) {
     const nonNull = type.filter((t: string) => t !== "null");
-    if (nonNull.length !== 1) throw new Error(`Unsupported union type for Gemini: ${type}`);
+    if (nonNull.length !== 1) {
+      throw new Error(`Unsupported union type for Gemini: ${type}`);
+    }
     out.type = nonNull[0];
-    if (nonNull.length !== type.length) out.nullable = true;
+    if (nonNull.length !== type.length) {
+      out.nullable = true;
+    }
   } else if (type !== undefined) {
     out.type = type;
   }
 
   if (anyOf) {
     const nonNull = anyOf.filter((s: Json) => !isNull(s));
-    if (nonNull.length !== 1) throw new Error("Unsupported anyOf for Gemini (only X | null)");
+    if (nonNull.length !== 1) {
+      throw new Error("Unsupported anyOf for Gemini (only X | null)");
+    }
     // Outer description wins over the inner one.
     out = { ...normalize(nonNull[0]), ...out };
-    if (nonNull.length !== anyOf.length) out.nullable = true;
+    if (nonNull.length !== anyOf.length) {
+      out.nullable = true;
+    }
   }
 
   if (out.properties) {
-    out.properties = Object.fromEntries(Object.entries(out.properties).map(([k, v]) => [k, normalize(v as Json)]));
+    out.properties = Object.fromEntries(
+      Object.entries(out.properties).map(([k, v]) => [k, normalize(v as Json)]),
+    );
   }
-  if (out.items) out.items = normalize(out.items);
+  if (out.items) {
+    out.items = normalize(out.items);
+  }
   return out;
 }

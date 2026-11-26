@@ -57,7 +57,9 @@ async function relevanceSets(threadId: number) {
     (r) => !r.error && r.prompt_version === PROMPT_VERSION,
   );
   const gold: GoldFile = JSON.parse(await fs.readFile(goldPath(threadId), "utf8"));
-  const goldById = new Map(gold.postings.filter((p) => p.status === "reviewed").map((p) => [p.id, p]));
+  const goldById = new Map(
+    gold.postings.filter((p) => p.status === "reviewed").map((p) => [p.id, p]),
+  );
   const text = new Map(toPostings(await loadThread(threadId)).map((p) => [p.id, p.text]));
 
   return QUERIES.map((q) => {
@@ -73,10 +75,15 @@ async function relevanceSets(threadId: number) {
       const goldRoles = canonicalizeRoles(g.roles).roles;
       const toIndexed = new Map(alignRoles(rec.roles, goldRoles).map(([pi, gi]) => [gi, pi]));
       goldRoles.forEach((r, gi) => {
-        if (!q.relevant(r, ctx)) return;
+        if (!q.relevant(r, ctx)) {
+          return;
+        }
         const pi = toIndexed.get(gi);
-        if (pi === undefined) unretrievable++;
-        else relevant.add(`${rec.id}-${pi}`);
+        if (pi === undefined) {
+          unretrievable++;
+        } else {
+          relevant.add(`${rec.id}-${pi}`);
+        }
       });
     }
     return { q, relevant, unretrievable };
@@ -95,8 +102,11 @@ async function main() {
     "SELECT count(*) AS n FROM roles r JOIN role_embeddings e USING (role_id) WHERE r.thread_id = $1 AND e.embed_model = $2",
     [threadId, embedModel],
   );
-  if (Number(n) === 0)
-    throw new Error(`Nothing indexed for thread ${threadId} with ${embedModel}. Run \`npm run index\`.`);
+  if (Number(n) === 0) {
+    throw new Error(
+      `Nothing indexed for thread ${threadId} with ${embedModel}. Run \`npm run index\`.`,
+    );
+  }
 
   const sets = (await relevanceSets(threadId)).filter((s) => !only || only.includes(s.q.id));
   // Relevance comes from the extraction file; search sees the index. If they drift (re-extracted
@@ -107,16 +117,22 @@ async function main() {
   );
   const inIndex = new Set(indexed.map((r) => r.role_id));
   const stale = [...new Set(sets.flatMap((s) => [...s.relevant]).filter((id) => !inIndex.has(id)))];
-  if (stale.length)
+  if (stale.length) {
     throw new Error(
       `${stale.length} relevant roles are not indexed (e.g. ${stale.slice(0, 3).join(", ")}). Run \`npm run index -- --thread ${threadId}\`.`,
     );
+  }
   const results: Record<string, Record<string, QueryResult>> = {};
   for (const strategy of strategies) {
     results[strategy] = {};
     for (const { q, relevant, unretrievable } of sets) {
       const total = relevant.size + unretrievable;
-      const { hits, filters } = await search(q.query, { strategy, threadId, embedModel, k: Math.max(10, total) });
+      const { hits, filters } = await search(q.query, {
+        strategy,
+        threadId,
+        embedModel,
+        k: Math.max(10, total),
+      });
       const ranked = hits.map((h) => h.role_id);
       results[strategy][q.id] = {
         ndcg10: ndcgAt(ranked, relevant, total),
@@ -145,7 +161,9 @@ async function main() {
   );
   console.table(table);
   const mean = (s: string, kind?: string, m: keyof QueryResult = "ndcg10") => {
-    const xs = sets.filter(({ q }) => !kind || q.kind === kind).map(({ q }) => results[s][q.id][m] as number);
+    const xs = sets
+      .filter(({ q }) => !kind || q.kind === kind)
+      .map(({ q }) => results[s][q.id][m] as number);
     return r2(xs.reduce((a, b) => a + b, 0) / (xs.length || 1));
   };
   console.table(
@@ -168,7 +186,12 @@ async function main() {
   await fs.writeFile(
     out,
     JSON.stringify(
-      { at: new Date().toISOString(), embed_model: embedModel, prompt_version: PROMPT_VERSION, results },
+      {
+        at: new Date().toISOString(),
+        embed_model: embedModel,
+        prompt_version: PROMPT_VERSION,
+        results,
+      },
       null,
       2,
     ) + "\n",
@@ -176,13 +199,18 @@ async function main() {
   console.log(`Full report (incl. parsed filters and top-10 ids): ${out}`);
 
   if (flag("write-baseline")) {
-    if (only) throw new Error("Not writing a baseline from a partial run (--only).");
+    if (only) {
+      throw new Error("Not writing a baseline from a partial run (--only).");
+    }
     const baseline: Baseline = {
       created_at: new Date().toISOString(),
       embed_model: embedModel,
       prompt_version: PROMPT_VERSION,
       ndcg10: Object.fromEntries(
-        strategies.map((s) => [s, Object.fromEntries(sets.map(({ q }) => [q.id, r2(results[s][q.id].ndcg10)]))]),
+        strategies.map((s) => [
+          s,
+          Object.fromEntries(sets.map(({ q }) => [q.id, r2(results[s][q.id].ndcg10)])),
+        ]),
       ),
     };
     await fs.writeFile(baselinePath(threadId), JSON.stringify(baseline, null, 2) + "\n");
@@ -194,17 +222,29 @@ async function main() {
     const base: Baseline = JSON.parse(await fs.readFile(baselinePath(threadId), "utf8"));
     const tol = Number(arg("tolerance") ?? 0.05);
     let failed = false;
-    console.log(`\nRegression gate vs ${baselinePath(threadId)} (${base.created_at}), tolerance ${tol}`);
-    if (base.embed_model !== embedModel) console.log(`  embed model ${base.embed_model} -> ${embedModel}`);
+    console.log(
+      `\nRegression gate vs ${baselinePath(threadId)} (${base.created_at}), tolerance ${tol}`,
+    );
+    if (base.embed_model !== embedModel) {
+      console.log(`  embed model ${base.embed_model} -> ${embedModel}`);
+    }
     for (const s of strategies) {
       const drops = sets
-        .map(({ q }) => ({ id: q.id, was: base.ndcg10[s]?.[q.id], now: r2(results[s][q.id].ndcg10) }))
+        .map(({ q }) => ({
+          id: q.id,
+          was: base.ndcg10[s]?.[q.id],
+          now: r2(results[s][q.id].ndcg10),
+        }))
         .filter((d) => d.was !== undefined && d.was - d.now > tol);
       failed ||= drops.length > 0;
       console.log(`${drops.length ? "✗" : "✓"} ${s}: ${drops.length} query regression(s)`);
-      for (const d of drops) console.log(`    ${d.id}: ${d.was} -> ${d.now}`);
+      for (const d of drops) {
+        console.log(`    ${d.id}: ${d.was} -> ${d.now}`);
+      }
     }
-    if (failed) process.exitCode = 1;
+    if (failed) {
+      process.exitCode = 1;
+    }
   }
 }
 

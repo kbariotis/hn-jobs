@@ -14,7 +14,9 @@ async function main() {
     "CREATE TABLE IF NOT EXISTS schema_migrations (name text PRIMARY KEY, applied_at timestamptz NOT NULL DEFAULT now())",
   );
   const applied = new Set(
-    (await pool.query<{ name: string }>("SELECT name FROM schema_migrations")).rows.map((r) => r.name),
+    (await pool.query<{ name: string }>("SELECT name FROM schema_migrations")).rows.map(
+      (r) => r.name,
+    ),
   );
   const files = (await fs.readdir(DIR)).filter((f) => f.endsWith(".sql")).sort();
 
@@ -28,7 +30,9 @@ async function main() {
       console.log(`✓ ${name}`);
     } catch (e) {
       await client.query("ROLLBACK");
-      throw new Error(`Migration ${name} failed: ${e instanceof Error ? e.message : e}`, { cause: e });
+      throw new Error(`Migration ${name} failed: ${e instanceof Error ? e.message : e}`, {
+        cause: e,
+      });
     } finally {
       client.release();
     }

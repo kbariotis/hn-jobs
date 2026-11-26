@@ -18,7 +18,8 @@ import { PROMPT_VERSION } from "../prompts/extract";
  * Bound to 127.0.0.1 only. Never expose this beyond localhost: it writes repo files.
  */
 const argv = process.argv;
-const argOf = (n: string) => (argv.includes(`--${n}`) ? argv[argv.indexOf(`--${n}`) + 1] : undefined);
+const argOf = (n: string) =>
+  argv.includes(`--${n}`) ? argv[argv.indexOf(`--${n}`) + 1] : undefined;
 const THREAD_ID = Number(argOf("thread") ?? process.env.THREAD_ID ?? "46108941");
 const BLIND = argv.includes("--blind");
 const PORT = Number(argOf("port") ?? process.env.REVIEW_PORT ?? 4777);
@@ -71,7 +72,9 @@ async function loadExtractions(ids: Set<number>) {
   const out: Record<string, Record<number, z.infer<typeof Role>[]>> = {};
   for (const f of files) {
     for (const r of await readExtractions(path.join(dir, f))) {
-      if (r.error || r.prompt_version !== PROMPT_VERSION || !ids.has(r.id)) continue;
+      if (r.error || r.prompt_version !== PROMPT_VERSION || !ids.has(r.id)) {
+        continue;
+      }
       (out[r.model] ??= {})[r.id] = r.roles;
     }
   }
@@ -92,7 +95,9 @@ async function readBody(req: http.IncomingMessage): Promise<string> {
   const chunks: Buffer[] = [];
   for await (const chunk of req) {
     size += chunk.length;
-    if (size > MAX_BODY) throw new HttpError(413, "Body too large");
+    if (size > MAX_BODY) {
+      throw new HttpError(413, "Body too large");
+    }
     chunks.push(chunk);
   }
   return Buffer.concat(chunks).toString("utf8");
@@ -114,7 +119,9 @@ const zodMessage = (e: z.ZodError) =>
     .join("; ");
 
 async function handle(req: http.IncomingMessage, res: http.ServerResponse) {
-  if (!ALLOWED_HOSTS.has(req.headers.host ?? "")) throw new HttpError(421, "Unexpected Host header");
+  if (!ALLOWED_HOSTS.has(req.headers.host ?? "")) {
+    throw new HttpError(421, "Unexpected Host header");
+  }
   const url = new URL(req.url ?? "/", `http://${req.headers.host}`);
 
   if (req.method === "GET" && url.pathname === "/") {
@@ -152,28 +159,40 @@ async function handle(req: http.IncomingMessage, res: http.ServerResponse) {
   if (req.method === "PUT" && m) {
     // Cross-origin pages can't forge this: browsers send Origin on PUT.
     const origin = req.headers.origin;
-    if (origin && !ALLOWED_HOSTS.has(origin.replace(/^http:\/\//, "")))
+    if (origin && !ALLOWED_HOSTS.has(origin.replace(/^http:\/\//, ""))) {
       throw new HttpError(403, "Cross-origin write refused");
-    if (!(req.headers["content-type"] ?? "").startsWith("application/json"))
+    }
+    if (!(req.headers["content-type"] ?? "").startsWith("application/json")) {
       throw new HttpError(415, "Expected application/json");
+    }
 
     let parsed: unknown;
     try {
       parsed = JSON.parse(await readBody(req));
     } catch (e) {
-      if (e instanceof HttpError) throw e;
+      if (e instanceof HttpError) {
+        throw e;
+      }
       throw new HttpError(400, "Invalid JSON");
     }
     const body = SaveBody.safeParse(parsed);
-    if (!body.success) throw new HttpError(422, zodMessage(body.error));
+    if (!body.success) {
+      throw new HttpError(422, zodMessage(body.error));
+    }
 
     const id = Number(m[1]);
     const result = await serialized(async () => {
       const { gold, etag } = await readGold();
-      if (etag !== body.data.etag)
-        throw new HttpError(409, "Gold file changed on disk since you loaded it. Reload to continue.");
+      if (etag !== body.data.etag) {
+        throw new HttpError(
+          409,
+          "Gold file changed on disk since you loaded it. Reload to continue.",
+        );
+      }
       const target = gold.postings.find((p) => p.id === id);
-      if (!target) throw new HttpError(404, `Posting ${id} not in gold set`);
+      if (!target) {
+        throw new HttpError(404, `Posting ${id} not in gold set`);
+      }
 
       // Only these fields are editable; id, text and seeded_from are fixed.
       target.status = body.data.status;
@@ -194,8 +213,13 @@ async function handle(req: http.IncomingMessage, res: http.ServerResponse) {
 
 const server = http.createServer((req, res) => {
   handle(req, res).catch((err: unknown) => {
-    if (err instanceof HttpError) return send(res, err.status, { error: err.message });
-    console.error(`${req.method} ${req.url} failed:`, err instanceof Error ? err.message : "unknown error");
+    if (err instanceof HttpError) {
+      return send(res, err.status, { error: err.message });
+    }
+    console.error(
+      `${req.method} ${req.url} failed:`,
+      err instanceof Error ? err.message : "unknown error",
+    );
     send(res, 500, { error: "Internal error" });
   });
 });

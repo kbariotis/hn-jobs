@@ -44,5 +44,7 @@ test("groundRoles nulls ungrounded fields and reports them", () => {
   const role = { apply_url: "http://beaconai.co/careers", apply_email: null } as Role;
   const { roles, warnings } = groundRoles([role], beacon);
   assert.equal(roles[0].apply_url, null);
-  assert.deepEqual(warnings, [{ role_index: 0, field: "apply_url", value: "http://beaconai.co/careers" }]);
+  assert.deepEqual(warnings, [
+    { role_index: 0, field: "apply_url", value: "http://beaconai.co/careers" },
+  ]);
 });

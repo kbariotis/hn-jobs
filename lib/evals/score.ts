@@ -15,7 +15,8 @@ const norm = (s: string) =>
     .replace(/[^a-z0-9+#]+/g, " ")
     .trim();
 // Crude plural folding so "Engineers" aligns with "Engineer".
-const stem = (t: string) => (t.length > 3 && t.endsWith("s") && !t.endsWith("ss") ? t.slice(0, -1) : t);
+const stem = (t: string) =>
+  t.length > 3 && t.endsWith("s") && !t.endsWith("ss") ? t.slice(0, -1) : t;
 const tokens = (s: string) => new Set(norm(s).split(" ").filter(Boolean).map(stem));
 // List items compare without separators: "node.js" == "nodejs" == "Node JS".
 const itemKey = (s: string) => norm(s).replace(/ /g, "");
@@ -23,9 +24,15 @@ const itemKey = (s: string) => norm(s).replace(/ /g, "");
 const locKey = (l: Location) => `${itemKey(l.city ?? "")}|${l.country_code ?? ""}`;
 
 function jaccard(a: Set<string>, b: Set<string>): number {
-  if (a.size === 0 && b.size === 0) return 1;
+  if (a.size === 0 && b.size === 0) {
+    return 1;
+  }
   let inter = 0;
-  for (const t of a) if (b.has(t)) inter++;
+  for (const t of a) {
+    if (b.has(t)) {
+      inter++;
+    }
+  }
   return inter / (a.size + b.size - inter);
 }
 
@@ -48,7 +55,9 @@ export function alignRoles(pred: Role[], gold: Role[]): Array<[number, number]> 
   pred.forEach((p, i) =>
     gold.forEach((g, j) => {
       const s = roleSimilarity(p, g);
-      if (s >= MATCH_THRESHOLD) candidates.push([s, i, j]);
+      if (s >= MATCH_THRESHOLD) {
+        candidates.push([s, i, j]);
+      }
     }),
   );
   candidates.sort((a, b) => b[0] - a[0]);
@@ -56,7 +65,9 @@ export function alignRoles(pred: Role[], gold: Role[]): Array<[number, number]> 
   const usedG = new Set<number>();
   const pairs: Array<[number, number]> = [];
   for (const [, i, j] of candidates) {
-    if (usedP.has(i) || usedG.has(j)) continue;
+    if (usedP.has(i) || usedG.has(j)) {
+      continue;
+    }
     usedP.add(i);
     usedG.add(j);
     pairs.push([i, j]);
@@ -65,13 +76,23 @@ export function alignRoles(pred: Role[], gold: Role[]): Array<[number, number]> 
   // Pair them so field errors are scored instead of a missing + an extra role.
   const leftP = pred.map((_, i) => i).filter((i) => !usedP.has(i));
   const leftG = gold.map((_, j) => j).filter((j) => !usedG.has(j));
-  if (leftP.length === 1 && leftG.length === 1 && roleSimilarity(pred[leftP[0]], gold[leftG[0]]) >= LEFTOVER_THRESHOLD)
+  if (
+    leftP.length === 1 &&
+    leftG.length === 1 &&
+    roleSimilarity(pred[leftP[0]], gold[leftG[0]]) >= LEFTOVER_THRESHOLD
+  ) {
     pairs.push([leftP[0], leftG[0]]);
+  }
   return pairs;
 }
 
 type Scalar = string | number | boolean | null;
-const SCALAR_FIELDS = ["employment_type", "remote_policy", "seniority", "visa_sponsorship"] as const;
+const SCALAR_FIELDS = [
+  "employment_type",
+  "remote_policy",
+  "seniority",
+  "visa_sponsorship",
+] as const;
 const SET_KEYS = {
   tech_stack: (r: Role) => r.tech_stack.map(itemKey),
   locations: (r: Role) => r.locations.map(locKey),
@@ -79,7 +100,8 @@ const SET_KEYS = {
   timezones: (r: Role) => r.timezones.map(itemKey),
 } as const;
 
-const salaryKey = (s: Role["salary"]) => (s ? `${s.min}|${s.max}|${s.currency?.toUpperCase()}|${s.period}` : null);
+const salaryKey = (s: Role["salary"]) =>
+  s ? `${s.min}|${s.max}|${s.currency?.toUpperCase()}|${s.period}` : null;
 
 // Comparators per exact-match field. Normalization is part of the metric definition.
 const EXACT: Record<string, (r: Role) => Scalar> = {
@@ -90,7 +112,13 @@ const EXACT: Record<string, (r: Role) => Scalar> = {
   apply_email: (r) => r.apply_email?.toLowerCase() ?? null,
 };
 
-export type Mismatch = { posting_id: number; role: string; field: string; pred: unknown; gold: unknown };
+export type Mismatch = {
+  posting_id: number;
+  role: string;
+  field: string;
+  pred: unknown;
+  gold: unknown;
+};
 
 export class Scorecard {
   postings = 0;
@@ -107,7 +135,9 @@ export class Scorecard {
     const pred = canonicalizeRoles(predRaw).roles;
     const gold = canonicalizeRoles(goldRaw).roles;
     this.postings++;
-    if (pred.length === gold.length) this.roleCountExact++;
+    if (pred.length === gold.length) {
+      this.roleCountExact++;
+    }
     this.predRoles += pred.length;
     this.goldRoles += gold.length;
 
@@ -146,8 +176,9 @@ export class Scorecard {
       for (const [field, key] of Object.entries(EXACT)) {
         const e = (this.exact[field] ??= { ok: 0, n: 0 });
         e.n++;
-        if (key(p) === key(g)) e.ok++;
-        else
+        if (key(p) === key(g)) {
+          e.ok++;
+        } else {
           this.mismatches.push({
             posting_id: postingId,
             role: g.role_title,
@@ -155,19 +186,25 @@ export class Scorecard {
             pred: (p as Record<string, unknown>)[field],
             gold: (g as Record<string, unknown>)[field],
           });
+        }
       }
       for (const [field, keys] of Object.entries(SET_KEYS)) {
         const s = (this.sets[field] ??= { tp: 0, fp: 0, fn: 0, exact: 0, n: 0 });
         const ps = new Set(keys(p));
         const gs = new Set(keys(g));
         let tp = 0;
-        for (const x of ps) if (gs.has(x)) tp++;
+        for (const x of ps) {
+          if (gs.has(x)) {
+            tp++;
+          }
+        }
         s.tp += tp;
         s.fp += ps.size - tp;
         s.fn += gs.size - tp;
         s.n++;
-        if (tp === ps.size && tp === gs.size) s.exact++;
-        else
+        if (tp === ps.size && tp === gs.size) {
+          s.exact++;
+        } else {
           this.mismatches.push({
             posting_id: postingId,
             role: g.role_title,
@@ -175,6 +212,7 @@ export class Scorecard {
             pred: p[field as keyof Role],
             gold: g[field as keyof Role],
           });
+        }
       }
     }
   }
@@ -194,7 +232,13 @@ export class Scorecard {
           Object.entries(this.sets).map(([f, s]) => {
             const p = s.tp / (s.tp + s.fp || 1);
             const r = s.tp / (s.tp + s.fn || 1);
-            const f1 = p + r === 0 ? (s.tp + s.fp + s.fn === 0 ? 1 : 0) : (2 * p * r) / (p + r);
+            let f1: number;
+            if (p + r > 0) {
+              f1 = (2 * p * r) / (p + r);
+            } else {
+              // Nothing predicted and nothing expected is a perfect score, not zero.
+              f1 = s.tp + s.fp + s.fn === 0 ? 1 : 0;
+            }
             return [f, Math.round(1000 * f1) / 10];
           }),
         ),

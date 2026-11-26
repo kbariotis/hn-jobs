@@ -55,7 +55,9 @@ export async function extractPostings(
   log(
     `${modelId} | thread ${threadId} | ${rpm} rpm | ${postings.length} postings, ${summary.skipped} up to date, ${todo.length} to extract`,
   );
-  if (todo.length === 0) return summary;
+  if (todo.length === 0) {
+    return summary;
+  }
 
   await fs.mkdir("data/extracted", { recursive: true });
   const extractor = await buildExtractor(modelId);
@@ -75,7 +77,9 @@ export async function extractPostings(
         rateLimitedStreak = isRateLimited(rec.error) ? rateLimitedStreak + 1 : 0;
         if (rateLimitedStreak >= BREAKER_THRESHOLD && !tripped) {
           tripped = true;
-          log(`⏸ ${BREAKER_THRESHOLD} rate-limited failures in a row: stopping; the rest is retried next run`);
+          log(
+            `⏸ ${BREAKER_THRESHOLD} rate-limited failures in a row: stopping; the rest is retried next run`,
+          );
         }
       } else {
         rateLimitedStreak = 0;
@@ -91,7 +95,9 @@ export async function extractPostings(
   const latest = new Map<number, ExtractionRecord>();
   for (const r of await readExtractions(out)) {
     const prev = latest.get(r.id);
-    if (r.error && prev && !prev.error) continue;
+    if (r.error && prev && !prev.error) {
+      continue;
+    }
     latest.set(r.id, r);
   }
   await fs.writeFile(out, [...latest.values()].map((r) => JSON.stringify(r)).join("\n") + "\n");

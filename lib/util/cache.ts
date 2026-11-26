@@ -11,7 +11,9 @@ export class TtlCache<V> {
 
   get(key: string): V | undefined {
     const hit = this.map.get(key);
-    if (!hit) return undefined;
+    if (!hit) {
+      return undefined;
+    }
     if (hit.expires <= Date.now()) {
       this.map.delete(key);
       return undefined;
@@ -24,7 +26,9 @@ export class TtlCache<V> {
   set(key: string, value: V) {
     this.map.delete(key);
     this.map.set(key, { value, expires: Date.now() + this.ttlMs });
-    while (this.map.size > this.maxEntries) this.map.delete(this.map.keys().next().value!);
+    while (this.map.size > this.maxEntries) {
+      this.map.delete(this.map.keys().next().value!);
+    }
   }
 
   clear() {
