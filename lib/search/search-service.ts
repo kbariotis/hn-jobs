@@ -1,8 +1,8 @@
-import { db } from "./db";
+import { db } from "../store/db";
 import { search } from "./search";
 import { parseQueryUncached, type Filters } from "./query-parse";
-import { safeEmail, safeHttpUrl } from "./safe";
-import type { Location } from "./schema";
+import { safeEmail, safeHttpUrl } from "../util/safe";
+import type { Location } from "../schema";
 
 export type JobResult = {
   role_id: string;

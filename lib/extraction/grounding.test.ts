@@ -1,11 +1,14 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { isUrlGrounded as url, isEmailGrounded as email, groundRoles } from "../lib/grounding";
-import type { Role } from "../lib/schema";
+import { isUrlGrounded as url, isEmailGrounded as email, groundRoles } from "./grounding";
+import type { Role } from "../schema";
 
 // Synthetic: header-only excerpt, so ".../careers" is NOT in this text. (In the real post
+
 // 46109012 it is — "Join us at beaconai.co/careers" — and the guard correctly allows it.)
+
 const beacon = "Beacon AI | San Carlos, CA | Hybrid (On-Site) | Full-Time | www.beaconai.co";
+
 const ashby = "apply: https://jobs.ashbyhq.com/wire/89e08ab3?utm=x.";
 
 test("rejects invented URL paths", () => {

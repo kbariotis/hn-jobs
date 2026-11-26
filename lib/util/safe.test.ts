@@ -1,8 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { safeHttpUrl, safeEmail, cleanQuery } from "../lib/safe";
-import { TtlCache } from "../lib/cache";
-import { KeyedTokenBucket } from "../lib/rate";
+import { safeHttpUrl, safeEmail, cleanQuery } from "./safe";
 
 test("safeHttpUrl: http(s) only, bare domains upgraded, tricks rejected", () => {
   assert.equal(safeHttpUrl("https://acme.co/jobs"), "https://acme.co/jobs");
@@ -21,26 +19,4 @@ test("safeEmail and cleanQuery", () => {
   assert.equal(cleanQuery("  remote\n\trust  "), "remote rust");
   assert.equal(cleanQuery("a"), null);
   assert.equal(cleanQuery("x".repeat(201)), null);
-});
-
-test("TtlCache: expiry and LRU eviction", async () => {
-  const c = new TtlCache<number>(2, 30);
-  c.set("a", 1);
-  c.set("b", 2);
-  c.get("a"); // a is now most recent
-  c.set("c", 3); // evicts b
-  assert.equal(c.get("b"), undefined);
-  assert.equal(c.get("a"), 1);
-  await new Promise((r) => setTimeout(r, 40));
-  assert.equal(c.get("a"), undefined);
-});
-
-test("KeyedTokenBucket: burst, refill, per-key isolation", () => {
-  const b = new KeyedTokenBucket(60, 2); // 1 token/s, burst 2
-  const t = 1_000_000;
-  assert.ok(b.take("ip1", t));
-  assert.ok(b.take("ip1", t));
-  assert.ok(!b.take("ip1", t)); // burst exhausted
-  assert.ok(b.take("ip2", t)); // other clients unaffected
-  assert.ok(b.take("ip1", t + 1000)); // refilled one token
 });

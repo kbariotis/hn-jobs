@@ -2,7 +2,7 @@ require("dotenv").config();
 
 import fs from "fs/promises";
 import path from "path";
-import { db, closeDb } from "../lib/db";
+import { db, closeDb } from "../lib/store/db";
 
 // Applies db/migrations/*.sql in filename order, each once, each in its own transaction.
 // Usage: npm run migrate

@@ -1,10 +1,11 @@
-# HN Jobs - Intelligent Job Search Assistant
+# HN Jobs
 
-An AI-powered chat assistant that helps you find the best open roles suited to you personally. The assistant asks you questions about your preferences and skills, then searches through a comprehensive Hacker News jobs index to present you with the most relevant opportunities.
+Natural-language search over the monthly Hacker News "Who is hiring?" thread. Type what you want ("remote Rust roles in Europe, senior") and get matching roles back, each linked to its HN post.
 
 ## Features
 
-- **Intelligent Chat Interface**: Interactive conversation-based job search
+- **Search page**: one input, natural-language query, results with filter chips (`npm run serve`)
+- **Daily sync**: picks up the newest thread and extracts only new or edited postings (`npm run daily`)
 - **Structured extraction**: Gemini Flash turns each HN post into roles (company, title, remote policy, regions, locations, seniority, tech, salary…) per [LABELING.md](LABELING.md)
 - **Filtered semantic search**: an LLM turns the query into hard filters (remote, region, stack, level, salary) applied in SQL, then ranks matches by embedding similarity
 - **Postgres + pgvector**: one store for roles, filterable fields and vectors
@@ -20,12 +21,26 @@ HN Algolia API ──► data/threads/<id>.json (snapshot)
                         │ npm run index     (upsert roles, embed changed docs)
                         ▼
           Postgres: roles (fields + tsvector) + role_embeddings (per embedding model)
-                        │ lib/search.ts     (vector | filtered)
+                        │ lib/search/       (LLM query → SQL filters → vector ranking)
                         ▼
-               ops/chat.ts agent ──► user
+               ops/serve.ts ──► public/ search page
 ```
 
-Key files: `lib/schema.ts` (role schema), `prompts/extract.ts`, `lib/canonical.ts` (normalization), `lib/search.ts`, `lib/query-parse.ts`, `lib/geo.ts` (what "available in X" means), `db/migrations/`.
+Layout:
+
+```
+lib/            schema.ts, canonical.ts, geo.ts   shared domain: role schema, normalization, "available in X"
+  extraction/   hn (fetch + clean thread), extract, grounding, pipeline
+  store/        db, role-doc, indexer             write side: roles + embeddings in Postgres
+  search/       query-parse, search, search-service   read side
+  evals/        gold, score, gate, ir-metrics, retrieval-queries
+  util/         rate (limiter, backoff, token bucket), cache, safe (untrusted input)
+models/         model factories + Gemini schema adapter
+prompts/        extraction prompt (versioned)
+ops/            CLI entry points (daily, serve, evals, review, migrate, ...)
+```
+
+Unit tests sit next to the module they cover (`lib/**/*.test.ts`).
 
 ## Prerequisites
 
@@ -45,9 +60,10 @@ npm run migrate
 ## Usage
 
 ```bash
-npm run extract -- --concurrency 8   # extract the thread in THREAD_ID (resumable)
-npm run index                        # load roles into Postgres and embed them
-npm run start -- ops/chat.ts         # chat assistant
+npm run daily                        # latest thread: refresh, extract new/edited posts, index (idempotent)
+npm run serve                        # search page on 127.0.0.1:3000
+npm run extract -- --concurrency 8   # (manual) extract the thread in THREAD_ID
+npm run index                        # (manual) load roles into Postgres and embed them
 ```
 
 ## Evals

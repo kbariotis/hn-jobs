@@ -1,7 +1,7 @@
 require("dotenv").config();
 
-import { closeDb } from "../lib/db";
-import { indexThread } from "../lib/indexer";
+import { closeDb } from "../lib/store/db";
+import { indexThread } from "../lib/store/indexer";
 import { embedModelId } from "../models/embeddings";
 
 // Loads extractions into Postgres and embeds new/changed role docs. No extraction LLM calls.

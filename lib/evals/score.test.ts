@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { alignRoles, Scorecard } from "../lib/score";
-import type { Role } from "../lib/schema";
+import { alignRoles, Scorecard } from "./score";
+import type { Role } from "../schema";
 
 const role = (over: Partial<Role>): Role => ({
   company_name: "Acme",
@@ -19,6 +19,7 @@ const role = (over: Partial<Role>): Role => ({
   apply_email: null,
   description: "",
   ...over,
+
 });
 
 test("aligns same-title roles by location", () => {

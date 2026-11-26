@@ -1,11 +1,11 @@
 require("dotenv").config();
 
 import fs from "fs/promises";
-import { loadThread, toPostings } from "../lib/preprocess";
-import { extractedPath, readExtractions } from "../lib/extract";
+import { loadThread, toPostings } from "../lib/extraction/hn";
+import { extractedPath, readExtractions } from "../lib/extraction/extract";
 import { extractModelId } from "../models/extract";
-import type { GoldFile, GoldPosting } from "../lib/gold";
-import { goldPath } from "../lib/gold";
+import type { GoldFile, GoldPosting } from "../lib/evals/gold";
+import { goldPath } from "../lib/evals/gold";
 import type { Role } from "../lib/schema";
 
 /**

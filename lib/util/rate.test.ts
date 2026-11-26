@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { RateLimiter, withBackoff, isRateLimited } from "../lib/rate";
+import { withBackoff, isRateLimited, RateLimiter, KeyedTokenBucket } from "./rate";
 
 test("backoff retries 429s, then succeeds", async () => {
   let calls = 0;
@@ -27,4 +27,14 @@ test("limiter spaces request starts at 60s/rpm", async () => {
   const t0 = Date.now();
   await Promise.all([limiter.acquire(), limiter.acquire(), limiter.acquire()]);
   assert.ok(Date.now() - t0 >= 95, `took ${Date.now() - t0}ms`);
+});
+
+test("KeyedTokenBucket: burst, refill, per-key isolation", () => {
+  const b = new KeyedTokenBucket(60, 2); // 1 token/s, burst 2
+  const t = 1_000_000;
+  assert.ok(b.take("ip1", t));
+  assert.ok(b.take("ip1", t));
+  assert.ok(!b.take("ip1", t)); // burst exhausted
+  assert.ok(b.take("ip2", t)); // other clients unaffected
+  assert.ok(b.take("ip1", t + 1000)); // refilled one token
 });

@@ -1,5 +1,5 @@
-import type { Role } from "../lib/schema";
-import { availableIn } from "../lib/geo";
+import type { Role } from "../schema";
+import { availableIn } from "../geo";
 
 /**
  * Retrieval eval queries. Relevance is a predicate over role labels (gold where reviewed,

@@ -1,7 +1,7 @@
 require("dotenv").config();
 
-import { loadThread, toPostings } from "../lib/preprocess";
-import { extractPostings } from "../lib/pipeline";
+import { loadThread, toPostings } from "../lib/extraction/hn";
+import { extractPostings } from "../lib/extraction/pipeline";
 
 // Usage: npm run extract -- [--thread 46108941] [--limit 20 | --ids 1,2,3] [--refresh] [--concurrency 4] [--rpm 60]
 //   Extracts postings that are new, failed, stale (prompt version) or edited since last run.

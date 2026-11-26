@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { canonicalTech, canonicalRegion, canonicalLocation } from "../lib/canonical";
+import { canonicalTech, canonicalRegion, canonicalLocation } from "./canonical";
 
 test("tech: aliases, versions, concepts", () => {
   assert.equal(canonicalTech("Golang"), "go");

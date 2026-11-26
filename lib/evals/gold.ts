@@ -1,4 +1,4 @@
-import type { Role } from "./schema";
+import type { Role } from "../schema";
 
 export type GoldPosting = {
   id: number;

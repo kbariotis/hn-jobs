@@ -1,4 +1,4 @@
-import type { Role } from "./schema";
+import type { Role } from "../schema";
 
 /**
  * The text embedded for a role. One document per role (no chunking): roles are short, and

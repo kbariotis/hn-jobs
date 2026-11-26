@@ -1,11 +1,11 @@
 import { createHash } from "crypto";
 import type { PoolClient } from "pg";
 import { db, toVector } from "./db";
-import { extractedPath, readExtractions, type ExtractionRecord } from "./extract";
+import { extractedPath, readExtractions, type ExtractionRecord } from "../extraction/extract";
 import { roleDoc } from "./role-doc";
-import { extractModelId } from "../models/extract";
-import { embedModelId, getEmbeddings } from "../models/embeddings";
-import { PROMPT_VERSION } from "../prompts/extract";
+import { extractModelId } from "../../models/extract";
+import { embedModelId, getEmbeddings } from "../../models/embeddings";
+import { PROMPT_VERSION } from "../../prompts/extract";
 
 const EMBED_BATCH = 50;
 const sha = (s: string) => createHash("sha256").update(s).digest("hex");

@@ -1,4 +1,4 @@
-import type { Role } from "./schema";
+import type { Role } from "../schema";
 
 /**
  * Deterministic guards against fabricated values. Model-agnostic: runs on every

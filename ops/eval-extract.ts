@@ -1,17 +1,17 @@
 require("dotenv").config();
 
 import fs from "fs/promises";
-import { loadThread, toPostings } from "../lib/preprocess";
+import { loadThread, toPostings } from "../lib/extraction/hn";
 import {
   buildExtractor,
   extractPosting,
   extractedPath,
   readExtractions,
   type ExtractionRecord,
-} from "../lib/extract";
-import { goldPath, type GoldFile } from "../lib/gold";
-import { Scorecard, type Mismatch } from "../lib/score";
-import { baselinePath, compareToBaseline, goldHash, mismatchKey, type Baseline } from "../lib/gate";
+} from "../lib/extraction/extract";
+import { goldPath, type GoldFile } from "../lib/evals/gold";
+import { Scorecard, type Mismatch } from "../lib/evals/score";
+import { baselinePath, compareToBaseline, goldHash, mismatchKey, type Baseline } from "../lib/evals/gate";
 import { extractModelId } from "../models/extract";
 import { PROMPT_VERSION } from "../prompts/extract";
 
@@ -22,7 +22,7 @@ import { PROMPT_VERSION } from "../prompts/extract";
  *   --run             extract gold postings a model is missing (or has stale/failed)
  *   --include-drafts  also score unreviewed drafts (biased toward the seeding model!)
  *   --write-baseline  record current results as the committed benchmark (replaces the file)
- *   --check           exit 1 if a model makes errors the baseline didn't (see lib/gate.ts)
+ *   --check           exit 1 if a model makes errors the baseline didn't (see lib/evals/gate.ts)
  *   --tolerance N     allowed new errors per model under --check (default 0; raise with --run,
  *                     since fresh extractions aren't bit-for-bit reproducible)
  */

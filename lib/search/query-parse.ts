@@ -1,10 +1,10 @@
 import { z } from "zod";
 import { SystemMessage, HumanMessage } from "langchain";
 import fs from "fs/promises";
-import { EmploymentType, RemotePolicy, Seniority } from "./schema";
-import { toGeminiSchema } from "./gemini-schema";
-import { canonicalRegion, canonicalTech } from "./canonical";
-import { getExtractModel } from "../models/extract";
+import { EmploymentType, RemotePolicy, Seniority } from "../schema";
+import { toGeminiSchema } from "../../models/gemini-schema";
+import { canonicalRegion, canonicalTech } from "../canonical";
+import { getExtractModel } from "../../models/extract";
 
 /** Hard constraints a search query states. Anything soft stays in the vector part. */
 export const Filters = z.object({

@@ -6,8 +6,8 @@ import path from "path";
 import crypto from "crypto";
 import { z } from "zod";
 import { Role } from "../lib/schema";
-import { goldPath, type GoldFile } from "../lib/gold";
-import { readExtractions } from "../lib/extract";
+import { goldPath, type GoldFile } from "../lib/evals/gold";
+import { readExtractions } from "../lib/extraction/extract";
 import { PROMPT_VERSION } from "../prompts/extract";
 
 /**

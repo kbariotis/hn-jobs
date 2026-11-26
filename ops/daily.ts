@@ -1,10 +1,10 @@
 require("dotenv").config();
 
 import fs from "fs/promises";
-import { latestHiringThread, loadThread, toPostings } from "../lib/preprocess";
-import { extractPostings } from "../lib/pipeline";
-import { indexThread } from "../lib/indexer";
-import { closeDb } from "../lib/db";
+import { latestHiringThread, loadThread, toPostings } from "../lib/extraction/hn";
+import { extractPostings } from "../lib/extraction/pipeline";
+import { indexThread } from "../lib/store/indexer";
+import { closeDb } from "../lib/store/db";
 
 /**
  * Daily job: keep the index in sync with the current "Who is hiring?" thread.

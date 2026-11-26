@@ -1,7 +1,7 @@
-import { db, toVector } from "./db";
-import { compatibleRemoteRegions, countriesIn } from "./geo";
+import { db, toVector } from "../store/db";
+import { compatibleRemoteRegions, countriesIn } from "../geo";
 import { parseQuery, type Filters } from "./query-parse";
-import { embedModelId, getEmbeddings } from "../models/embeddings";
+import { embedModelId, getEmbeddings } from "../../models/embeddings";
 
 export type Strategy = "vector" | "filtered";
 export type Hit = { role_id: string; posting_id: number; role_title: string | null; company_name: string | null; distance: number };

@@ -1,15 +1,15 @@
 require("dotenv").config();
 
 import fs from "fs/promises";
-import { db, closeDb } from "../lib/db";
-import { extractedPath, readExtractions } from "../lib/extract";
-import { goldPath, type GoldFile } from "../lib/gold";
-import { loadThread, toPostings } from "../lib/preprocess";
-import { alignRoles } from "../lib/score";
+import { db, closeDb } from "../lib/store/db";
+import { extractedPath, readExtractions } from "../lib/extraction/extract";
+import { goldPath, type GoldFile } from "../lib/evals/gold";
+import { loadThread, toPostings } from "../lib/extraction/hn";
+import { alignRoles } from "../lib/evals/score";
 import { canonicalizeRoles } from "../lib/canonical";
-import { search, type Strategy } from "../lib/search";
-import { ndcgAt, precisionAt, rPrecision } from "../lib/ir-metrics";
-import { QUERIES } from "../evals/retrieval-queries";
+import { search, type Strategy } from "../lib/search/search";
+import { ndcgAt, precisionAt, rPrecision } from "../lib/evals/ir-metrics";
+import { QUERIES } from "../lib/evals/retrieval-queries";
 import { extractModelId } from "../models/extract";
 import { embedModelId } from "../models/embeddings";
 import { PROMPT_VERSION } from "../prompts/extract";

@@ -1,8 +1,8 @@
 import fs from "fs/promises";
-import { RateLimiter, isRateLimited } from "./rate";
-import type { Posting } from "./preprocess";
+import { RateLimiter, isRateLimited } from "../util/rate";
+import type { Posting } from "./hn";
 import { buildExtractor, extractPosting, extractedPath, isFresh, readExtractions, type ExtractionRecord } from "./extract";
-import { extractModelId } from "../models/extract";
+import { extractModelId } from "../../models/extract";
 
 export type ExtractSummary = { total: number; skipped: number; ok: number; failed: number; failedIds: number[]; deferred: number };
 

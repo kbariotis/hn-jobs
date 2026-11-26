@@ -1,6 +1,6 @@
-import type { Location, Role } from "./schema";
-import { normalizeUrl } from "./grounding";
-import { canonicalizeRoles } from "./canonical";
+import type { Location, Role } from "../schema";
+import { normalizeUrl } from "../extraction/grounding";
+import { canonicalizeRoles } from "../canonical";
 
 /**
  * Field-level scoring of extracted roles against gold labels.

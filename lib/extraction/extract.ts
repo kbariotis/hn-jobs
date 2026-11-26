@@ -1,14 +1,14 @@
 import { HumanMessage } from "langchain";
 import fs from "fs/promises";
 import { createHash } from "crypto";
-import { Extraction, type Role } from "./schema";
-import { toGeminiSchema } from "./gemini-schema";
+import { Extraction, type Role } from "../schema";
+import { toGeminiSchema } from "../../models/gemini-schema";
 import { groundRoles, type GroundingWarning } from "./grounding";
-import { canonicalizeRoles } from "./canonical";
-import { RateLimiter, withBackoff } from "./rate";
-import type { Posting } from "./preprocess";
-import extractPrompt, { PROMPT_VERSION } from "../prompts/extract";
-import { getExtractModel } from "../models/extract";
+import { canonicalizeRoles } from "../canonical";
+import { RateLimiter, withBackoff } from "../util/rate";
+import type { Posting } from "./hn";
+import extractPrompt, { PROMPT_VERSION } from "../../prompts/extract";
+import { getExtractModel } from "../../models/extract";
 
 export type ExtractionRecord = {
   id: number;

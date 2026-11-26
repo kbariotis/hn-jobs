@@ -3,10 +3,10 @@ require("dotenv").config();
 import http from "http";
 import fs from "fs/promises";
 import path from "path";
-import { TtlCache } from "../lib/cache";
-import { KeyedTokenBucket } from "../lib/rate";
-import { cleanQuery } from "../lib/safe";
-import { currentThreadId, searchJobs, type SearchResponse } from "../lib/search-service";
+import { TtlCache } from "../lib/util/cache";
+import { KeyedTokenBucket } from "../lib/util/rate";
+import { cleanQuery } from "../lib/util/safe";
+import { currentThreadId, searchJobs, type SearchResponse } from "../lib/search/search-service";
 
 /**
  * Public search page + JSON API. Read-only.
