@@ -148,3 +148,19 @@ test("readyz reports each dependency as a boolean, 503 when one is down", async 
     llmKey: false,
   });
 });
+
+test("cache hits don't touch the database: the thread id is cached too", async (t) => {
+  let threadLookups = 0;
+  const s = await start({
+    currentThreadId: async () => {
+      threadLookups++;
+      return 7;
+    },
+  });
+  t.after(s.close);
+  for (const q of ["one", "two", "one", "two"]) {
+    assert.equal((await s.get(`/api/search?q=${q}`)).status, 200);
+  }
+  assert.equal(threadLookups, 1);
+  assert.deepEqual(s.calls, ["one", "two"]); // repeats served from cache, no search backend
+});

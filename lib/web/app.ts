@@ -27,6 +27,11 @@ export type AppDeps = {
   misses: Limiter;
   cache: Cache;
   cacheTtlS?: number;
+  /**
+   * How long the current thread id is cached. Long enough that cache hits never touch the
+   * database (and wake a scale-to-zero Postgres); a new month's thread appears within this.
+   */
+  threadTtlS?: number;
   /** Express "trust proxy": only when a proxy we control sets X-Forwarded-For. */
   trustProxy?: boolean | number;
   publicDir?: string;
@@ -69,6 +74,7 @@ export function createApp({
   misses,
   cache,
   cacheTtlS = 600,
+  threadTtlS = 600,
   trustProxy = false,
   publicDir = path.join(__dirname, "..", "..", "public"),
   log = console.error,
@@ -110,7 +116,7 @@ export function createApp({
       return hit;
     }
     const id = await currentThreadId();
-    await cacheSet("thread:current", id, 60); // a new month's thread shows up within a minute
+    await cacheSet("thread:current", id, threadTtlS);
     return id;
   };
 
