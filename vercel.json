@@ -9,6 +9,10 @@
     {
       "source": "/healthz",
       "destination": "/api"
+    },
+    {
+      "source": "/readyz",
+      "destination": "/api"
     }
   ],
   "headers": [

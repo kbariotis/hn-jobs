@@ -12,7 +12,8 @@ import type { Cache, Limiter } from "./limits";
  * and as a Vercel function. Hosts only choose the dependencies.
  *   GET /                  page (public/)
  *   GET /api/search?q=…    filtered search over the current thread
- *   GET /healthz
+ *   GET /healthz          liveness (no dependencies)
+ *   GET /readyz           readiness: each dependency as a boolean, no LLM calls
  *
  * Order per search: per-client limit → result cache → global cap on cache misses → search.
  * Rejected and cached requests never reach the database or an LLM.
@@ -29,7 +30,11 @@ export type AppDeps = {
   trustProxy?: boolean | number;
   publicDir?: string;
   log?: (e: unknown) => void;
+  /** Dependency checks for /readyz. Must not call an LLM (no cost per probe). */
+  readiness?: Readiness;
 };
+
+export type Readiness = () => Promise<{ database: boolean; cache: boolean; llmKey: boolean }>;
 
 /**
  * No inline script/style, no third-party anything: post content can't execute even if it slips
@@ -60,6 +65,7 @@ export function createApp({
   trustProxy = false,
   publicDir = path.join(__dirname, "..", "..", "public"),
   log = console.error,
+  readiness,
 }: AppDeps) {
   const app = express();
   app.set("trust proxy", trustProxy);
@@ -111,6 +117,25 @@ export function createApp({
 
   app.get("/healthz", (_req, res) => {
     res.set("Cache-Control", "no-store").json({ ok: true });
+  });
+
+  // Booleans only: says which dependency is down, never why (no hosts, errors or env values).
+  // Rate-limited like search, since each probe wakes the database.
+  app.get("/readyz", async (req, res) => {
+    res.set("Cache-Control", "no-store");
+    if (!readiness) {
+      return void res.status(404).json({ error: "Not found" });
+    }
+    const limit = await perClient.take(req.ip ?? "unknown");
+    if (!limit.ok) {
+      res.set("Retry-After", String(limit.retryAfterS));
+      return void res.status(429).json({ error: "Too many requests." });
+    }
+    const r = await readiness();
+    const ready = r.database && r.cache && r.llmKey;
+    res
+      .status(ready ? 200 : 503)
+      .json({ ready, database: r.database, cache: r.cache, llmKey: r.llmKey });
   });
 
   app.get("/api/search", async (req, res) => {

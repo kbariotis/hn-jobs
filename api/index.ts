@@ -1,4 +1,5 @@
-import { createApp } from "../lib/web/app";
+import { createApp, type Readiness } from "../lib/web/app";
+import { db } from "../lib/store/db";
 import { limitsFromEnv } from "../lib/web/limits";
 import { currentThreadId, searchJobs } from "../lib/search/search-service";
 
@@ -16,8 +17,25 @@ import { currentThreadId, searchJobs } from "../lib/search/search-service";
  *   come from vercel.json.
  */
 const SEARCH_CACHE_TTL_S = Number(process.env.SEARCH_CACHE_TTL_S ?? 600);
+const HAS_LLM_KEY = Boolean(process.env.GOOGLE_API_KEY);
 
 const { perClient, misses, cache } = limitsFromEnv();
+
+// Each check is reduced to a boolean; failures are logged server-side only.
+const check = async (name: string, fn: () => Promise<unknown>) => {
+  try {
+    await fn();
+    return true;
+  } catch (err) {
+    console.error(`readiness: ${name} failed:`, err instanceof Error ? err.message : err);
+    return false;
+  }
+};
+const readiness: Readiness = async () => ({
+  database: await check("database", () => db().query("SELECT max(thread_id) FROM roles")),
+  cache: await check("cache", () => cache.get("readyz")),
+  llmKey: HAS_LLM_KEY,
+});
 
 export default createApp({
   perClient,
@@ -27,4 +45,5 @@ export default createApp({
   currentThreadId,
   cacheTtlS: SEARCH_CACHE_TTL_S,
   trustProxy: 1,
+  readiness,
 });
