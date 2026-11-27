@@ -5,7 +5,7 @@ Natural-language search over the monthly Hacker News "Who is hiring?" thread. Ty
 ## Features
 
 - **Search page**: one input, natural-language query, results with filter chips (`npm run serve`)
-- **Daily sync**: picks up the newest thread and extracts only new or edited postings (`npm run daily`)
+- **Daily sync**: picks up the newest thread and extracts only new or edited postings, all through Postgres (`npm run daily`)
 - **Structured extraction**: Gemini Flash turns each HN post into roles (company, title, remote policy, regions, locations, seniority, tech, salary…) per [LABELING.md](LABELING.md)
 - **Filtered semantic search**: an LLM turns the query into hard filters (remote, region, stack, level, salary) applied in SQL, then ranks matches by embedding similarity
 - **Postgres + pgvector**: one store for roles, filterable fields and vectors
@@ -14,17 +14,19 @@ Natural-language search over the monthly Hacker News "Who is hiring?" thread. Ty
 ## Architecture
 
 ```
-HN Algolia API ──► data/threads/<id>.json (snapshot)
-                        │ npm run extract   (Gemini Flash, cached JSONL per prompt version)
-                        ▼
-                 data/extracted/*.jsonl
-                        │ npm run index     (upsert roles, embed changed docs)
-                        ▼
+Runtime (npm run daily, lib/ingest)        Local / evals (npm run extract + index)
+HN API ──► extractions table               data/threads/<id>.json ──► data/extracted/*.jsonl
+                 │                                          │
+                 └──── same extraction + indexing code ─────┘
+                                  ▼
           Postgres: roles (fields + tsvector) + role_embeddings (per embedding model)
-                        │ lib/search/       (LLM query → SQL filters → vector ranking)
-                        ▼
-               ops/serve.ts ──► public/ search page
+                                  │ lib/search/   (LLM query → SQL filters → vector ranking)
+                                  ▼
+            lib/web/app.ts (Express) ──► public/ search page
 ```
+
+The runtime never touches disk, and the evals never touch the runtime's data: they share code,
+not storage.
 
 Layout:
 
@@ -33,6 +35,9 @@ lib/            schema.ts, canonical.ts, geo.ts   shared domain: role schema, no
   extraction/   hn (fetch + clean thread), extract, grounding, pipeline
   store/        db, role-doc, indexer             write side: roles + embeddings in Postgres
   search/       query-parse, search, search-service   read side
+  ingest/       run: the runtime sync (lease, extract into Postgres, index, run history)
+  web/          app (Express, host-agnostic), limits (Upstash or in-memory)
+server.ts       Vercel entry point (default-exports the app)
   evals/        gold, score, gate, ir-metrics, retrieval-queries
   util/         rate (limiter, backoff, token bucket), cache, safe (untrusted input)
 models/         model factories + Gemini schema adapter
@@ -60,11 +65,33 @@ npm run migrate
 ## Usage
 
 ```bash
-npm run daily                        # latest thread: refresh, extract new/edited posts, index (idempotent)
-npm run serve                        # search page on 127.0.0.1:3000
+npm run daily                        # latest thread → extractions table → index (idempotent)
+npm run serve                        # search page on 127.0.0.1:3000 (Upstash limits if configured)
 npm run extract -- --concurrency 8   # (manual) extract the thread in THREAD_ID
 npm run index                        # (manual) load roles into Postgres and embed them
 ```
+
+## Deploy
+
+Migrations run as a deploy step, never when the server starts (serverless instances start
+concurrently, the server's DB user should be read-only, and a bad migration should fail the
+deploy rather than the live site). Concurrent runs are serialized by a Postgres advisory lock.
+
+- **Vercel:** `vercel-build` runs `npm run migrate -- --deploy`. Production deploys migrate.
+  Preview deploys migrate only with `PREVIEW_DB_IS_BRANCH=1`, set once the Neon–Vercel
+  integration gives each preview its own database branch; otherwise they skip, so a pull
+  request can't touch the production schema.
+- **VPS:** run `npm run migrate` in the deploy script before restarting the app.
+
+Vercel entry point: [`server.ts`](server.ts) default-exports the same Express app `ops/serve.ts`
+runs locally. On Vercel, `public/` is served by the CDN (Express never sees those requests), so
+the page's security headers live in [`vercel.json`](vercel.json); a test keeps them identical
+to what Express sends. Required env: Neon (`DATABASE_URL`, `DATABASE_URL_UNPOOLED`), Redis
+REST (`REDIS_KV_REST_API_URL` + `_TOKEN`), `GOOGLE_API_KEY`, `EXTRACT_MODEL`, `EMBED_MODEL`.
+Until the ingest workflow exists, refresh data with `npm run daily` against Neon.
+
+- **Connection:** `MIGRATE_DATABASE_URL`, else `DATABASE_URL_UNPOOLED` (set by the Neon
+  integration), else `DATABASE_URL`. It must be a direct (unpooled) connection.
 
 ## Evals
 

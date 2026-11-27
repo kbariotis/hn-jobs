@@ -10,6 +10,7 @@ import { canonicalizeRoles } from "../lib/canonical";
 import { search, type Strategy } from "../lib/search/search";
 import { ndcgAt, precisionAt, rPrecision } from "../lib/evals/ir-metrics";
 import { QUERIES } from "../lib/evals/retrieval-queries";
+import { cachedQueryEmbeddings } from "../lib/evals/query-embeddings";
 import { extractModelId } from "../models/extract";
 import { embedModelId } from "../models/embeddings";
 import { PROMPT_VERSION } from "../prompts/extract";
@@ -122,6 +123,14 @@ async function main() {
       `${stale.length} relevant roles are not indexed (e.g. ${stale.slice(0, 3).join(", ")}). Run \`npm run index -- --thread ${threadId}\`.`,
     );
   }
+  // Cached per embedding model: after the first run the eval makes no embedding calls.
+  const { vectors, embedded } = await cachedQueryEmbeddings(
+    sets.map((s) => s.q.query),
+    embedModel,
+  );
+  if (embedded) {
+    console.log(`Embedded ${embedded} new queries with ${embedModel} (cached for next runs)`);
+  }
   const results: Record<string, Record<string, QueryResult>> = {};
   for (const strategy of strategies) {
     results[strategy] = {};
@@ -131,6 +140,7 @@ async function main() {
         strategy,
         threadId,
         embedModel,
+        queryVector: vectors.get(q.query),
         k: Math.max(10, total),
       });
       const ranked = hits.map((h) => h.role_id);

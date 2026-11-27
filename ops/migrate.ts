@@ -1,48 +1,28 @@
 import "dotenv/config";
 
-import fs from "fs/promises";
-import path from "path";
-import { db, closeDb } from "../lib/store/db";
+import { deployTarget, migrationUrl, runMigrations } from "../lib/store/migrate";
 
-// Applies db/migrations/*.sql in filename order, each once, each in its own transaction.
-// Usage: npm run migrate
-const DIR = path.join(__dirname, "..", "db", "migrations");
-
+// Usage: npm run migrate             local, VPS deploy script
+//        npm run migrate -- --deploy  Vercel build (skips previews without their own DB branch)
 async function main() {
-  const pool = db();
-  await pool.query(
-    "CREATE TABLE IF NOT EXISTS schema_migrations (name text PRIMARY KEY, applied_at timestamptz NOT NULL DEFAULT now())",
-  );
-  const applied = new Set(
-    (await pool.query<{ name: string }>("SELECT name FROM schema_migrations")).rows.map(
-      (r) => r.name,
-    ),
-  );
-  const files = (await fs.readdir(DIR)).filter((f) => f.endsWith(".sql")).sort();
-
-  for (const name of files.filter((f) => !applied.has(f))) {
-    const client = await pool.connect();
-    try {
-      await client.query("BEGIN");
-      await client.query(await fs.readFile(path.join(DIR, name), "utf8"));
-      await client.query("INSERT INTO schema_migrations (name) VALUES ($1)", [name]);
-      await client.query("COMMIT");
-      console.log(`✓ ${name}`);
-    } catch (e) {
-      await client.query("ROLLBACK");
-      throw new Error(`Migration ${name} failed: ${e instanceof Error ? e.message : e}`, {
-        cause: e,
-      });
-    } finally {
-      client.release();
+  if (process.argv.includes("--deploy")) {
+    const { migrate, reason } = deployTarget();
+    if (!migrate) {
+      console.warn(`⚠ Skipping migrations: ${reason}`);
+      return;
     }
+    console.log(`Migrating: ${reason}`);
   }
-  console.log(`Migrations up to date (${files.length}).`);
+  const url = migrationUrl();
+  if (!url) {
+    throw new Error(
+      "No database URL (MIGRATE_DATABASE_URL / DATABASE_URL_UNPOOLED / DATABASE_URL).",
+    );
+  }
+  await runMigrations(url);
 }
 
-main()
-  .catch((e) => {
-    console.error(e);
-    process.exitCode = 1;
-  })
-  .finally(closeDb);
+main().catch((e) => {
+  console.error(e);
+  process.exitCode = 1;
+});

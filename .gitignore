@@ -1,12 +1,14 @@
 node_modules/
 
 .env
+# Pulled/hosted credentials (vercel env pull writes .env.local / .env.*.local)
+.env*.local
 
 # Generated: regenerate with npm run extract / npm run eval:extract
 data/extracted/
 # directory contents (not the dir) so the committed baseline can be re-included
 data/evals/*
 !data/evals/baseline.*.json
+# Cached eval query embeddings (per model): commit them so CI needs no embedding quota
+!data/evals/query-embeddings.*.json
 
-# Daily job lock (local runtime state)
-data/.daily.lock

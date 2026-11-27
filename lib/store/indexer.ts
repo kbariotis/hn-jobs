@@ -1,9 +1,8 @@
 import { createHash } from "crypto";
 import type { PoolClient } from "pg";
 import { db, toVector } from "./db";
-import { extractedPath, readExtractions, type ExtractionRecord } from "../extraction/extract";
+import type { ExtractionRecord } from "../extraction/extract";
 import { roleDoc } from "./role-doc";
-import { extractModelId } from "../../models/extract";
 import { embedModelId, getEmbeddings } from "../../models/embeddings";
 import { PROMPT_VERSION } from "../../prompts/extract";
 
@@ -80,27 +79,29 @@ async function upsertPosting(client: PoolClient, rec: ExtractionRecord) {
 }
 
 /**
- * Load a thread's extractions into Postgres and embed new/changed role docs. Idempotent:
- * upserts rows, drops roles a posting no longer has, skips embeddings whose doc is unchanged.
+ * Load a thread's extractions (from any store) into Postgres and embed new/changed role docs.
+ * Idempotent: upserts rows, drops roles a posting no longer has, skips embeddings whose doc is
+ * unchanged.
  * `livePostingIds`: postings currently in the thread; anything else indexed for it (deleted
  * comments) is removed.
  */
 export async function indexThread(
   threadId: string | number,
+  all: ExtractionRecord[],
   {
     embedModel = embedModelId(),
     livePostingIds,
     log = console.log,
   }: { embedModel?: string; livePostingIds?: number[]; log?: (m: string) => void } = {},
 ): Promise<IndexSummary> {
-  const path = extractedPath(threadId, extractModelId());
-  const all = await readExtractions(path);
   const live = livePostingIds ? new Set(livePostingIds) : null;
   const records = all.filter(
     (r) => !r.error && r.prompt_version === PROMPT_VERSION && (!live || live.has(r.id)),
   );
   if (records.length === 0) {
-    throw new Error(`No v${PROMPT_VERSION} extractions at ${path}. Run \`npm run extract\` first.`);
+    throw new Error(
+      `No v${PROMPT_VERSION} extractions for thread ${threadId}. Run \`npm run extract\` first.`,
+    );
   }
 
   const pool = db();

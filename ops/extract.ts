@@ -1,7 +1,7 @@
 import "dotenv/config";
 
 import { loadThread, toPostings } from "../lib/extraction/hn";
-import { extractPostings } from "../lib/extraction/pipeline";
+import { extractToFile } from "../lib/extraction/pipeline";
 
 // Usage: npm run extract -- [--thread 46108941] [--limit 20 | --ids 1,2,3] [--refresh]
 //                           [--concurrency 4] [--rpm 60]
@@ -27,7 +27,7 @@ async function main() {
   }
   const postings = ids ? all.filter((p) => ids.includes(p.id)) : all.slice(0, limit);
 
-  const s = await extractPostings(threadId, postings, {
+  const s = await extractToFile(threadId, postings, {
     concurrency: Number(arg("concurrency") ?? process.env.EXTRACT_CONCURRENCY ?? 1),
     rpm: Number(arg("rpm") ?? process.env.EXTRACT_RPM ?? 60),
   });

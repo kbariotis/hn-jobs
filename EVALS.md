@@ -33,16 +33,17 @@ Everything is keyed by the HN thread id (one thread per month). Both evals defau
 
 ## The `data/` folder
 
-| Path                                 | In git | What it is                                                                                                                                                           |
-| ------------------------------------ | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `threads/<id>.json`                  | yes\*  | Frozen snapshot of the thread from the HN API, so evals always see the same text. \*The live thread is not committed: the daily job rewrites it.                     |
-| `gold/extract.<id>.json`             | yes    | Human labels: the roles each posting _should_ produce. Each entry stores the text it was labelled against, so edits to the post are detected.                        |
-| `evals/baseline.<id>.json`           | yes    | Extraction gate baseline: the list of known, accepted errors.                                                                                                        |
-| `evals/baseline.retrieval.<id>.json` | yes    | Retrieval gate baseline: accepted nDCG@10 per query and strategy.                                                                                                    |
-| `extracted/<id>.<model>.jsonl`       | no     | Model output, one record per posting, with prompt version and a hash of the post text. Expensive to rebuild (Gemini quota); reused until the prompt or post changes. |
-| `evals/extract.<id>.json`            | no     | Full report of the last extraction eval: per-field scores and every mismatch.                                                                                        |
-| `evals/retrieval.<id>.json`          | no     | Full report of the last retrieval eval: per-query scores, parsed filters, top-10 ids.                                                                                |
-| `evals/query-parse-cache.json`       | no     | Cached "query → filters" LLM output, so retrieval runs are repeatable and free. See [Limitations](#limitations).                                                     |
+| Path                                  | In git | What it is                                                                                                                                                                   |
+| ------------------------------------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `threads/<id>.json`                   | yes\*  | Frozen snapshot of the thread from the HN API, so evals always see the same text. \*Live threads aren't committed (the daily job reads HN directly and writes nothing here). |
+| `gold/extract.<id>.json`              | yes    | Human labels: the roles each posting _should_ produce. Each entry stores the text it was labelled against, so edits to the post are detected.                                |
+| `evals/baseline.<id>.json`            | yes    | Extraction gate baseline: the list of known, accepted errors.                                                                                                                |
+| `evals/baseline.retrieval.<id>.json`  | yes    | Retrieval gate baseline: accepted nDCG@10 per query and strategy.                                                                                                            |
+| `extracted/<id>.<model>.jsonl`        | no     | Model output, one record per posting, with prompt version and a hash of the post text. Expensive to rebuild (Gemini quota); reused until the prompt or post changes.         |
+| `evals/extract.<id>.json`             | no     | Full report of the last extraction eval: per-field scores and every mismatch.                                                                                                |
+| `evals/retrieval.<id>.json`           | no     | Full report of the last retrieval eval: per-query scores, parsed filters, top-10 ids.                                                                                        |
+| `evals/query-embeddings.<model>.json` | yes    | Cached query embeddings for the 24 retrieval queries, one file per embedding model, so retrieval runs make no embedding calls.                                               |
+| `evals/query-parse-cache.json`        | no     | Cached "query → filters" LLM output, so retrieval runs are repeatable and free. See [Limitations](#limitations).                                                             |
 
 ---
 
@@ -202,8 +203,9 @@ and rules weren't overfit to December.
    bound; the semantic queries and the reviewed postings are the honest signal.
 2. **The query-parse cache can hide regressions.** It isn't keyed by prompt version, so after
    changing the parsing prompt the eval keeps using old filters until the cache is deleted.
-3. **Every retrieval run calls Gemini** to embed the 24 queries (those aren't cached), so the
-   gate can't run when the API quota is exhausted.
+3. **Query parsing still calls Gemini** for queries missing from `query-parse-cache.json`
+   (query embeddings are cached per model and committed). Commit the parse cache too if CI
+   should run the retrieval gate with no API key.
 4. **The live thread has no quality score.** `npm run daily` reports coverage (share of posts
    extracted, alert below 99%), which says how much was extracted, not how well.
 5. **Small samples.** 41 + 14 reviewed postings and 24 queries catch regressions well, but

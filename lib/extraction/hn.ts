@@ -61,10 +61,13 @@ export function toPostings(thread: Thread): Posting[] {
 
 export const threadPath = (threadId: string | number) => `data/threads/${threadId}.json`;
 
-/** Prefer the committed snapshot so runs/evals are reproducible; fetch + save otherwise. */
+/**
+ * Prefer the committed snapshot so runs/evals are reproducible; fetch + save otherwise.
+ * `save: false` for hosts without a persistent disk (the hosted ingest job): fetch only.
+ */
 export async function loadThread(
   threadId: string | number,
-  { refresh = false } = {},
+  { refresh = false, save = true } = {},
 ): Promise<Thread> {
   const path = threadPath(threadId);
   if (!refresh) {
@@ -82,6 +85,9 @@ export async function loadThread(
     throw new Error(`HN fetch failed: ${res.status} ${res.statusText}`);
   }
   const thread = (await res.json()) as Thread;
+  if (!save) {
+    return thread;
+  }
 
   await fs.mkdir("data/threads", { recursive: true });
   await fs.writeFile(path, JSON.stringify(thread));

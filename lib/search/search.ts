@@ -67,10 +67,12 @@ export async function search(
     threadId?: number;
     embedModel?: string;
     filters?: Filters;
+    /** Precomputed query embedding (must come from `embedModel`); evals pass a cached one. */
+    queryVector?: number[];
   },
 ): Promise<{ hits: Hit[]; filters?: Filters }> {
   const embedModel = opts.embedModel ?? embedModelId();
-  const qvec = await getEmbeddings("query", embedModel).embedQuery(query);
+  const qvec = opts.queryVector ?? (await getEmbeddings("query", embedModel).embedQuery(query));
   const params: unknown[] = [toVector(qvec), embedModel];
   const where = ["e.embed_model = $2"];
   if (opts.threadId !== undefined) {
