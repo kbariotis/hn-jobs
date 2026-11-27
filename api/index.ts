@@ -1,3 +1,6 @@
+import type { IncomingMessage, ServerResponse } from "http";
+// Starts registering OpenTelemetry (Vercel Tracing) as soon as the function loads.
+import { telemetryReady } from "../lib/telemetry/register";
 import { createApp, type Readiness } from "../lib/web/app";
 import { db } from "../lib/store/db";
 import { limitsFromEnv } from "../lib/web/limits";
@@ -46,7 +49,7 @@ const readiness: Readiness = async () => {
   };
 };
 
-export default createApp({
+const app = createApp({
   perClient,
   misses,
   cache,
@@ -56,3 +59,9 @@ export default createApp({
   trustProxy: 1,
   readiness,
 });
+
+// Wait for tracing registration (a few ms, once per cold start) so every request is traced.
+export default async function handler(req: IncomingMessage, res: ServerResponse) {
+  await telemetryReady;
+  return app(req, res);
+}

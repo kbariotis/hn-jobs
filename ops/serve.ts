@@ -1,5 +1,7 @@
 import "dotenv/config";
 
+// Registers OpenTelemetry only if OTEL_EXPORTER_OTLP_ENDPOINT is set (e.g. on a VPS).
+import { telemetryReady } from "../lib/telemetry/register";
 import { createApp } from "../lib/web/app";
 import { limitsFromEnv } from "../lib/web/limits";
 import { currentThreadId, searchJobs } from "../lib/search/search-service";
@@ -23,8 +25,10 @@ const app = createApp({
   trustProxy: process.env.TRUST_PROXY === "1" ? 1 : false,
 });
 
-const server = app.listen(PORT, HOST, () =>
-  console.log(`Search on http://${HOST}:${PORT} (limits: ${backend})`),
-);
-server.requestTimeout = 30_000;
-server.headersTimeout = 10_000;
+void telemetryReady.then(() => {
+  const server = app.listen(PORT, HOST, () =>
+    console.log(`Search on http://${HOST}:${PORT} (limits: ${backend})`),
+  );
+  server.requestTimeout = 30_000;
+  server.headersTimeout = 10_000;
+});

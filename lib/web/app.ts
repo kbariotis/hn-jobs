@@ -7,6 +7,7 @@ import { isRateLimited } from "../util/rate";
 import type { SearchResponse } from "../search/search-service";
 import type { Cache, Limiter } from "./limits";
 import type { FailureCategory } from "./readiness";
+import { withSpan } from "../telemetry/tracing";
 
 /**
  * Public search page + JSON API, host-agnostic: the same app runs under `node` (local, VPS)
@@ -155,45 +156,62 @@ export function createApp({
     });
   });
 
-  app.get("/api/search", async (req, res) => {
-    res.set("Cache-Control", "no-store");
-    const client = req.ip ?? "unknown";
-    const limit = await perClient.take(client);
-    if (!limit.ok) {
-      res.set("Retry-After", String(limit.retryAfterS));
-      return void res.status(429).json({ error: "Too many searches. Try again shortly." });
-    }
-
-    const q = cleanQuery(typeof req.query.q === "string" ? req.query.q : null);
-    if (!q) {
-      return void res.status(400).json({ error: "Enter a search between 2 and 200 characters." });
-    }
-
-    const thread = await threadId();
-    const key = `search:${thread}:${hash(q.toLowerCase())}`;
-    const cached = await cacheGet<SearchResponse>(key);
-    if (cached) {
-      return void res.set("X-Cache", "hit").json(cached);
-    }
-
-    let pending = inflight.get(key);
-    if (!pending) {
-      // Spend guard: misses are the only requests that cost money.
-      const budget = await misses.take("global");
-      if (!budget.ok) {
-        // Per-minute cap → seconds; daily budget → hours until the window resets.
-        res.set("Retry-After", String(Math.max(30, Math.round(budget.retryAfterS))));
-        return void res.status(503).json({ error: "Search is busy right now. Try again later." });
+  // One span per search with its outcome; no query text or client IP (see lib/telemetry).
+  app.get("/api/search", (req, res) =>
+    withSpan("search.request", {}, async (span) => {
+      res.set("Cache-Control", "no-store");
+      const outcome = (o: string) => span.setAttribute("app.search.outcome", o);
+      const client = req.ip ?? "unknown";
+      const limit = await perClient.take(client);
+      if (!limit.ok) {
+        outcome("rate_limited");
+        res.set("Retry-After", String(limit.retryAfterS));
+        return void res.status(429).json({ error: "Too many searches. Try again shortly." });
       }
-      pending = searchJobs(q, thread).finally(() => inflight.delete(key));
-      inflight.set(key, pending);
-    }
-    const result = await pending;
-    if (!result.degraded) {
-      await cacheSet(key, result, cacheTtlS); // don't pin a fallback answer for the whole TTL
-    }
-    res.set("X-Cache", "miss").json(result);
-  });
+
+      const q = cleanQuery(typeof req.query.q === "string" ? req.query.q : null);
+      if (!q) {
+        outcome("invalid");
+        return void res.status(400).json({ error: "Enter a search between 2 and 200 characters." });
+      }
+      span.setAttribute("app.query.length", q.length);
+
+      const thread = await threadId();
+      const key = `search:${thread}:${hash(q.toLowerCase())}`;
+      const cached = await cacheGet<SearchResponse>(key);
+      if (cached) {
+        outcome("cache_hit");
+        span.setAttribute("app.search.results", cached.results.length);
+        return void res.set("X-Cache", "hit").json(cached);
+      }
+
+      let pending = inflight.get(key);
+      if (!pending) {
+        // Spend guard: misses are the only requests that cost money.
+        const budget = await misses.take("global");
+        if (!budget.ok) {
+          outcome("budget_exceeded");
+          // Per-minute cap → seconds; daily budget → hours until the window resets.
+          res.set("Retry-After", String(Math.max(30, Math.round(budget.retryAfterS))));
+          return void res.status(503).json({ error: "Search is busy right now. Try again later." });
+        }
+        pending = searchJobs(q, thread).finally(() => inflight.delete(key));
+        inflight.set(key, pending);
+      } else {
+        span.setAttribute("app.search.coalesced", true);
+      }
+      const result = await pending;
+      outcome("miss");
+      span.setAttributes({
+        "app.search.results": result.results.length,
+        "app.search.degraded": result.degraded,
+      });
+      if (!result.degraded) {
+        await cacheSet(key, result, cacheTtlS); // don't pin a fallback answer for the whole TTL
+      }
+      res.set("X-Cache", "miss").json(result);
+    }),
+  );
 
   app.use(
     express.static(publicDir, {
