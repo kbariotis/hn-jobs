@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { databaseUrl, directDatabaseUrl } from "./db";
+import { databaseUrl, directDatabaseUrl, strictTls } from "./db";
 
 const parts = { PGUSER: "u", PGPASSWORD: "p@ss/word", PGDATABASE: "neondb" };
 
@@ -16,7 +16,7 @@ test("databaseUrl builds a URL from PG* parts, escaping credentials", () => {
   assert.equal(url.hostname, "ep-x-pooler.neon.tech");
   assert.equal(decodeURIComponent(url.password), "p@ss/word");
   assert.equal(url.pathname, "/neondb");
-  assert.equal(url.searchParams.get("sslmode"), "require");
+  assert.equal(url.searchParams.get("sslmode"), "verify-full");
   assert.equal(databaseUrl({ PGHOST: "h", PGUSER: "u" }), undefined); // incomplete parts
 });
 
@@ -35,4 +35,14 @@ test("NEON_-prefixed names (this project's Neon integration) resolve too", () =>
   assert.equal(directDatabaseUrl(env), "direct");
   // An unprefixed name still wins when both exist.
   assert.equal(databaseUrl({ ...env, DATABASE_URL: "plain" }), "plain");
+});
+
+test("strictTls pins weak sslmodes to verify-full and leaves others alone", () => {
+  const neon = "postgresql://u:p@ep-x.neon.tech/neondb?sslmode=require&channel_binding=require";
+  const out = new URL(strictTls(neon)!);
+  assert.equal(out.searchParams.get("sslmode"), "verify-full");
+  assert.equal(out.searchParams.get("channel_binding"), "require"); // other params kept
+  assert.equal(strictTls("postgres://u:p@127.0.0.1:5433/db"), "postgres://u:p@127.0.0.1:5433/db");
+  assert.equal(strictTls("postgres://h/db?sslmode=disable"), "postgres://h/db?sslmode=disable");
+  assert.equal(databaseUrl({ NEON_DATABASE_URL: neon })?.includes("sslmode=verify-full"), true);
 });
