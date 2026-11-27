@@ -99,6 +99,12 @@ Until the ingest workflow exists, refresh data with `npm run daily` against Neon
 - **Connection:** `MIGRATE_DATABASE_URL`, else `DATABASE_URL_UNPOOLED` (set by the Neon
   integration), else `DATABASE_URL`. It must be a direct (unpooled) connection.
 
+**Spend guards** (Upstash, all instances): per client `SEARCH_RPM` (20/min, burst
+`SEARCH_BURST` 10); across all clients, uncached searches (each = a Gemini parse + embedding)
+are capped at `SEARCH_MISS_RPM` (10/min) and `SEARCH_MISS_PER_DAY` (2000/day). Past a cap,
+new queries get 503 with `Retry-After`; cached ones keep working. Also set a budget alert on
+the Google project behind `GOOGLE_API_KEY`.
+
 **Lockfile:** `package-lock.json` must only reference `registry.npmjs.org` (build hosts can't
 reach a private mirror). If your npm is configured with a private mirror, run
 `npm run lock:normalize` after installing packages; `npm run lint` fails until you do.

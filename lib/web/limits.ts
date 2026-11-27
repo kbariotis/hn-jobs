@@ -51,6 +51,43 @@ export function upstashLimiter(
   };
 }
 
+/** Fixed daily budget per key (resets every 24 h window), e.g. total uncached searches per day. */
+export function upstashDailyLimiter(redis: Redis, perDay: number, prefix: string): Limiter {
+  const rl = new Ratelimit({
+    redis,
+    limiter: Ratelimit.fixedWindow(perDay, "1 d"),
+    prefix: `hnjobs:rl:${prefix}`,
+  });
+  return {
+    take: async (key) => {
+      const r = await rl.limit(key);
+      return { ok: r.success, retryAfterS: Math.max(1, Math.ceil((r.reset - Date.now()) / 1000)) };
+    },
+  };
+}
+
+/** In-memory approximation of a daily budget: a bucket of `perDay` that refills over 24 h. */
+export const memoryDailyLimiter = (perDay: number): Limiter =>
+  memoryLimiter(perDay / (24 * 60), perDay);
+
+/**
+ * Passes only if every limiter passes; stops at the first refusal and reports its retry time.
+ * Order cheapest/most-likely-to-refuse first.
+ */
+export function allOf(...limiters: Limiter[]): Limiter {
+  return {
+    take: async (key) => {
+      for (const l of limiters) {
+        const r = await l.take(key);
+        if (!r.ok) {
+          return r;
+        }
+      }
+      return { ok: true, retryAfterS: 0 };
+    },
+  };
+}
+
 export function upstashCache(redis: Redis): Cache {
   return {
     get: async <T>(key: string) => (await redis.get<T>(`hnjobs:c:${key}`)) ?? undefined,
@@ -81,18 +118,29 @@ export type Limits = { perClient: Limiter; misses: Limiter; cache: Cache; backen
 /**
  * Upstash when Redis REST credentials are set (see redisRestEnv), memory otherwise. On a
  * serverless host memory limits would silently not work, so there it's an error, not a fallback.
+ *
+ * `misses` guards spend (each cache miss = a Gemini parse + embedding, from any number of IPs):
+ * SEARCH_MISS_RPM per minute AND SEARCH_MISS_PER_DAY per day, across all clients.
  */
 export function limitsFromEnv(env = process.env): Limits {
-  const num = (name: string, dflt: number) => Number(env[name] ?? dflt);
+  // Positive numbers only: a typo must not disable a limit (NaN) or set it to zero.
+  const num = (name: string, dflt: number) => {
+    const v = Number(env[name]);
+    return Number.isFinite(v) && v > 0 ? v : dflt;
+  };
   const rpm = num("SEARCH_RPM", 20);
   const burst = num("SEARCH_BURST", 10);
-  const missRpm = num("SEARCH_MISS_RPM", 60);
+  const missRpm = num("SEARCH_MISS_RPM", 10);
+  const missPerDay = num("SEARCH_MISS_PER_DAY", 2000);
   const rest = redisRestEnv(env);
   if (rest) {
     const redis = new Redis(rest);
     return {
       perClient: upstashLimiter(redis, rpm, burst, "client"),
-      misses: upstashLimiter(redis, missRpm, missRpm, "miss"),
+      misses: allOf(
+        upstashLimiter(redis, missRpm, missRpm, "miss"),
+        upstashDailyLimiter(redis, missPerDay, "miss-day"),
+      ),
       cache: upstashCache(redis),
       backend: "upstash",
     };
@@ -104,7 +152,7 @@ export function limitsFromEnv(env = process.env): Limits {
   }
   return {
     perClient: memoryLimiter(rpm, burst),
-    misses: memoryLimiter(missRpm, missRpm),
+    misses: allOf(memoryLimiter(missRpm, missRpm), memoryDailyLimiter(missPerDay)),
     cache: memoryCache(num("SEARCH_CACHE_MAX", 1000)),
     backend: "memory",
   };

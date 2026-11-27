@@ -179,11 +179,11 @@ export function createApp({
     let pending = inflight.get(key);
     if (!pending) {
       // Spend guard: misses are the only requests that cost money.
-      if (!(await misses.take("global")).ok) {
-        res.set("Retry-After", "30");
-        return void res
-          .status(503)
-          .json({ error: "Search is busy right now. Try again in a minute." });
+      const budget = await misses.take("global");
+      if (!budget.ok) {
+        // Per-minute cap → seconds; daily budget → hours until the window resets.
+        res.set("Retry-After", String(Math.max(30, Math.round(budget.retryAfterS))));
+        return void res.status(503).json({ error: "Search is busy right now. Try again later." });
       }
       pending = searchJobs(q, thread).finally(() => inflight.delete(key));
       inflight.set(key, pending);

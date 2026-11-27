@@ -164,3 +164,13 @@ test("cache hits don't touch the database: the thread id is cached too", async (
   assert.equal(threadLookups, 1);
   assert.deepEqual(s.calls, ["one", "two"]); // repeats served from cache, no search backend
 });
+
+test("an exhausted daily budget returns 503 with a long Retry-After", async (t) => {
+  const s = await start({
+    misses: { take: async () => ({ ok: false, retryAfterS: 7200 }) },
+  });
+  t.after(s.close);
+  const r = await s.get("/api/search?q=hello");
+  assert.equal(r.status, 503);
+  assert.equal(r.headers.get("retry-after"), "7200");
+});
