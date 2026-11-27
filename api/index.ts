@@ -1,3 +1,5 @@
+// Must load before the app: registers OpenTelemetry (Vercel Tracing) for this function.
+import "../lib/telemetry/register";
 import { createApp, type Readiness } from "../lib/web/app";
 import { db } from "../lib/store/db";
 import { limitsFromEnv } from "../lib/web/limits";

@@ -2,6 +2,7 @@ import { db, toVector } from "../store/db";
 import { compatibleRemoteRegions, countriesIn } from "../geo";
 import { parseQuery, type Filters } from "./query-parse";
 import { embedModelId, getEmbeddings } from "../../models/embeddings";
+import { withSpan } from "../telemetry/tracing";
 
 export type Strategy = "vector" | "filtered";
 export type Hit = {
@@ -72,7 +73,11 @@ export async function search(
   },
 ): Promise<{ hits: Hit[]; filters?: Filters }> {
   const embedModel = opts.embedModel ?? embedModelId();
-  const qvec = opts.queryVector ?? (await getEmbeddings("query", embedModel).embedQuery(query));
+  const qvec =
+    opts.queryVector ??
+    (await withSpan("search.embed_query", { "app.embed_model": embedModel }, () =>
+      getEmbeddings("query", embedModel).embedQuery(query),
+    ));
   const params: unknown[] = [toVector(qvec), embedModel];
   const where = ["e.embed_model = $2"];
   if (opts.threadId !== undefined) {
@@ -86,12 +91,17 @@ export async function search(
     where.push(...filterSql(filters, params));
   }
   const limit = `$${params.push(opts.k ?? 10)}`;
-  const { rows } = await db().query<Hit>(
-    `SELECT r.role_id, r.posting_id, r.role_title, r.company_name, e.embedding <=> $1::vector AS distance
+  const { rows } = await withSpan(
+    "db.vector_search",
+    { "app.strategy": opts.strategy, "app.sql.conditions": where.length },
+    () =>
+      db().query<Hit>(
+        `SELECT r.role_id, r.posting_id, r.role_title, r.company_name, e.embedding <=> $1::vector AS distance
      FROM roles r JOIN role_embeddings e ON e.role_id = r.role_id
      WHERE ${where.join(" AND ")}
      ORDER BY distance LIMIT ${limit}`,
-    params,
+        params,
+      ),
   );
   return { hits: rows.map((r) => ({ ...r, posting_id: Number(r.posting_id) })), filters };
 }
