@@ -5,11 +5,11 @@ import { Client } from "pg";
 /**
  * Applies db/migrations/*.sql in filename order, each once, each in its own transaction.
  *
- * CLI: ops/migrate.ts (`npm run migrate`, and `-- --deploy` in the Vercel build).
+ * CLI: ops/migrate.ts (`npm run migrate`; `-- --deploy` adds the Vercel env guard for CI).
  *
- * Runs as a deploy step, never at server start: serverless instances start concurrently, the
- * server's DB user is read-only, and a failed migration should fail the deploy while the old
- * version keeps serving.
+ * Runs as an explicit pre-deploy step, never at server start: serverless instances start
+ * concurrently, the server's DB user is read-only, and a failed migration should stop the deploy
+ * while the old version keeps serving.
  *
  * Connection: MIGRATE_DATABASE_URL, else DATABASE_URL_UNPOOLED (set by the Neon–Vercel
  * integration), else DATABASE_URL. It must be a direct connection: the advisory lock below is

@@ -10,7 +10,7 @@
     "daily:prod": "node dist/ops/daily.js",
     "db:up": "docker compose up -d --wait db",
     "migrate": "ts-node ops/migrate.ts",
-    "vercel-build": "npm run build && node dist/ops/migrate.js --deploy",
+    "vercel-build": "npm run build",
     "index": "ts-node ops/indexing.ts",
     "import-extractions": "ts-node ops/import-extractions.ts",
     "daily": "ts-node ops/daily.ts",

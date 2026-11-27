@@ -73,14 +73,17 @@ npm run index                        # (manual) load roles into Postgres and emb
 
 ## Deploy
 
-Migrations run as a deploy step, never when the server starts (serverless instances start
-concurrently, the server's DB user should be read-only, and a bad migration should fail the
-deploy rather than the live site). Concurrent runs are serialized by a Postgres advisory lock.
+Migrations run as an explicit step before a deploy, never when the server starts (serverless
+instances start concurrently, the server's DB user should be read-only, and a bad migration
+should stop the deploy rather than break the live site). Concurrent runs are serialized by a
+Postgres advisory lock. Keep changes expand → migrate → contract: old code must keep working
+against the new schema while a deploy rolls out.
 
-- **Vercel:** `vercel-build` compiles (`npm run build`) and runs the compiled migrate with `--deploy`. Production deploys migrate.
-  Preview deploys migrate only with `PREVIEW_DB_IS_BRANCH=1`, set once the Neon–Vercel
-  integration gives each preview its own database branch; otherwise they skip, so a pull
-  request can't touch the production schema.
+- **Vercel:** run `npm run migrate:prod` (or `npm run migrate`) against Neon first, then push.
+  `vercel-build` only compiles (`npm run build`, so type errors fail the deploy); it does not
+  migrate, which keeps owner DB credentials out of builds and previews off the schema.
+  `npm run migrate -- --deploy` still applies the production/preview guard if a CI job runs
+  migrations later.
 - **VPS:** `npm ci && npm run build`, then `npm run migrate:prod` before restarting
   `npm start` (`npm run daily:prod` from a timer). Production runs compiled JS on plain node;
   ts-node is a dev dependency, used only by the dev scripts.
