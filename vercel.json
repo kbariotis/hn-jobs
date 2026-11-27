@@ -1,6 +1,16 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "regions": ["iad1"],
+  "functions": {
+    "api/ingest.ts": {
+      "maxDuration": 300,
+      "experimentalTriggers": [
+        {
+          "type": "schedule/v1beta"
+        }
+      ]
+    }
+  },
   "rewrites": [
     {
       "source": "/api/(.*)",
@@ -37,5 +47,11 @@
         }
       ]
     }
-  ]
+  ],
+  "schedules": {
+    "ingest": {
+      "schedule": "*/30 * * * *",
+      "function": "api/ingest"
+    }
+  }
 }

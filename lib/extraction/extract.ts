@@ -42,7 +42,11 @@ export async function extractPosting(
   extractor: StructuredModel,
   modelId: string,
   posting: Posting,
-  { timeoutMs = 120_000, limiter }: { timeoutMs?: number; limiter?: RateLimiter } = {},
+  {
+    timeoutMs = 120_000,
+    limiter,
+    retries = 5,
+  }: { timeoutMs?: number; limiter?: RateLimiter; retries?: number } = {},
 ): Promise<ExtractionRecord> {
   const base = {
     id: posting.id,
@@ -65,6 +69,7 @@ export async function extractPosting(
         });
       },
       {
+        retries,
         onRetry: (n, ms) =>
           console.warn(`  ↻ ${posting.id}: rate limited, retry ${n} in ${Math.round(ms / 1000)}s`),
       },

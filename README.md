@@ -94,7 +94,11 @@ Vercel entry point: [`api/index.ts`](api/index.ts) default-exports the same Expr
 the page's security headers live in [`vercel.json`](vercel.json); a test keeps them identical
 to what Express sends. Required env: Neon (`DATABASE_URL`, or `POSTGRES_URL`, or `PGHOST`/`PGUSER`/`PGPASSWORD`/`PGDATABASE`; unpooled variants for migrations, see `lib/store/db.ts`), Redis
 REST (`REDIS_KV_REST_API_URL` + `_TOKEN`), `GOOGLE_API_KEY`, `EXTRACT_MODEL`, `EMBED_MODEL`.
-Until the ingest workflow exists, refresh data with `npm run daily` against Neon.
+Data refresh: a Vercel Schedule (`vercel.json` → `schedules.ingest`, every 30 min) runs
+[`api/ingest.ts`](api/ingest.ts), a private function only the scheduler can invoke. Each run
+is time-boxed (~180 s of extraction, then indexing) and continues where the last one stopped,
+so a new month's backlog clears over a few runs and quiet runs take seconds and skip indexing.
+Runs are recorded in `ingest_runs`. `npm run daily` does the same, unbounded, from a laptop.
 
 - **Connection:** `MIGRATE_DATABASE_URL`, else `DATABASE_URL_UNPOOLED` (set by the Neon
   integration), else `DATABASE_URL`. It must be a direct (unpooled) connection.

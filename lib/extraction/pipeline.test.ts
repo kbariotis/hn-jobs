@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { compact, keepPrevious, planExtraction } from "./pipeline";
+import { compact, extractPostings, keepPrevious, planExtraction } from "./pipeline";
 import { textSha, type ExtractionRecord } from "./extract";
 import { PROMPT_VERSION } from "../../prompts/extract";
 import type { Posting } from "./hn";
@@ -63,4 +63,20 @@ test("compact keeps the last record per id, applying the merge rule", () => {
       [2, null, 9],
     ],
   );
+});
+
+test("a passed deadline starts no extraction: everything is deferred to the next run", async () => {
+  const saved: number[] = [];
+  const summary = await extractPostings(1, [posting(1), posting(2)], {
+    existing: [],
+    save: async (r) => {
+      saved.push(r.id);
+    },
+    modelId: "ollama:offline-test-model", // never called: the deadline stops the loop first
+    deadline: Date.now() - 1,
+    log: () => {},
+  });
+  assert.deepEqual(saved, []);
+  assert.equal(summary.deferred, 2);
+  assert.equal(summary.ok + summary.failed, 0);
 });

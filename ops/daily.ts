@@ -31,7 +31,9 @@ async function main() {
   const { extract: ex, index: idx } = r;
   console.log(
     `✓ ${r.postings} postings | ${ex.ok} extracted, ${ex.skipped} unchanged, ${ex.failed} failed, ${ex.deferred} deferred` +
-      ` | index: ${idx.roles} roles, ${idx.embedded} embedded, ${idx.pruned} pruned` +
+      (idx
+        ? ` | index: ${idx.roles} roles, ${idx.embedded} embedded, ${idx.pruned} pruned`
+        : " | index: unchanged, skipped") +
       ` | coverage ${(r.coverage * 100).toFixed(1)}% | ${r.seconds}s`,
   );
   if (ex.failedIds.length) {

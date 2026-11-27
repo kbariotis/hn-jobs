@@ -158,3 +158,42 @@ export async function indexThread(
     roles: Number(count.roles),
   };
 }
+
+/** Posting ids currently indexed for a thread (to decide whether a run needs to re-index). */
+export async function indexedPostingIds(threadId: number): Promise<Set<number>> {
+  const { rows } = await db().query<{ posting_id: string }>(
+    "SELECT DISTINCT posting_id FROM roles WHERE thread_id = $1",
+    [threadId],
+  );
+  return new Set(rows.map((r) => Number(r.posting_id)));
+}
+
+/**
+ * Whether indexing would change anything: new or changed extractions, a deleted posting still
+ * indexed, or a thread with extractions but nothing indexed yet. Lets quiet scheduled runs skip
+ * the upserts (and most of their database time).
+ */
+export function needsIndex({
+  extracted,
+  indexed,
+  live,
+  hasExtractions,
+}: {
+  extracted: number;
+  indexed: Set<number>;
+  live: Set<number>;
+  hasExtractions: boolean;
+}): boolean {
+  if (extracted > 0) {
+    return true;
+  }
+  if (indexed.size === 0) {
+    return hasExtractions;
+  }
+  for (const id of indexed) {
+    if (!live.has(id)) {
+      return true; // a posting was deleted from the thread: prune it
+    }
+  }
+  return false;
+}

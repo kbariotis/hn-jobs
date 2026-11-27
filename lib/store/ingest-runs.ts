@@ -34,7 +34,8 @@ export async function acquireLease(ttlMs: number, q: Queryable = db()): Promise<
   };
 }
 
-export type RunStatus = "ok" | "low_coverage" | "failed";
+/** partial = a time-boxed run stopped with work left; the next run continues it. */
+export type RunStatus = "ok" | "partial" | "low_coverage" | "failed";
 
 export async function startRun(q: Queryable = db()): Promise<number> {
   const { rows } = await q.query<{ id: string }>(

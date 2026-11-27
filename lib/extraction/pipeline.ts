@@ -50,6 +50,14 @@ export type ExtractOptions = {
   rpm?: number;
   modelId?: string;
   log?: (m: string) => void;
+  /**
+   * Epoch ms after which no new posting is started (time-boxed runs). Unstarted postings count
+   * as `deferred` and are picked up next run, since planExtraction skips finished ones.
+   */
+  deadline?: number;
+  /** Per-call model timeout and 429 retries (defaults suit unbounded CLI runs). */
+  timeoutMs?: number;
+  retries?: number;
 };
 
 /**
@@ -66,6 +74,9 @@ export async function extractPostings(
     rpm = 60,
     modelId = extractModelId(),
     log = console.log,
+    deadline,
+    timeoutMs,
+    retries,
   }: ExtractOptions,
 ): Promise<ExtractSummary> {
   const todo = planExtraction(postings, existing);
@@ -91,8 +102,15 @@ export async function extractPostings(
   let tripped = false;
   const worker = async () => {
     while (next < todo.length && !tripped) {
+      if (deadline !== undefined && Date.now() >= deadline) {
+        return; // time box reached: leave the rest for the next run
+      }
       const posting = todo[next++];
-      const rec: ExtractionRecord = await extractPosting(extractor, modelId, posting, { limiter });
+      const rec: ExtractionRecord = await extractPosting(extractor, modelId, posting, {
+        limiter,
+        timeoutMs,
+        retries,
+      });
       await save(rec);
       if (rec.error) {
         summary.failed++;
