@@ -96,6 +96,10 @@ Until the ingest workflow exists, refresh data with `npm run daily` against Neon
 - **Connection:** `MIGRATE_DATABASE_URL`, else `DATABASE_URL_UNPOOLED` (set by the Neon
   integration), else `DATABASE_URL`. It must be a direct (unpooled) connection.
 
+**Lockfile:** `package-lock.json` must only reference `registry.npmjs.org` (build hosts can't
+reach a private mirror). If your npm is configured with a private mirror, run
+`npm run lock:normalize` after installing packages; `npm run lint` fails until you do.
+
 ## Evals
 
 | What                                       | Command                                                          | Gate                                |

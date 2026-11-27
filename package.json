@@ -22,8 +22,10 @@
     "eval:extract": "ts-node ops/eval-extract.ts",
     "eval:check": "ts-node ops/eval-extract.ts --check",
     "review": "ts-node ops/review-server.ts",
-    "lint": "eslint .",
+    "lint": "eslint . && npm run lock:check",
     "lint:fix": "eslint . --fix",
+    "lock:check": "node scripts/normalize-lockfile.mjs --check",
+    "lock:normalize": "node scripts/normalize-lockfile.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
