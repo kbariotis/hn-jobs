@@ -23,21 +23,29 @@ export type JobResult = {
 };
 export type SearchResponse = {
   query: string;
-  thread_id: number;
+  /** Threads searched, newest first. */
+  thread_ids: number[];
   filters: Filters | null;
   degraded: boolean;
   results: JobResult[];
 };
 
-/** Newest indexed thread = the current month. */
-export async function currentThreadId(): Promise<number> {
-  const { rows } = await db().query<{ id: string | null }>(
-    "SELECT max(thread_id) AS id FROM roles",
+/**
+ * How many monthly threads search covers. Postings stay open for weeks, and a new month's thread
+ * fills up over days while it's being ingested, so the previous month is searched too.
+ */
+export const SEARCH_THREADS = 2;
+
+/** The newest SEARCH_THREADS indexed threads, newest first. */
+export async function currentThreadIds(): Promise<number[]> {
+  const { rows } = await db().query<{ id: string }>(
+    "SELECT DISTINCT thread_id AS id FROM roles ORDER BY thread_id DESC LIMIT $1",
+    [SEARCH_THREADS],
   );
-  if (!rows[0].id) {
+  if (!rows.length) {
     throw new Error("Nothing indexed yet. Run `npm run daily`.");
   }
-  return Number(rows[0].id);
+  return rows.map((r) => Number(r.id));
 }
 
 const fmtSalary = (
@@ -59,7 +67,7 @@ const fmtSalary = (
  */
 export async function searchJobs(
   query: string,
-  { threadId, k = 20 }: { threadId: number; k?: number },
+  { threadIds, k = 20 }: { threadIds: number[]; k?: number },
 ): Promise<SearchResponse> {
   let filters: Filters | null = null;
   let degraded = false;
@@ -72,10 +80,10 @@ export async function searchJobs(
     );
   }
   const { hits } = filters
-    ? await search(query, { strategy: "filtered", threadId, k, filters })
-    : await search(query, { strategy: "vector", threadId, k });
+    ? await search(query, { strategy: "filtered", threadIds, k, filters })
+    : await search(query, { strategy: "vector", threadIds, k });
   if (hits.length === 0) {
-    return { query, thread_id: threadId, filters, degraded, results: [] };
+    return { query, thread_ids: threadIds, filters, degraded, results: [] };
   }
 
   const { rows } = await withSpan("db.hydrate_roles", { "app.hits": hits.length }, () =>
@@ -114,5 +122,5 @@ export async function searchJobs(
       },
     ];
   });
-  return { query, thread_id: threadId, filters, degraded, results };
+  return { query, thread_ids: threadIds, filters, degraded, results };
 }

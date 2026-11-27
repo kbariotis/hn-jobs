@@ -5,7 +5,7 @@ import { createApp, type Readiness } from "../lib/web/app";
 import { db } from "../lib/store/db";
 import { limitsFromEnv } from "../lib/web/limits";
 import { failureCategory, type FailureCategory } from "../lib/web/readiness";
-import { currentThreadId, searchJobs } from "../lib/search/search-service";
+import { currentThreadIds, searchJobs } from "../lib/search/search-service";
 
 /**
  * Vercel Function: the whole Express app as one function. A plain `api/` function is built
@@ -53,8 +53,8 @@ const app = createApp({
   perClient,
   misses,
   cache,
-  searchJobs: (q, threadId) => searchJobs(q, { threadId }),
-  currentThreadId,
+  searchJobs: (q, threadIds) => searchJobs(q, { threadIds }),
+  currentThreadIds,
   cacheTtlS: SEARCH_CACHE_TTL_S,
   trustProxy: 1,
   readiness,

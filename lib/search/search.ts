@@ -10,8 +10,33 @@ export type Hit = {
   posting_id: number;
   role_title: string | null;
   company_name: string | null;
+  thread_id: number;
   distance: number;
 };
+
+const norm = (s: string) => s.toLowerCase().replace(/\s+/g, " ").trim();
+// Unknown company or title: never treated as a repost.
+const repostKey = (h: Hit) =>
+  h.company_name && h.role_title ? `${norm(h.company_name)}|${norm(h.role_title)}` : null;
+
+/**
+ * Companies repost the same role every month. When a role (same company and title) appears in
+ * several threads, keep only the newest thread's hits. Hits from the same thread are never merged:
+ * one posting can list the same title for different offices. Keeps the distance order.
+ */
+export function dropReposts(hits: Hit[]): Hit[] {
+  const newest = new Map<string, number>();
+  for (const h of hits) {
+    const key = repostKey(h);
+    if (key) {
+      newest.set(key, Math.max(newest.get(key) ?? 0, h.thread_id));
+    }
+  }
+  return hits.filter((h) => {
+    const key = repostKey(h);
+    return !key || h.thread_id === newest.get(key);
+  });
+}
 
 /**
  * Filters -> parameterized SQL. Every value goes through `p()`; nothing user-supplied is
@@ -65,7 +90,8 @@ export async function search(
   opts: {
     strategy: Strategy;
     k?: number;
-    threadId?: number;
+    /** Threads to search; when several, reposted roles keep only the newest copy. */
+    threadIds?: number[];
     embedModel?: string;
     filters?: Filters;
     /** Precomputed query embedding (must come from `embedModel`); evals pass a cached one. */
@@ -80,9 +106,12 @@ export async function search(
     ));
   const params: unknown[] = [toVector(qvec), embedModel];
   const where = ["e.embed_model = $2"];
-  if (opts.threadId !== undefined) {
-    where.push(`r.thread_id = $${params.push(opts.threadId)}`);
+  if (opts.threadIds !== undefined) {
+    where.push(`r.thread_id = ANY($${params.push(opts.threadIds)}::bigint[])`);
   }
+  const k = opts.k ?? 10;
+  // Over-fetch across threads so dropping older reposts still leaves k hits.
+  const multiThread = (opts.threadIds?.length ?? 0) > 1;
 
   let filters: Filters | undefined;
   if (opts.strategy === "filtered") {
@@ -90,18 +119,23 @@ export async function search(
     filters = opts.filters ?? (await parseQuery(query));
     where.push(...filterSql(filters, params));
   }
-  const limit = `$${params.push(opts.k ?? 10)}`;
+  const limit = `$${params.push(multiThread ? k * 2 : k)}`;
   const { rows } = await withSpan(
     "db.vector_search",
     { "app.strategy": opts.strategy, "app.sql.conditions": where.length },
     () =>
       db().query<Hit>(
-        `SELECT r.role_id, r.posting_id, r.role_title, r.company_name, e.embedding <=> $1::vector AS distance
+        `SELECT r.role_id, r.posting_id, r.role_title, r.company_name, r.thread_id, e.embedding <=> $1::vector AS distance
      FROM roles r JOIN role_embeddings e ON e.role_id = r.role_id
      WHERE ${where.join(" AND ")}
      ORDER BY distance LIMIT ${limit}`,
         params,
       ),
   );
-  return { hits: rows.map((r) => ({ ...r, posting_id: Number(r.posting_id) })), filters };
+  const hits = rows.map((r) => ({
+    ...r,
+    posting_id: Number(r.posting_id),
+    thread_id: Number(r.thread_id),
+  }));
+  return { hits: multiThread ? dropReposts(hits).slice(0, k) : hits, filters };
 }

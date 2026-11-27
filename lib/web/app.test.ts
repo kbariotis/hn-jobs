@@ -9,7 +9,7 @@ import type { SearchResponse } from "../search/search-service";
 
 const response = (query: string, degraded = false): SearchResponse => ({
   query,
-  thread_id: 7,
+  thread_ids: [7, 6],
   filters: null,
   degraded,
   results: [],
@@ -23,7 +23,7 @@ async function start(over: Partial<AppDeps> = {}) {
       calls.push(q);
       return response(q);
     },
-    currentThreadId: async () => 7,
+    currentThreadIds: async () => [7, 6],
     perClient: memoryLimiter(60, 100),
     misses: memoryLimiter(60, 100),
     cache: memoryCache(),
@@ -152,9 +152,9 @@ test("readyz reports each dependency as a boolean, 503 when one is down", async 
 test("cache hits don't touch the database: the thread id is cached too", async (t) => {
   let threadLookups = 0;
   const s = await start({
-    currentThreadId: async () => {
+    currentThreadIds: async () => {
       threadLookups++;
-      return 7;
+      return [7, 6];
     },
   });
   t.after(s.close);

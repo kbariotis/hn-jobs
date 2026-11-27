@@ -130,7 +130,7 @@
       renderFilters(body.filters, body.degraded);
       status.textContent = body.results.length
         ? `${body.results.length} roles`
-        : "No matching roles this month. Try loosening a constraint.";
+        : "No matching roles in the last two months. Try loosening a constraint.";
       results.replaceChildren(...body.results.map(renderResult));
     } catch {
       status.textContent = "Network error. Please try again.";

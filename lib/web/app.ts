@@ -21,8 +21,8 @@ import { withSpan } from "../telemetry/tracing";
  * Rejected and cached requests never reach the database or an LLM.
  */
 export type AppDeps = {
-  searchJobs: (q: string, threadId: number) => Promise<SearchResponse>;
-  currentThreadId: () => Promise<number>;
+  searchJobs: (q: string, threadIds: number[]) => Promise<SearchResponse>;
+  currentThreadIds: () => Promise<number[]>;
   perClient: Limiter;
   /** Global cap on cache misses: each miss costs an LLM parse + an embedding. */
   misses: Limiter;
@@ -70,7 +70,7 @@ const hash = (s: string) => createHash("sha256").update(s).digest("hex").slice(0
 
 export function createApp({
   searchJobs,
-  currentThreadId,
+  currentThreadIds,
   perClient,
   misses,
   cache,
@@ -111,14 +111,14 @@ export function createApp({
     }
   };
 
-  const threadId = async () => {
-    const hit = await cacheGet<number>("thread:current");
+  const threadIds = async () => {
+    const hit = await cacheGet<number[]>("threads:current");
     if (hit !== undefined) {
       return hit;
     }
-    const id = await currentThreadId();
-    await cacheSet("thread:current", id, threadTtlS);
-    return id;
+    const ids = await currentThreadIds();
+    await cacheSet("threads:current", ids, threadTtlS);
+    return ids;
   };
 
   app.use((req, res, next) => {
@@ -176,8 +176,8 @@ export function createApp({
       }
       span.setAttribute("app.query.length", q.length);
 
-      const thread = await threadId();
-      const key = `search:${thread}:${hash(q.toLowerCase())}`;
+      const threads = await threadIds();
+      const key = `search:${threads.join("-")}:${hash(q.toLowerCase())}`;
       const cached = await cacheGet<SearchResponse>(key);
       if (cached) {
         outcome("cache_hit");
@@ -195,7 +195,7 @@ export function createApp({
           res.set("Retry-After", String(Math.max(30, Math.round(budget.retryAfterS))));
           return void res.status(503).json({ error: "Search is busy right now. Try again later." });
         }
-        pending = searchJobs(q, thread).finally(() => inflight.delete(key));
+        pending = searchJobs(q, threads).finally(() => inflight.delete(key));
         inflight.set(key, pending);
       } else {
         span.setAttribute("app.search.coalesced", true);

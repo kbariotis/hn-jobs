@@ -4,7 +4,7 @@ import "dotenv/config";
 import { telemetryReady } from "../lib/telemetry/register";
 import { createApp } from "../lib/web/app";
 import { limitsFromEnv } from "../lib/web/limits";
-import { currentThreadId, searchJobs } from "../lib/search/search-service";
+import { currentThreadIds, searchJobs } from "../lib/search/search-service";
 
 /**
  * Search server on plain Node (local dev, or a VPS behind a reverse proxy). See lib/web/app.ts.
@@ -19,8 +19,8 @@ const PORT = Number(process.env.PORT ?? 3000);
 const { backend, ...limits } = limitsFromEnv();
 const app = createApp({
   ...limits,
-  searchJobs: (q, threadId) => searchJobs(q, { threadId }),
-  currentThreadId,
+  searchJobs: (q, threadIds) => searchJobs(q, { threadIds }),
+  currentThreadIds,
   cacheTtlS: Number(process.env.SEARCH_CACHE_TTL_S ?? 600),
   trustProxy: process.env.TRUST_PROXY === "1" ? 1 : false,
 });

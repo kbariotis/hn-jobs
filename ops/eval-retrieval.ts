@@ -138,7 +138,7 @@ async function main() {
       const total = relevant.size + unretrievable;
       const { hits, filters } = await search(q.query, {
         strategy,
-        threadId,
+        threadIds: [threadId],
         embedModel,
         queryVector: vectors.get(q.query),
         k: Math.max(10, total),
