@@ -1,6 +1,7 @@
 import { createApp, type Readiness } from "../lib/web/app";
 import { db } from "../lib/store/db";
 import { limitsFromEnv } from "../lib/web/limits";
+import { failureCategory, type FailureCategory } from "../lib/web/readiness";
 import { currentThreadId, searchJobs } from "../lib/search/search-service";
 
 /**
@@ -21,21 +22,29 @@ const HAS_LLM_KEY = Boolean(process.env.GOOGLE_API_KEY);
 
 const { perClient, misses, cache } = limitsFromEnv();
 
-// Each check is reduced to a boolean; failures are logged server-side only.
-const check = async (name: string, fn: () => Promise<unknown>) => {
+// Each check is reduced to a boolean plus a fixed category; details are logged server-side only.
+const check = async (
+  name: string,
+  fn: () => Promise<unknown>,
+): Promise<{ ok: boolean; category: FailureCategory | null }> => {
   try {
     await fn();
-    return true;
+    return { ok: true, category: null };
   } catch (err) {
     console.error(`readiness: ${name} failed:`, err instanceof Error ? err.message : err);
-    return false;
+    return { ok: false, category: failureCategory(err) };
   }
 };
-const readiness: Readiness = async () => ({
-  database: await check("database", () => db().query("SELECT max(thread_id) FROM roles")),
-  cache: await check("cache", () => cache.get("readyz")),
-  llmKey: HAS_LLM_KEY,
-});
+const readiness: Readiness = async () => {
+  const database = await check("database", () => db().query("SELECT max(thread_id) FROM roles"));
+  const cacheCheck = await check("cache", () => cache.get("readyz"));
+  return {
+    database: database.ok,
+    databaseError: database.category,
+    cache: cacheCheck.ok,
+    llmKey: HAS_LLM_KEY,
+  };
+};
 
 export default createApp({
   perClient,

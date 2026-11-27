@@ -135,10 +135,16 @@ test("vercel.json gives CDN-served static files the same headers Express sends",
 
 test("readyz reports each dependency as a boolean, 503 when one is down", async (t) => {
   const s = await start({
-    readiness: async () => ({ database: true, cache: true, llmKey: false }),
+    readiness: async () => ({ database: true, cache: true, llmKey: false, databaseError: null }),
   });
   t.after(s.close);
   const r = await s.get("/readyz");
   assert.equal(r.status, 503);
-  assert.deepEqual(await r.json(), { ready: false, database: true, cache: true, llmKey: false });
+  assert.deepEqual(await r.json(), {
+    ready: false,
+    database: true,
+    databaseError: null,
+    cache: true,
+    llmKey: false,
+  });
 });

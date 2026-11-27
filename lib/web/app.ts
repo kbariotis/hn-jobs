@@ -6,6 +6,7 @@ import { cleanQuery } from "../util/safe";
 import { isRateLimited } from "../util/rate";
 import type { SearchResponse } from "../search/search-service";
 import type { Cache, Limiter } from "./limits";
+import type { FailureCategory } from "./readiness";
 
 /**
  * Public search page + JSON API, host-agnostic: the same app runs under `node` (local, VPS)
@@ -34,7 +35,13 @@ export type AppDeps = {
   readiness?: Readiness;
 };
 
-export type Readiness = () => Promise<{ database: boolean; cache: boolean; llmKey: boolean }>;
+export type Readiness = () => Promise<{
+  database: boolean;
+  cache: boolean;
+  llmKey: boolean;
+  /** Fixed category of the database failure (see lib/web/readiness.ts), null when healthy. */
+  databaseError: FailureCategory | null;
+}>;
 
 /**
  * No inline script/style, no third-party anything: post content can't execute even if it slips
@@ -133,9 +140,13 @@ export function createApp({
     }
     const r = await readiness();
     const ready = r.database && r.cache && r.llmKey;
-    res
-      .status(ready ? 200 : 503)
-      .json({ ready, database: r.database, cache: r.cache, llmKey: r.llmKey });
+    res.status(ready ? 200 : 503).json({
+      ready,
+      database: r.database,
+      databaseError: r.databaseError,
+      cache: r.cache,
+      llmKey: r.llmKey,
+    });
   });
 
   app.get("/api/search", async (req, res) => {
