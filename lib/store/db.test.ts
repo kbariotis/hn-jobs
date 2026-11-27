@@ -28,3 +28,11 @@ test("directDatabaseUrl prefers unpooled names, then falls back to the pooled UR
   assert.equal(new URL(fromParts!).hostname, "ep-x.neon.tech");
   assert.equal(directDatabaseUrl({ POSTGRES_URL: "b" }), "b");
 });
+
+test("NEON_-prefixed names (this project's Neon integration) resolve too", () => {
+  const env = { NEON_DATABASE_URL: "pooled", NEON_DATABASE_URL_UNPOOLED: "direct" };
+  assert.equal(databaseUrl(env), "pooled");
+  assert.equal(directDatabaseUrl(env), "direct");
+  // An unprefixed name still wins when both exist.
+  assert.equal(databaseUrl({ ...env, DATABASE_URL: "plain" }), "plain");
+});
