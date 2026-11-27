@@ -3,7 +3,6 @@ import { search } from "./search";
 import { parseQueryUncached, type Filters } from "./query-parse";
 import { safeEmail, safeHttpUrl } from "../util/safe";
 import type { Location } from "../schema";
-import { withSpan } from "../telemetry/tracing";
 
 export type JobResult = {
   role_id: string;
@@ -64,7 +63,7 @@ export async function searchJobs(
   let filters: Filters | null = null;
   let degraded = false;
   try {
-    filters = await withSpan("search.parse_query", {}, () => parseQueryUncached(query));
+    filters = await parseQueryUncached(query);
   } catch (e) {
     degraded = true;
     console.warn(
@@ -78,14 +77,12 @@ export async function searchJobs(
     return { query, thread_id: threadId, filters, degraded, results: [] };
   }
 
-  const { rows } = await withSpan("db.hydrate_roles", { "app.hits": hits.length }, () =>
-    db().query(
-      `SELECT role_id, posting_id, role_title, company_name, remote_policy, remote_regions, seniority, employment_type,
+  const { rows } = await db().query(
+    `SELECT role_id, posting_id, role_title, company_name, remote_policy, remote_regions, seniority, employment_type,
             tech_stack, salary_min, salary_max, salary_currency, salary_period, apply_url, apply_email, posted_at,
             data->'locations' AS locations
      FROM roles WHERE role_id = ANY($1)`,
-      [hits.map((h) => h.role_id)],
-    ),
+    [hits.map((h) => h.role_id)],
   );
   const byId = new Map(rows.map((r) => [r.role_id as string, r]));
   const results = hits.flatMap((h): JobResult[] => {
