@@ -17,7 +17,7 @@ const NETWORK_CODES = new Set([
 export function failureCategory(err: unknown): FailureCategory {
   const code = (err as { code?: unknown } | null)?.code;
   const message = err instanceof Error ? err.message : String(err);
-  if (/is not set/.test(message)) {
+  if (/is not set|No database URL/.test(message)) {
     return "not_configured";
   }
   if (code === "28P01" || code === "28000") {

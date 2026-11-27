@@ -23,5 +23,9 @@ test("failureCategory maps errors to fixed categories, never to their text", () 
     failureCategory(new Error("Connection terminated due to connection timeout")),
     "network",
   );
+  assert.equal(
+    failureCategory(new Error("No database URL is set (DATABASE_URL, …)")),
+    "not_configured",
+  );
   assert.equal(failureCategory(new Error("something else")), "other");
 });

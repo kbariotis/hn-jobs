@@ -16,7 +16,7 @@ async function main() {
   const url = migrationUrl();
   if (!url) {
     throw new Error(
-      "No database URL (MIGRATE_DATABASE_URL / DATABASE_URL_UNPOOLED / DATABASE_URL).",
+      "No database URL (DATABASE_URL_UNPOOLED, POSTGRES_URL_NON_POOLING, DATABASE_URL, ...).",
     );
   }
   await runMigrations(url);

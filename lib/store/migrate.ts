@@ -1,6 +1,7 @@
 import fs from "fs/promises";
 import path from "path";
 import { Client } from "pg";
+import { directDatabaseUrl } from "./db";
 
 /**
  * Applies db/migrations/*.sql in filename order, each once, each in its own transaction.
@@ -11,16 +12,17 @@ import { Client } from "pg";
  * concurrently, the server's DB user is read-only, and a failed migration should stop the deploy
  * while the old version keeps serving.
  *
- * Connection: MIGRATE_DATABASE_URL, else DATABASE_URL_UNPOOLED (set by the Neon–Vercel
- * integration), else DATABASE_URL. It must be a direct connection: the advisory lock below is
- * per session, and a transaction-mode pooler would hand that session to other clients.
+ * Connection: directDatabaseUrl() in ./db (MIGRATE_DATABASE_URL, DATABASE_URL_UNPOOLED,
+ * POSTGRES_URL_NON_POOLING, PGHOST_UNPOOLED parts, then the pooled URL). It must be direct:
+ * the advisory lock below is per session, and a transaction-mode pooler would hand that
+ * session to other clients.
  */
 const DIR = path.join(__dirname, "..", "..", "db", "migrations");
 // Arbitrary constant: any concurrent `migrate` waits here instead of racing the same DDL.
 const LOCK_KEY = 4_811_220_017;
 
-export const migrationUrl = (env = process.env) =>
-  env.MIGRATE_DATABASE_URL || env.DATABASE_URL_UNPOOLED || env.DATABASE_URL;
+export const migrationUrl = (env: Record<string, string | undefined> = process.env) =>
+  directDatabaseUrl(env);
 
 /**
  * Under --deploy on Vercel, decide whether this build may migrate. Production: yes. Preview:

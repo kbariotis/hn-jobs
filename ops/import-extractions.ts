@@ -2,7 +2,7 @@ import "dotenv/config";
 
 import { extractedPath, readExtractions } from "../lib/extraction/extract";
 import { saveExtraction } from "../lib/store/extractions";
-import { closeDb, db } from "../lib/store/db";
+import { closeDb, databaseUrl, db } from "../lib/store/db";
 import { extractModelId } from "../models/extract";
 
 /**
@@ -22,7 +22,7 @@ async function main() {
   if (!records.length) {
     throw new Error(`No local extractions for thread ${threadId}. Run \`npm run extract\`.`);
   }
-  const host = new URL(process.env.DATABASE_URL ?? "postgres://unset").hostname;
+  const host = new URL(databaseUrl() ?? "postgres://unset").hostname;
   console.log(`Importing ${records.length} records for thread ${threadId} into ${host}…`);
   const client = await db().connect();
   try {

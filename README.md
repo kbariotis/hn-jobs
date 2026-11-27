@@ -92,7 +92,7 @@ Vercel entry point: [`api/index.ts`](api/index.ts) default-exports the same Expr
 `ops/serve.ts` runs locally, as one Vercel Function; `vercel.json` rewrites `/api/*` and
 `/healthz` to it. On Vercel, `public/` is served by the CDN (Express never sees those requests), so
 the page's security headers live in [`vercel.json`](vercel.json); a test keeps them identical
-to what Express sends. Required env: Neon (`DATABASE_URL`, `DATABASE_URL_UNPOOLED`), Redis
+to what Express sends. Required env: Neon (`DATABASE_URL`, or `POSTGRES_URL`, or `PGHOST`/`PGUSER`/`PGPASSWORD`/`PGDATABASE`; unpooled variants for migrations, see `lib/store/db.ts`), Redis
 REST (`REDIS_KV_REST_API_URL` + `_TOKEN`), `GOOGLE_API_KEY`, `EXTRACT_MODEL`, `EMBED_MODEL`.
 Until the ingest workflow exists, refresh data with `npm run daily` against Neon.
 
