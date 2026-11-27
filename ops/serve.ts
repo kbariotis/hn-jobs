@@ -1,7 +1,5 @@
 import "dotenv/config";
 
-// Registers OpenTelemetry only if OTEL_EXPORTER_OTLP_ENDPOINT is set (e.g. on a VPS).
-import "../lib/telemetry/register";
 import { createApp } from "../lib/web/app";
 import { limitsFromEnv } from "../lib/web/limits";
 import { currentThreadId, searchJobs } from "../lib/search/search-service";

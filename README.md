@@ -105,14 +105,6 @@ are capped at `SEARCH_MISS_RPM` (10/min) and `SEARCH_MISS_PER_DAY` (2000/day). P
 new queries get 503 with `Retry-After`; cached ones keep working. Also set a budget alert on
 the Google project behind `GOOGLE_API_KEY`.
 
-**Tracing (OpenTelemetry):** `lib/telemetry/register.ts` registers `@vercel/otel` on Vercel (or
-anywhere `OTEL_EXPORTER_OTLP_ENDPOINT` is set). Spans: `search.request` (outcome: cache_hit,
-miss, rate_limited, budget_exceeded, invalid), `search.parse_query`, `search.embed_query`,
-`db.vector_search`, `db.hydrate_roles`; outgoing fetch (Gemini, Upstash) is instrumented
-automatically. Attributes hold counts and outcomes only: no query text, IPs or error messages.
-On Vercel, open Observability → Traces and add a sampling rule (above 0%), or nothing is
-collected; Hobby includes 1M span units/month with 3-day retention.
-
 **Lockfile:** `package-lock.json` must only reference `registry.npmjs.org` (build hosts can't
 reach a private mirror). If your npm is configured with a private mirror, run
 `npm run lock:normalize` after installing packages; `npm run lint` fails until you do.
