@@ -5,7 +5,7 @@ import prettier from "eslint-config-prettier";
 import globals from "globals";
 
 export default tseslint.config(
-  { ignores: ["node_modules/", "data/", "review/"] },
+  { ignores: ["node_modules/", "data/", "review/", "dist/"] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {

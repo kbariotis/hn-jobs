@@ -37,7 +37,7 @@ lib/            schema.ts, canonical.ts, geo.ts   shared domain: role schema, no
   search/       query-parse, search, search-service   read side
   ingest/       run: the runtime sync (lease, extract into Postgres, index, run history)
   web/          app (Express, host-agnostic), limits (Upstash or in-memory)
-server.ts       Vercel entry point (default-exports the app)
+api/index.ts    Vercel Function wrapping the app (routes rewritten to it in vercel.json)
   evals/        gold, score, gate, ir-metrics, retrieval-queries
   util/         rate (limiter, backoff, token bucket), cache, safe (untrusted input)
 models/         model factories + Gemini schema adapter
@@ -77,14 +77,17 @@ Migrations run as a deploy step, never when the server starts (serverless instan
 concurrently, the server's DB user should be read-only, and a bad migration should fail the
 deploy rather than the live site). Concurrent runs are serialized by a Postgres advisory lock.
 
-- **Vercel:** `vercel-build` runs `npm run migrate -- --deploy`. Production deploys migrate.
+- **Vercel:** `vercel-build` compiles (`npm run build`) and runs the compiled migrate with `--deploy`. Production deploys migrate.
   Preview deploys migrate only with `PREVIEW_DB_IS_BRANCH=1`, set once the Neon–Vercel
   integration gives each preview its own database branch; otherwise they skip, so a pull
   request can't touch the production schema.
-- **VPS:** run `npm run migrate` in the deploy script before restarting the app.
+- **VPS:** `npm ci && npm run build`, then `npm run migrate:prod` before restarting
+  `npm start` (`npm run daily:prod` from a timer). Production runs compiled JS on plain node;
+  ts-node is a dev dependency, used only by the dev scripts.
 
-Vercel entry point: [`server.ts`](server.ts) default-exports the same Express app `ops/serve.ts`
-runs locally. On Vercel, `public/` is served by the CDN (Express never sees those requests), so
+Vercel entry point: [`api/index.ts`](api/index.ts) default-exports the same Express app
+`ops/serve.ts` runs locally, as one Vercel Function; `vercel.json` rewrites `/api/*` and
+`/healthz` to it. On Vercel, `public/` is served by the CDN (Express never sees those requests), so
 the page's security headers live in [`vercel.json`](vercel.json); a test keeps them identical
 to what Express sends. Required env: Neon (`DATABASE_URL`, `DATABASE_URL_UNPOOLED`), Redis
 REST (`REDIS_KV_REST_API_URL` + `_TOKEN`), `GOOGLE_API_KEY`, `EXTRACT_MODEL`, `EMBED_MODEL`.

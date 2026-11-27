@@ -1,4 +1,5 @@
 node_modules/
+dist/
 
 .env
 # Pulled/hosted credentials (vercel env pull writes .env.local / .env.*.local)
